@@ -1,0 +1,12 @@
+*.cyclo
+*.d
+*.o
+*.su
+*.mk
+*.elf
+*.list
+*.map
+Debug/makefile
+*.launch
+/.settings
+/.settings
