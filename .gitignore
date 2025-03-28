@@ -10,3 +10,5 @@ Debug/makefile
 *.launch
 /.settings
 /.settings
+/.settings
+.settings/language.settings.xml
