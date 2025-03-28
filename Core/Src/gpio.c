@@ -177,6 +177,12 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
 
+  /*Configure GPIO pins : BTN2_Pin BTN3_Pin */
+  GPIO_InitStruct.Pin = BTN2_Pin|BTN3_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(GPIOF, &GPIO_InitStruct);
+
   /*Configure GPIO pins : ULPI_STP_Pin ULPI_DIR_Pin */
   GPIO_InitStruct.Pin = ULPI_STP_Pin|ULPI_DIR_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
@@ -190,6 +196,12 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(RMII_RXER_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : BTN1_Pin */
+  GPIO_InitStruct.Pin = BTN1_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(BTN1_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pins : ULPI_CLK_Pin ULPI_D0_Pin */
   GPIO_InitStruct.Pin = ULPI_CLK_Pin|ULPI_D0_Pin;

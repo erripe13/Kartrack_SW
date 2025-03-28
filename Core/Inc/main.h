@@ -257,10 +257,10 @@ void Error_Handler(void);
 #define ULPI_D6_GPIO_Port GPIOB
 #define FMC_D15_Pin GPIO_PIN_10
 #define FMC_D15_GPIO_Port GPIOD
-#define ARDUINO_A1_Pin GPIO_PIN_10
-#define ARDUINO_A1_GPIO_Port GPIOF
-#define ARDUINO_A2_Pin GPIO_PIN_9
-#define ARDUINO_A2_GPIO_Port GPIOF
+#define BTN2_Pin GPIO_PIN_10
+#define BTN2_GPIO_Port GPIOF
+#define BTN3_Pin GPIO_PIN_9
+#define BTN3_GPIO_Port GPIOF
 #define ARDUINO_A3_Pin GPIO_PIN_8
 #define ARDUINO_A3_GPIO_Port GPIOF
 #define FMC_SDCKE0_Pin GPIO_PIN_3
@@ -301,8 +301,8 @@ void Error_Handler(void);
 #define DCMI_D3_GPIO_Port GPIOH
 #define RMII_REF_CLK_Pin GPIO_PIN_1
 #define RMII_REF_CLK_GPIO_Port GPIOA
-#define ARDUINO_A0_Pin GPIO_PIN_0
-#define ARDUINO_A0_GPIO_Port GPIOA
+#define BTN1_Pin GPIO_PIN_0
+#define BTN1_GPIO_Port GPIOA
 #define DCMI_HSYNC_Pin GPIO_PIN_4
 #define DCMI_HSYNC_GPIO_Port GPIOA
 #define RMII_RXD0_Pin GPIO_PIN_4
