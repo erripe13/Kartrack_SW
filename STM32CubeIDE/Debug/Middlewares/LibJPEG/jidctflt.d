@@ -1,5 +1,5 @@
 Middlewares/LibJPEG/jidctflt.o: \
- D:/SEHTEL/Documents/3D/Project_KARTRAK/KARTRAK/Middlewares/Third_Party/LibJPEG/source/jidctflt.c \
+ D:/ecole/PROJET_3D/Kartrack_SW/Middlewares/Third_Party/LibJPEG/source/jidctflt.c \
  ../../Middlewares/Third_Party/LibJPEG/include/jinclude.h \
  ../../LIBJPEG/Target/jconfig.h ../../LIBJPEG/Target/jdata_conf.h \
  ../../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os.h \

@@ -1,5 +1,5 @@
 Application/User/TouchGFX/target/TouchGFXGPIO.o: \
- D:/SEHTEL/Documents/3D/Project_KARTRAK/KARTRAK/TouchGFX/target/TouchGFXGPIO.cpp \
+ D:/ecole/PROJET_3D/Kartrack_SW/TouchGFX/target/TouchGFXGPIO.cpp \
  ../../Middlewares/ST/touchgfx/framework/include/touchgfx/hal/GPIO.hpp \
  ../../Drivers/CMSIS/Device/ST/STM32F7xx/Include/stm32f7xx.h \
  ../../Drivers/CMSIS/Device/ST/STM32F7xx/Include/stm32f746xx.h \

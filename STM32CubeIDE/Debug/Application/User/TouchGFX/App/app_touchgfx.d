@@ -1,4 +1,4 @@
 Application/User/TouchGFX/App/app_touchgfx.o: \
- D:/SEHTEL/Documents/3D/Project_KARTRAK/KARTRAK/TouchGFX/App/app_touchgfx.c \
- D:/SEHTEL/Documents/3D/Project_KARTRAK/KARTRAK/TouchGFX/App/app_touchgfx.h
-D:/SEHTEL/Documents/3D/Project_KARTRAK/KARTRAK/TouchGFX/App/app_touchgfx.h:
+ D:/ecole/PROJET_3D/Kartrack_SW/TouchGFX/App/app_touchgfx.c \
+ D:/ecole/PROJET_3D/Kartrack_SW/TouchGFX/App/app_touchgfx.h
+D:/ecole/PROJET_3D/Kartrack_SW/TouchGFX/App/app_touchgfx.h:

@@ -1,6 +1,5 @@
 Application/User/Core/main.o: \
- D:/SEHTEL/Documents/3D/Project_KARTRAK/KARTRAK/Core/Src/main.c \
- ../../Core/Inc/main.h \
+ D:/ecole/PROJET_3D/Kartrack_SW/Core/Src/main.c ../../Core/Inc/main.h \
  ../../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal.h \
  ../../Core/Inc/stm32f7xx_hal_conf.h \
  ../../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_rcc.h \

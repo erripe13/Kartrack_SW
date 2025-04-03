@@ -1,5 +1,5 @@
 Application/User/TouchGFX/target/STM32TouchController.o: \
- D:/SEHTEL/Documents/3D/Project_KARTRAK/KARTRAK/TouchGFX/target/STM32TouchController.cpp \
+ D:/ecole/PROJET_3D/Kartrack_SW/TouchGFX/target/STM32TouchController.cpp \
  ../../TouchGFX/target/STM32TouchController.hpp \
  ../../Middlewares/ST/touchgfx/framework/include/platform/driver/touch/TouchController.hpp \
  ../../Middlewares/ST/touchgfx/framework/include/touchgfx/hal/Types.hpp \

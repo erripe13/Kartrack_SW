@@ -1,5 +1,5 @@
 Application/User/TouchGFX/target/CortexMMCUInstrumentation.o: \
- D:/SEHTEL/Documents/3D/Project_KARTRAK/KARTRAK/TouchGFX/target/CortexMMCUInstrumentation.cpp \
+ D:/ecole/PROJET_3D/Kartrack_SW/TouchGFX/target/CortexMMCUInstrumentation.cpp \
  ../../TouchGFX/target/CortexMMCUInstrumentation.hpp \
  ../../Middlewares/ST/touchgfx/framework/include/platform/core/MCUInstrumentation.hpp \
  ../../Middlewares/ST/touchgfx/framework/include/touchgfx/hal/Types.hpp \

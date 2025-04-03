@@ -1,4 +1,4 @@
-D:/SEHTEL/Documents/3D/Project_KARTRAK/KARTRAK/Middlewares/Third_Party/LibJPEG/source/jcomapi.c:29:1:jpeg_abort	8	static
-D:/SEHTEL/Documents/3D/Project_KARTRAK/KARTRAK/Middlewares/Third_Party/LibJPEG/source/jcomapi.c:69:1:jpeg_destroy	8	static
-D:/SEHTEL/Documents/3D/Project_KARTRAK/KARTRAK/Middlewares/Third_Party/LibJPEG/source/jcomapi.c:86:1:jpeg_alloc_quant_table	8	static
-D:/SEHTEL/Documents/3D/Project_KARTRAK/KARTRAK/Middlewares/Third_Party/LibJPEG/source/jcomapi.c:98:1:jpeg_alloc_huff_table	8	static
+D:/ecole/PROJET_3D/Kartrack_SW/Middlewares/Third_Party/LibJPEG/source/jcomapi.c:29:1:jpeg_abort	8	static
+D:/ecole/PROJET_3D/Kartrack_SW/Middlewares/Third_Party/LibJPEG/source/jcomapi.c:69:1:jpeg_destroy	8	static
+D:/ecole/PROJET_3D/Kartrack_SW/Middlewares/Third_Party/LibJPEG/source/jcomapi.c:86:1:jpeg_alloc_quant_table	8	static
+D:/ecole/PROJET_3D/Kartrack_SW/Middlewares/Third_Party/LibJPEG/source/jcomapi.c:98:1:jpeg_alloc_huff_table	8	static

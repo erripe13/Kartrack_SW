@@ -8,6 +8,8 @@
 #include <mvp/View.hpp>
 #include <gui/screen1_screen/Screen1Presenter.hpp>
 #include <touchgfx/widgets/Box.hpp>
+#include <touchgfx/widgets/Image.hpp>
+#include <touchgfx/widgets/ButtonWithIcon.hpp>
 #include <touchgfx/widgets/TextArea.hpp>
 
 class Screen1ViewBase : public touchgfx::View<Screen1Presenter>
@@ -26,9 +28,25 @@ protected:
      * Member Declarations
      */
     touchgfx::Box __background;
+    touchgfx::Image image1;
+    touchgfx::ButtonWithIcon buttonWithIcon1;
+    touchgfx::Image image2;
     touchgfx::TextArea textArea1;
+    touchgfx::ButtonWithIcon buttonWithIcon2_2;
+    touchgfx::ButtonWithIcon buttonWithIcon2_1;
+    touchgfx::ButtonWithIcon buttonWithIcon2;
 
 private:
+
+    /*
+     * Callback Declarations
+     */
+    touchgfx::Callback<Screen1ViewBase, const touchgfx::AbstractButton&> buttonCallback;
+
+    /*
+     * Callback Handler Declarations
+     */
+    void buttonCallbackHandler(const touchgfx::AbstractButton& src);
 
 };
 

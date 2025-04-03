@@ -1,6 +1,6 @@
 Application/User/LIBJPEG/App/libjpeg.o: \
- D:/SEHTEL/Documents/3D/Project_KARTRAK/KARTRAK/LIBJPEG/App/libjpeg.c \
- D:/SEHTEL/Documents/3D/Project_KARTRAK/KARTRAK/LIBJPEG/App/libjpeg.h \
+ D:/ecole/PROJET_3D/Kartrack_SW/LIBJPEG/App/libjpeg.c \
+ D:/ecole/PROJET_3D/Kartrack_SW/LIBJPEG/App/libjpeg.h \
  ../../Middlewares/Third_Party/LibJPEG/include/jpeglib.h \
  ../../LIBJPEG/Target/jconfig.h ../../LIBJPEG/Target/jdata_conf.h \
  ../../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os.h \
@@ -15,7 +15,7 @@ Application/User/LIBJPEG/App/libjpeg.o: \
  ../../Middlewares/Third_Party/FreeRTOS/Source/include/list.h \
  ../../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h \
  ../../LIBJPEG/Target/jmorecfg.h
-D:/SEHTEL/Documents/3D/Project_KARTRAK/KARTRAK/LIBJPEG/App/libjpeg.h:
+D:/ecole/PROJET_3D/Kartrack_SW/LIBJPEG/App/libjpeg.h:
 ../../Middlewares/Third_Party/LibJPEG/include/jpeglib.h:
 ../../LIBJPEG/Target/jconfig.h:
 ../../LIBJPEG/Target/jdata_conf.h:

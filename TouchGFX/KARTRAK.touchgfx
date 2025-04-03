@@ -5,34 +5,101 @@
         "Name": "Screen1",
         "Components": [
           {
+            "Type": "Image",
+            "Name": "image1",
+            "Width": 480,
+            "Height": 272,
+            "RelativeFilename": "Sans titre-1.png"
+          },
+          {
+            "Type": "ButtonWithIcon",
+            "Name": "buttonWithIcon1",
+            "X": 336,
+            "Y": 212,
+            "Width": 144,
+            "Height": 60,
+            "Visible": false,
+            "Pressed": "__generated\\dark_theme_images_widgets_button_regular_height_60_tiny_rounded_inactive.png",
+            "Released": "__generated\\dark_theme_images_widgets_button_regular_height_60_tiny_rounded_inactive.png",
+            "IconPressed": "__generated\\icon_theme_images_action_done_50_50_00BFFF.svg.png",
+            "IconReleased": "__generated\\icon_theme_images_av_skip_next_50_50_E8F6FB.svg.png",
+            "IconX": 47,
+            "IconY": 5,
+            "IconHeight": 50,
+            "IconWidth": 50,
+            "Preset": "dark_theme\\presets\\button\\regular\\height_60\\tiny_rounded_inactive.json"
+          },
+          {
+            "Type": "Image",
+            "Name": "image2",
+            "Y": 15,
+            "Width": 480,
+            "Height": 272,
+            "RelativeFilename": "title.png"
+          },
+          {
             "Type": "TextArea",
             "Name": "textArea1",
-            "Y": 37,
-            "Width": 480,
-            "Height": 50,
+            "X": 175,
+            "Y": 248,
+            "Width": 105,
+            "Height": 16,
             "TextId": "__SingleUse_8UZD",
             "TextRotation": "0",
             "Color": {
               "Red": 255,
               "Green": 255,
               "Blue": 255
-            }
+            },
+            "AutoSize": true
           },
           {
             "Type": "ButtonWithIcon",
-            "Name": "buttonWithIcon1",
-            "X": 234,
-            "Y": 214,
-            "Width": 240,
-            "Height": 50,
-            "Pressed": "__generated\\alternate_theme_images_widgets_button_regular_height_50_medium_rounded_pressed.png",
-            "Released": "__generated\\alternate_theme_images_widgets_button_regular_height_50_medium_rounded_normal.png",
+            "Name": "buttonWithIcon2_2",
+            "Y": 174,
+            "Width": 100,
+            "Height": 36,
+            "Pressed": "__generated\\dark_theme_images_widgets_button_regular_height_36_tiny_round_inactive.png",
+            "Released": "__generated\\dark_theme_images_widgets_button_regular_height_36_tiny_round_inactive.png",
+            "IconPressed": "__generated\\icon_theme_images_action_done_30_30_E8F6FB.svg.png",
+            "IconReleased": "__generated\\icon_theme_images_action_done_30_30_E8F6FB.svg.png",
+            "IconX": 36,
+            "IconY": 2,
+            "IconHeight": 30,
+            "IconWidth": 30,
+            "Preset": "dark_theme\\presets\\button\\regular\\height_36\\tiny_round_inactive.json"
+          },
+          {
+            "Type": "ButtonWithIcon",
+            "Name": "buttonWithIcon2_1",
+            "Y": 62,
+            "Width": 100,
+            "Height": 36,
+            "Pressed": "__generated\\dark_theme_images_widgets_button_regular_height_36_tiny_round_inactive.png",
+            "Released": "__generated\\dark_theme_images_widgets_button_regular_height_36_tiny_round_inactive.png",
             "IconPressed": "__generated\\icon_theme_images_action_done_50_50_E8F6FB.svg.png",
-            "IconReleased": "__generated\\icon_theme_images_av_skip_next_50_50_E8F6FB.svg.png",
-            "IconX": 97,
+            "IconReleased": "__generated\\icon_theme_images_hardware_keyboard_arrow_up_50_50_E8F6FB.svg.png",
+            "IconX": 25,
+            "IconY": -7,
             "IconHeight": 50,
             "IconWidth": 50,
-            "Preset": "alternate_theme\\presets\\button\\regular\\height_50\\medium_rounded_normal.json"
+            "Preset": "dark_theme\\presets\\button\\regular\\height_36\\tiny_round_inactive.json"
+          },
+          {
+            "Type": "ButtonWithIcon",
+            "Name": "buttonWithIcon2",
+            "Y": 113,
+            "Width": 100,
+            "Height": 36,
+            "Pressed": "__generated\\dark_theme_images_widgets_button_regular_height_36_tiny_round_inactive.png",
+            "Released": "__generated\\dark_theme_images_widgets_button_regular_height_36_tiny_round_inactive.png",
+            "IconPressed": "__generated\\icon_theme_images_action_done_50_50_E8F6FB.svg.png",
+            "IconReleased": "__generated\\icon_theme_images_hardware_keyboard_arrow_down_50_50_E8F6FB.svg.png",
+            "IconX": 25,
+            "IconY": -7,
+            "IconHeight": 50,
+            "IconWidth": 50,
+            "Preset": "dark_theme\\presets\\button\\regular\\height_36\\tiny_round_inactive.json"
           }
         ],
         "Interactions": [
@@ -52,8 +119,108 @@
       },
       {
         "Name": "Screen2",
-        "Components": [],
-        "Interactions": []
+        "Components": [
+          {
+            "Type": "Image",
+            "Name": "image1",
+            "Width": 480,
+            "Height": 272,
+            "RelativeFilename": "Sans titre-1.png"
+          },
+          {
+            "Type": "ButtonWithIcon",
+            "Name": "buttonWithIcon1",
+            "X": 234,
+            "Y": 214,
+            "Width": 240,
+            "Height": 50,
+            "Pressed": "__generated\\alternate_theme_images_widgets_button_regular_height_50_medium_rounded_pressed.png",
+            "Released": "__generated\\alternate_theme_images_widgets_button_regular_height_50_medium_rounded_normal.png",
+            "IconPressed": "__generated\\icon_theme_images_action_done_50_50_E8F6FB.svg.png",
+            "IconReleased": "__generated\\icon_theme_images_av_skip_next_50_50_E8F6FB.svg.png",
+            "IconX": 97,
+            "IconHeight": 50,
+            "IconWidth": 50,
+            "Preset": "alternate_theme\\presets\\button\\regular\\height_50\\medium_rounded_normal.json"
+          },
+          {
+            "Type": "ButtonWithIcon",
+            "Name": "buttonWithIcon2_2",
+            "Y": 174,
+            "Width": 100,
+            "Height": 36,
+            "Pressed": "__generated\\dark_theme_images_widgets_button_regular_height_36_tiny_round_inactive.png",
+            "Released": "__generated\\dark_theme_images_widgets_button_regular_height_36_tiny_round_inactive.png",
+            "IconPressed": "__generated\\icon_theme_images_action_done_30_30_E8F6FB.svg.png",
+            "IconReleased": "__generated\\icon_theme_images_action_done_30_30_E8F6FB.svg.png",
+            "IconX": 36,
+            "IconY": 2,
+            "IconHeight": 30,
+            "IconWidth": 30,
+            "Preset": "dark_theme\\presets\\button\\regular\\height_36\\tiny_round_inactive.json"
+          },
+          {
+            "Type": "ButtonWithIcon",
+            "Name": "buttonWithIcon2_1",
+            "Y": 62,
+            "Width": 100,
+            "Height": 36,
+            "Pressed": "__generated\\dark_theme_images_widgets_button_regular_height_36_tiny_round_inactive.png",
+            "Released": "__generated\\dark_theme_images_widgets_button_regular_height_36_tiny_round_inactive.png",
+            "IconPressed": "__generated\\icon_theme_images_action_done_50_50_E8F6FB.svg.png",
+            "IconReleased": "__generated\\icon_theme_images_hardware_keyboard_arrow_up_50_50_E8F6FB.svg.png",
+            "IconX": 25,
+            "IconY": -7,
+            "IconHeight": 50,
+            "IconWidth": 50,
+            "Preset": "dark_theme\\presets\\button\\regular\\height_36\\tiny_round_inactive.json"
+          },
+          {
+            "Type": "ButtonWithIcon",
+            "Name": "buttonWithIcon2",
+            "Y": 113,
+            "Width": 100,
+            "Height": 36,
+            "Pressed": "__generated\\dark_theme_images_widgets_button_regular_height_36_tiny_round_inactive.png",
+            "Released": "__generated\\dark_theme_images_widgets_button_regular_height_36_tiny_round_inactive.png",
+            "IconPressed": "__generated\\icon_theme_images_action_done_50_50_E8F6FB.svg.png",
+            "IconReleased": "__generated\\icon_theme_images_hardware_keyboard_arrow_down_50_50_E8F6FB.svg.png",
+            "IconX": 25,
+            "IconY": -7,
+            "IconHeight": 50,
+            "IconWidth": 50,
+            "Preset": "dark_theme\\presets\\button\\regular\\height_36\\tiny_round_inactive.json"
+          },
+          {
+            "Type": "TextArea",
+            "Name": "textArea1",
+            "X": 157,
+            "Width": 166,
+            "Height": 35,
+            "TextId": "__SingleUse_9UP6",
+            "TextRotation": "0",
+            "Color": {
+              "Red": 255,
+              "Green": 255,
+              "Blue": 255
+            },
+            "AutoSize": true
+          }
+        ],
+        "Interactions": [
+          {
+            "InteractionName": "Interaction1",
+            "Trigger": {
+              "Type": "TriggerClicked",
+              "TriggerComponent": "buttonWithIcon1"
+            },
+            "Action": {
+              "Type": "ActionGotoScreen",
+              "ScreenTransitionType": "ScreenTransitionNone",
+              "ActionComponent": "Screen1"
+            }
+          }
+        ]
       },
       {
         "Name": "Screen3",

@@ -1,5 +1,5 @@
 Middlewares/FreeRTOS/queue.o: \
- D:/SEHTEL/Documents/3D/Project_KARTRAK/KARTRAK/Middlewares/Third_Party/FreeRTOS/Source/queue.c \
+ D:/ecole/PROJET_3D/Kartrack_SW/Middlewares/Third_Party/FreeRTOS/Source/queue.c \
  ../../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h \
  ../../Core/Inc/FreeRTOSConfig.h \
  ../../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h \
