@@ -50,7 +50,9 @@ LoRa myLoRa;
 
 /* USER CODE END Variables */
 osThreadId defaultTaskHandle;
-osThreadId LoRa_initHandle;
+osThreadId GPSinitHandle;
+uint32_t GPSinitBuffer[ 1024 ];
+osStaticThreadDef_t GPSinitControlBlock;
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
@@ -58,7 +60,7 @@ osThreadId LoRa_initHandle;
 /* USER CODE END FunctionPrototypes */
 
 void StartDefaultTask(void const * argument);
-void LoRa_init_Task(void const * argument);
+void GPSinitTask(void const * argument);
 
 extern void MX_USB_HOST_Init(void);
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
@@ -153,9 +155,9 @@ void MX_FREERTOS_Init(void) {
   osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 4096);
   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
 
-  /* definition and creation of LoRa_init */
-  osThreadDef(LoRa_init, LoRa_init_Task, osPriorityNormal, 0, 128);
-  LoRa_initHandle = osThreadCreate(osThread(LoRa_init), NULL);
+  /* definition and creation of GPSinit */
+  osThreadStaticDef(GPSinit, GPSinitTask, osPriorityIdle, 0, 1024, GPSinitBuffer, &GPSinitControlBlock);
+  GPSinitHandle = osThreadCreate(osThread(GPSinit), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
 	/* add threads, ... */
@@ -182,46 +184,22 @@ void StartDefaultTask(void const * argument)
   /* USER CODE END StartDefaultTask */
 }
 
-/* USER CODE BEGIN Header_LoRa_init_Task */
+/* USER CODE BEGIN Header_GPSinitTask */
 /**
- * @brief Function implementing the LoRa_init thread.
- * @param argument: Not used
- * @retval None
- */
-/* USER CODE END Header_LoRa_init_Task */
-void LoRa_init_Task(void const * argument)
+* @brief Function implementing the GPSinit thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_GPSinitTask */
+void GPSinitTask(void const * argument)
 {
-  /* USER CODE BEGIN LoRa_init_Task */
-	myLoRa = newLoRa(); //cree un objet LoRa
-	myLoRa.CS_port = GPIOI;
-	myLoRa.CS_pin = GPIO_PIN_0;
-	myLoRa.reset_port = GPIOF;
-	myLoRa.reset_pin = GPIO_PIN_8;
-	myLoRa.DIO0_port = GPIOI;
-	myLoRa.DIO0_pin = GPIO_PIN_3;
-	myLoRa.hSPIx = &hspi2;
-
-	myLoRa.frequency = 434;
-	myLoRa.spredingFactor = SF_9;
-	myLoRa.bandWidth = BW_250KHz;
-	myLoRa.crcRate = CR_4_8;
-	myLoRa.power = POWER_17db;
-	myLoRa.overCurrentProtection = 130;
-	myLoRa.preamble = 10;
-
-	uint16_t status = LoRa_init(&myLoRa);
-
-	if (status != LORA_OK) {
-		//debug uart error message
-		printf("LoRa crashed with output : %d\n", status);
-	}
-	char *send_data = "Hello Kart !";
-	/* Infinite loop */
-	for (;;) {
-		LoRa_transmit(&myLoRa, (uint8_t*)send_data, sizeof(send_data), 100);
-		osDelay(1000);
-	}
-  /* USER CODE END LoRa_init_Task */
+  /* USER CODE BEGIN GPSinitTask */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END GPSinitTask */
 }
 
 /* Private application code --------------------------------------------------*/

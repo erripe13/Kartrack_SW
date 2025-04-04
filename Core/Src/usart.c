@@ -160,7 +160,7 @@ void HAL_UART_MspInit(UART_HandleTypeDef* uartHandle)
     PC7     ------> USART6_RX
     PC6     ------> USART6_TX
     */
-    GPIO_InitStruct.Pin = ARDUINO_RX_D0_Pin|ARDUINO_TX_D1_Pin;
+    GPIO_InitStruct.Pin = GPS_RX_Pin|GPS_TX_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
@@ -208,7 +208,7 @@ void HAL_UART_MspDeInit(UART_HandleTypeDef* uartHandle)
     PC7     ------> USART6_RX
     PC6     ------> USART6_TX
     */
-    HAL_GPIO_DeInit(GPIOC, ARDUINO_RX_D0_Pin|ARDUINO_TX_D1_Pin);
+    HAL_GPIO_DeInit(GPIOC, GPS_RX_Pin|GPS_TX_Pin);
 
   /* USER CODE BEGIN USART6_MspDeInit 1 */
 

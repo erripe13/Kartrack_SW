@@ -91,7 +91,7 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef* adcHandle)
     PF7     ------> ADC3_IN5
     PF6     ------> ADC3_IN4
     */
-    GPIO_InitStruct.Pin = ARDUINO_A4_Pin|ARDUINO_A5_Pin;
+    GPIO_InitStruct.Pin = BAT_LEVEL_Pin|GYRO_IT2_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     HAL_GPIO_Init(GPIOF, &GPIO_InitStruct);
@@ -117,7 +117,7 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef* adcHandle)
     PF7     ------> ADC3_IN5
     PF6     ------> ADC3_IN4
     */
-    HAL_GPIO_DeInit(GPIOF, ARDUINO_A4_Pin|ARDUINO_A5_Pin);
+    HAL_GPIO_DeInit(GPIOF, BAT_LEVEL_Pin|GYRO_IT2_Pin);
 
   /* USER CODE BEGIN ADC3_MspDeInit 1 */
 
