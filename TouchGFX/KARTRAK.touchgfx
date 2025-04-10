@@ -2,7 +2,7 @@
   "Application": {
     "Screens": [
       {
-        "Name": "Screen1",
+        "Name": "Main",
         "Components": [
           {
             "Type": "Image",
@@ -40,8 +40,8 @@
           {
             "Type": "TextArea",
             "Name": "textArea1",
-            "X": 175,
-            "Y": 248,
+            "X": 188,
+            "Y": 247,
             "Width": 105,
             "Height": 16,
             "TextId": "__SingleUse_8UZD",
@@ -55,7 +55,7 @@
           },
           {
             "Type": "ButtonWithIcon",
-            "Name": "buttonWithIcon2_2",
+            "Name": "VALIDE",
             "Y": 174,
             "Width": 100,
             "Height": 36,
@@ -71,7 +71,23 @@
           },
           {
             "Type": "ButtonWithIcon",
-            "Name": "buttonWithIcon2_1",
+            "Name": "DOWN",
+            "Y": 113,
+            "Width": 100,
+            "Height": 36,
+            "Pressed": "__generated\\dark_theme_images_widgets_button_regular_height_36_tiny_round_inactive.png",
+            "Released": "__generated\\dark_theme_images_widgets_button_regular_height_36_tiny_round_inactive.png",
+            "IconPressed": "__generated\\icon_theme_images_action_done_50_50_E8F6FB.svg.png",
+            "IconReleased": "__generated\\icon_theme_images_hardware_keyboard_arrow_down_50_50_E8F6FB.svg.png",
+            "IconX": 25,
+            "IconY": -7,
+            "IconHeight": 50,
+            "IconWidth": 50,
+            "Preset": "dark_theme\\presets\\button\\regular\\height_36\\tiny_round_inactive.json"
+          },
+          {
+            "Type": "ButtonWithIcon",
+            "Name": "UP",
             "Y": 62,
             "Width": 100,
             "Height": 36,
@@ -87,51 +103,133 @@
           },
           {
             "Type": "ButtonWithIcon",
-            "Name": "buttonWithIcon2",
-            "Y": 113,
-            "Width": 100,
-            "Height": 36,
-            "Pressed": "__generated\\dark_theme_images_widgets_button_regular_height_36_tiny_round_inactive.png",
-            "Released": "__generated\\dark_theme_images_widgets_button_regular_height_36_tiny_round_inactive.png",
+            "Name": "buttonWithIcon1_1",
+            "X": 420,
+            "Y": 237,
+            "Width": 240,
+            "Height": 50,
+            "Visible": false,
+            "Pressed": "__generated\\alternate_theme_images_widgets_button_regular_height_50_medium_rounded_pressed.png",
+            "Released": "__generated\\alternate_theme_images_widgets_button_regular_height_50_medium_rounded_normal.png",
             "IconPressed": "__generated\\icon_theme_images_action_done_50_50_E8F6FB.svg.png",
-            "IconReleased": "__generated\\icon_theme_images_hardware_keyboard_arrow_down_50_50_E8F6FB.svg.png",
-            "IconX": 25,
-            "IconY": -7,
+            "IconReleased": "__generated\\icon_theme_images_av_skip_next_50_50_E8F6FB.svg.png",
+            "IconX": 97,
             "IconHeight": 50,
             "IconWidth": 50,
-            "Preset": "dark_theme\\presets\\button\\regular\\height_36\\tiny_round_inactive.json"
+            "Preset": "alternate_theme\\presets\\button\\regular\\height_50\\medium_rounded_normal.json"
+          },
+          {
+            "Type": "Image",
+            "Name": "Data_Live",
+            "X": 176,
+            "Y": 180,
+            "Width": 117,
+            "Height": 25,
+            "RelativeFilename": "Data-Live.png"
+          },
+          {
+            "Type": "Image",
+            "Name": "Selector",
+            "X": 164,
+            "Y": 141,
+            "Width": 152,
+            "Height": 38,
+            "RelativeFilename": "Rectangle 1.png"
+          },
+          {
+            "Type": "Image",
+            "Name": "Session_Start",
+            "X": 183,
+            "Y": 151,
+            "Width": 114,
+            "Height": 18,
+            "RelativeFilename": "Session_Start.png"
           }
         ],
         "Interactions": [
           {
-            "InteractionName": "Interaction1",
+            "InteractionName": "DOWNClicked",
             "Trigger": {
               "Type": "TriggerClicked",
-              "TriggerComponent": "buttonWithIcon1"
+              "TriggerComponent": "DOWN"
+            },
+            "Action": {
+              "Type": "ActionCustom",
+              "FunctionName": "DOWNClicked"
+            }
+          },
+          {
+            "InteractionName": "UPClicked",
+            "Trigger": {
+              "Type": "TriggerClicked",
+              "TriggerComponent": "UP"
+            },
+            "Action": {
+              "Type": "ActionCustom",
+              "FunctionName": "UPClicked"
+            }
+          },
+          {
+            "InteractionName": "VALIDEClicked",
+            "Trigger": {
+              "Type": "TriggerClicked",
+              "TriggerComponent": "VALIDE"
+            },
+            "Action": {
+              "Type": "ActionCustom",
+              "FunctionName": "VALIDEClicked"
+            }
+          },
+          {
+            "InteractionName": "Interaction1",
+            "Trigger": {
+              "Type": "TriggerWhen",
+              "ActionCustomTypeName": "Call Main gotoSession_StartScreenNoTransition"
             },
             "Action": {
               "Type": "ActionGotoScreen",
               "ScreenTransitionType": "ScreenTransitionNone",
-              "ActionComponent": "Screen2"
+              "ActionComponent": "Session_Start"
             }
+          },
+          {
+            "InteractionName": "Interaction2",
+            "Trigger": {
+              "Type": "TriggerWhen",
+              "ActionCustomTypeName": "Call Main gotoData_LiveScreenNoTransition"
+            },
+            "Action": {
+              "Type": "ActionGotoScreen",
+              "ScreenTransitionType": "ScreenTransitionNone",
+              "ActionComponent": "Data_Live"
+            }
+          }
+        ],
+        "CustomActions": [
+          {
+            "Name": "gotoSession_StartScreenNoTransition",
+            "Description": "gotoSession_StartScreenNoTransition"
+          },
+          {
+            "Name": "gotoData_LiveScreenNoTransition",
+            "Description": "gotoData_LiveScreenNoTransition"
           }
         ]
       },
       {
-        "Name": "Screen2",
+        "Name": "Data_Live",
         "Components": [
           {
-            "Type": "Image",
-            "Name": "image1",
+            "Type": "Box",
+            "Name": "box1",
             "Width": 480,
-            "Height": 272,
-            "RelativeFilename": "Sans titre-1.png"
+            "Height": 272
           },
           {
             "Type": "ButtonWithIcon",
             "Name": "buttonWithIcon1",
-            "X": 234,
-            "Y": 214,
+            "X": 416,
+            "Y": 232,
             "Width": 240,
             "Height": 50,
             "Pressed": "__generated\\alternate_theme_images_widgets_button_regular_height_50_medium_rounded_pressed.png",
@@ -192,12 +290,156 @@
             "Preset": "dark_theme\\presets\\button\\regular\\height_36\\tiny_round_inactive.json"
           },
           {
+            "Type": "Image",
+            "Name": "image2",
+            "X": 10,
+            "Width": 480,
+            "Height": 272,
+            "RelativeFilename": "datalive_asset.png"
+          },
+          {
+            "Type": "DigitalClock",
+            "Name": "digitalClock1_1_1",
+            "X": 210,
+            "Y": 196,
+            "Width": 140,
+            "Height": 36,
+            "TextColor": {
+              "Red": 255,
+              "Green": 255,
+              "Blue": 255
+            },
+            "TextId": "__SingleUse_7XVL",
+            "DisplaySeconds": true,
+            "DisplayLeadingZeroForHourIndicator": true,
+            "InitialHour": 10,
+            "InitialMinute": 10
+          },
+          {
+            "Type": "TextArea",
+            "Name": "textArea2_2",
+            "X": 119,
+            "Y": 164,
+            "Width": 27,
+            "Height": 20,
+            "TextId": "__SingleUse_CKFG",
+            "TextRotation": "0",
+            "Color": {
+              "Red": 255,
+              "Green": 255,
+              "Blue": 255
+            },
+            "AutoSize": true
+          },
+          {
             "Type": "TextArea",
             "Name": "textArea1",
-            "X": 157,
-            "Width": 166,
-            "Height": 35,
-            "TextId": "__SingleUse_9UP6",
+            "X": 165,
+            "Width": 150,
+            "Height": 56,
+            "TextId": "__SingleUse_FDEE",
+            "TextRotation": "0",
+            "Color": {
+              "Red": 255,
+              "Green": 255,
+              "Blue": 255
+            },
+            "AutoSize": true
+          },
+          {
+            "Type": "TextArea",
+            "Name": "textArea2",
+            "X": 350,
+            "Y": 164,
+            "Width": 27,
+            "Height": 20,
+            "TextId": "__SingleUse_ZTPC",
+            "TextRotation": "0",
+            "Color": {
+              "Red": 255,
+              "Green": 255,
+              "Blue": 255
+            },
+            "AutoSize": true
+          },
+          {
+            "Type": "TextArea",
+            "Name": "textArea2_1",
+            "X": 237,
+            "Y": 164,
+            "Width": 27,
+            "Height": 20,
+            "TextId": "__SingleUse_WIRT",
+            "TextRotation": "0",
+            "Color": {
+              "Red": 255,
+              "Green": 255,
+              "Blue": 255
+            },
+            "AutoSize": true
+          },
+          {
+            "Type": "DigitalClock",
+            "Name": "digitalClock1",
+            "X": 175,
+            "Y": 56,
+            "Width": 151,
+            "Height": 36,
+            "TextColor": {
+              "Red": 255,
+              "Green": 255,
+              "Blue": 255
+            },
+            "TextId": "__SingleUse_YWPS",
+            "DisplaySeconds": true,
+            "DisplayLeadingZeroForHourIndicator": true,
+            "InitialHour": 10,
+            "InitialMinute": 10
+          },
+          {
+            "Type": "DigitalClock",
+            "Name": "digitalClock1_1",
+            "X": 88,
+            "Y": 196,
+            "Width": 140,
+            "Height": 36,
+            "TextColor": {
+              "Red": 255,
+              "Green": 255,
+              "Blue": 255
+            },
+            "TextId": "__SingleUse_BJDM",
+            "DisplaySeconds": true,
+            "DisplayLeadingZeroForHourIndicator": true,
+            "InitialHour": 10,
+            "InitialMinute": 10
+          },
+          {
+            "Type": "DigitalClock",
+            "Name": "digitalClock1_1_2",
+            "X": 326,
+            "Y": 196,
+            "Width": 140,
+            "Height": 36,
+            "TextColor": {
+              "Red": 255,
+              "Green": 255,
+              "Blue": 255
+            },
+            "TextId": "__SingleUse_JG30",
+            "DisplaySeconds": true,
+            "DisplayLeadingZeroForHourIndicator": true,
+            "InitialHour": 10,
+            "InitialMinute": 10
+          },
+          {
+            "Type": "TextArea",
+            "Name": "textArea3",
+            "X": 175,
+            "Y": 106,
+            "Width": 156,
+            "Height": 36,
+            "TextId": "__SingleUse_1LNK",
             "TextRotation": "0",
             "Color": {
               "Red": 255,
@@ -217,13 +459,50 @@
             "Action": {
               "Type": "ActionGotoScreen",
               "ScreenTransitionType": "ScreenTransitionNone",
-              "ActionComponent": "Screen1"
+              "ActionComponent": "Main"
+            }
+          },
+          {
+            "InteractionName": "Interaction2",
+            "Trigger": {
+              "Type": "TriggerNone"
+            },
+            "Action": {
+              "Type": "ActionNone"
             }
           }
         ]
       },
       {
-        "Name": "Screen3",
+        "Name": "Session_Start",
+        "Components": [
+          {
+            "Type": "Box",
+            "Name": "box1",
+            "Width": 480,
+            "Height": 272
+          },
+          {
+            "Type": "TextArea",
+            "Name": "textArea1",
+            "X": 146,
+            "Y": 8,
+            "Width": 189,
+            "Height": 56,
+            "TextId": "__SingleUse_87F5",
+            "TextRotation": "0",
+            "Color": {
+              "Red": 255,
+              "Green": 255,
+              "Blue": 255
+            },
+            "AutoSize": true
+          }
+        ],
+        "Interactions": []
+      },
+      {
+        "Name": "Screen4",
         "Components": [],
         "Interactions": []
       }
@@ -235,7 +514,7 @@
       "Height": 272
     },
     "SelectedColorDepth": 16,
-    "StartupScreenName": "Screen1",
+    "StartupScreenName": "Main",
     "SelectedStartupLanguage": "GB",
     "TouchGfxPath": "../Middlewares/ST/touchgfx",
     "UIPath": ".",

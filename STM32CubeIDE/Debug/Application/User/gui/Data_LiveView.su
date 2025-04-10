@@ -1,0 +1,8 @@
+../../Middlewares/ST/touchgfx/framework/include/touchgfx/Screen.hpp:104:18:virtual void touchgfx::Screen::afterTransition()	0	static
+../../Middlewares/ST/touchgfx/framework/include/touchgfx/Screen.hpp:144:18:virtual void touchgfx::Screen::handleTickEvent()	0	static
+../../Middlewares/ST/touchgfx/framework/include/touchgfx/Screen.hpp:154:18:virtual void touchgfx::Screen::handleKeyEvent(uint8_t)	0	static
+D:/SEHTEL/Documents/3D/Project_KARTRAK/Kartrack_SW/Kartrack_SW/TouchGFX/gui/src/data_live_screen/Data_LiveView.cpp:13:6:virtual void Data_LiveView::tearDownScreen()	0	static
+../../TouchGFX/gui/include/gui/data_live_screen/Data_LiveView.hpp:11:13:Data_LiveView::~Data_LiveView()	8	static
+../../TouchGFX/gui/include/gui/data_live_screen/Data_LiveView.hpp:11:13:virtual Data_LiveView::~Data_LiveView()	8	static
+D:/SEHTEL/Documents/3D/Project_KARTRAK/Kartrack_SW/Kartrack_SW/TouchGFX/gui/src/data_live_screen/Data_LiveView.cpp:3:1:Data_LiveView::Data_LiveView()	8	static
+D:/SEHTEL/Documents/3D/Project_KARTRAK/Kartrack_SW/Kartrack_SW/TouchGFX/gui/src/data_live_screen/Data_LiveView.cpp:8:6:virtual void Data_LiveView::setupScreen()	0	static

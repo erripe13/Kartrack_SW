@@ -1,0 +1,5 @@
+../../TouchGFX/gui/include/gui/data_live_screen/Data_LivePresenter.hpp:28:13:Data_LivePresenter::~Data_LivePresenter()	0	static
+D:/SEHTEL/Documents/3D/Project_KARTRAK/Kartrack_SW/Kartrack_SW/TouchGFX/gui/src/data_live_screen/Data_LivePresenter.cpp:10:6:virtual void Data_LivePresenter::activate()	0	static
+../../TouchGFX/gui/include/gui/data_live_screen/Data_LivePresenter.hpp:28:13:virtual Data_LivePresenter::~Data_LivePresenter()	8	static
+../../TouchGFX/gui/include/gui/data_live_screen/Data_LivePresenter.hpp:28:13:virtual void* Data_LivePresenter::_ZThn4_N18Data_LivePresenterD1Ev()	0	static
+D:/SEHTEL/Documents/3D/Project_KARTRAK/Kartrack_SW/Kartrack_SW/TouchGFX/gui/src/data_live_screen/Data_LivePresenter.cpp:4:1:Data_LivePresenter::Data_LivePresenter(Data_LiveView&)	0	static

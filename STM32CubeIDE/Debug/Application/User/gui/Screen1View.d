@@ -1,5 +1,5 @@
 Application/User/gui/Screen1View.o: \
- D:/ecole/PROJET_3D/Kartrack_SW/TouchGFX/gui/src/screen1_screen/Screen1View.cpp \
+ D:/SEHTEL/Documents/3D/Project_KARTRAK/Kartrack_SW/Kartrack_SW/TouchGFX/gui/src/screen1_screen/Screen1View.cpp \
  ../../TouchGFX/gui/include/gui/screen1_screen/Screen1View.hpp \
  ../../TouchGFX/generated/gui_generated/include/gui_generated/screen1_screen/Screen1ViewBase.hpp \
  ../../TouchGFX/gui/include/gui/common/FrontendApplication.hpp \

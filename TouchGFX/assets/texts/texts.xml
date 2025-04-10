@@ -6,8 +6,35 @@
   <Texts>
     <TextGroup Id="Group1" />
     <TextGroup Id="Unsorted">
-      <Text Id="__SingleUse_9UP6" Alignment="Left" TypographyId="Default">
-        <Translation Language="GB">Data Live</Translation>
+      <Text Id="__SingleUse_87F5" Alignment="Left" TypographyId="Sector">
+        <Translation Language="GB">Session Start&#10;</Translation>
+      </Text>
+      <Text Id="__SingleUse_JG30" Alignment="Left" TypographyId="Large">
+        <Translation Language="GB">&lt;&gt;</Translation>
+      </Text>
+      <Text Id="__SingleUse_7XVL" Alignment="Left" TypographyId="Large">
+        <Translation Language="GB">&lt;&gt;</Translation>
+      </Text>
+      <Text Id="__SingleUse_BJDM" Alignment="Left" TypographyId="Large">
+        <Translation Language="GB">&lt;&gt;</Translation>
+      </Text>
+      <Text Id="__SingleUse_1LNK" Alignment="Left" TypographyId="Typography_00">
+        <Translation Language="GB">800 Km/h</Translation>
+      </Text>
+      <Text Id="__SingleUse_YWPS" Alignment="Left" TypographyId="Sector">
+        <Translation Language="GB">&lt;&gt;</Translation>
+      </Text>
+      <Text Id="__SingleUse_CKFG" Alignment="Left" TypographyId="Typo">
+        <Translation Language="GB">S1</Translation>
+      </Text>
+      <Text Id="__SingleUse_WIRT" Alignment="Left" TypographyId="Typo">
+        <Translation Language="GB">S2</Translation>
+      </Text>
+      <Text Id="__SingleUse_ZTPC" Alignment="Left" TypographyId="Typo">
+        <Translation Language="GB">S3</Translation>
+      </Text>
+      <Text Id="__SingleUse_FDEE" Alignment="Left" TypographyId="Sector">
+        <Translation Language="GB">DATA-LIVE&#10;</Translation>
       </Text>
       <Text Id="__SingleUse_8UZD" Alignment="Center" TypographyId="Large">
         <Translation Language="GB">Version : 0.1</Translation>
@@ -15,8 +42,10 @@
     </TextGroup>
   </Texts>
   <Typographies>
-    <Typography Id="Default" Font="verdana.ttf" Size="35" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" />
-    <Typography Id="Large" Font="verdana.ttf" Size="16" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" />
+    <Typography Id="Sector" Font="verdana.ttf" Size="28" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" WidgetWildcardCharacters="0123456789 :APM" />
+    <Typography Id="Large" Font="verdana.ttf" Size="16" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" WidgetWildcardCharacters="0123456789 :APM" />
     <Typography Id="Small" Font="verdana.ttf" Size="10" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" />
+    <Typography Id="Typo" Font="verdana.ttf" Size="20" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" />
+    <Typography Id="Typography_00" Font="verdana.ttf" Size="31" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" />
   </Typographies>
 </TextDatabase>

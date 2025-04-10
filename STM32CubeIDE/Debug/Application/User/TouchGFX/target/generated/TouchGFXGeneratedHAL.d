@@ -1,5 +1,5 @@
 Application/User/TouchGFX/target/generated/TouchGFXGeneratedHAL.o: \
- D:/ecole/PROJET_3D/Kartrack_SW/TouchGFX/target/generated/TouchGFXGeneratedHAL.cpp \
+ D:/SEHTEL/Documents/3D/Project_KARTRAK/Kartrack_SW/Kartrack_SW/TouchGFX/target/generated/TouchGFXGeneratedHAL.cpp \
  ../../TouchGFX/target/generated/TouchGFXGeneratedHAL.hpp \
  ../../Middlewares/ST/touchgfx/framework/include/touchgfx/hal/HAL.hpp \
  ../../Middlewares/ST/touchgfx/framework/include/platform/core/MCUInstrumentation.hpp \
@@ -48,10 +48,10 @@ Application/User/TouchGFX/target/generated/TouchGFXGeneratedHAL.o: \
  ../../Middlewares/ST/touchgfx/framework/include/mvp/Presenter.hpp \
  ../../Middlewares/ST/touchgfx/framework/include/touchgfx/Screen.hpp \
  ../../TouchGFX/gui/include/gui/model/Model.hpp \
- ../../TouchGFX/gui/include/gui/screen1_screen/Screen1View.hpp \
- ../../TouchGFX/generated/gui_generated/include/gui_generated/screen1_screen/Screen1ViewBase.hpp \
+ ../../TouchGFX/gui/include/gui/main_screen/MainView.hpp \
+ ../../TouchGFX/generated/gui_generated/include/gui_generated/main_screen/MainViewBase.hpp \
  ../../Middlewares/ST/touchgfx/framework/include/mvp/View.hpp \
- ../../TouchGFX/gui/include/gui/screen1_screen/Screen1Presenter.hpp \
+ ../../TouchGFX/gui/include/gui/main_screen/MainPresenter.hpp \
  ../../TouchGFX/gui/include/gui/model/ModelListener.hpp \
  ../../Middlewares/ST/touchgfx/framework/include/touchgfx/widgets/Box.hpp \
  ../../Middlewares/ST/touchgfx/framework/include/touchgfx/widgets/Image.hpp \
@@ -61,12 +61,18 @@ Application/User/TouchGFX/target/generated/TouchGFXGeneratedHAL.o: \
  ../../Middlewares/ST/touchgfx/framework/include/touchgfx/widgets/TextArea.hpp \
  ../../Middlewares/ST/touchgfx/framework/include/touchgfx/TypedText.hpp \
  ../../Middlewares/ST/touchgfx/framework/include/touchgfx/Texts.hpp \
- ../../TouchGFX/gui/include/gui/screen2_screen/Screen2View.hpp \
- ../../TouchGFX/generated/gui_generated/include/gui_generated/screen2_screen/Screen2ViewBase.hpp \
- ../../TouchGFX/gui/include/gui/screen2_screen/Screen2Presenter.hpp \
- ../../TouchGFX/gui/include/gui/screen3_screen/Screen3View.hpp \
- ../../TouchGFX/generated/gui_generated/include/gui_generated/screen3_screen/Screen3ViewBase.hpp \
- ../../TouchGFX/gui/include/gui/screen3_screen/Screen3Presenter.hpp \
+ ../../TouchGFX/gui/include/gui/data_live_screen/Data_LiveView.hpp \
+ ../../TouchGFX/generated/gui_generated/include/gui_generated/data_live_screen/Data_LiveViewBase.hpp \
+ ../../TouchGFX/gui/include/gui/data_live_screen/Data_LivePresenter.hpp \
+ ../../Middlewares/ST/touchgfx/framework/include/touchgfx/containers/clock/DigitalClock.hpp \
+ ../../Middlewares/ST/touchgfx/framework/include/touchgfx/containers/clock/AbstractClock.hpp \
+ ../../Middlewares/ST/touchgfx/framework/include/touchgfx/widgets/TextAreaWithWildcard.hpp \
+ ../../TouchGFX/gui/include/gui/session_start_screen/Session_StartView.hpp \
+ ../../TouchGFX/generated/gui_generated/include/gui_generated/session_start_screen/Session_StartViewBase.hpp \
+ ../../TouchGFX/gui/include/gui/session_start_screen/Session_StartPresenter.hpp \
+ ../../TouchGFX/gui/include/gui/screen4_screen/Screen4View.hpp \
+ ../../TouchGFX/generated/gui_generated/include/gui_generated/screen4_screen/Screen4ViewBase.hpp \
+ ../../TouchGFX/gui/include/gui/screen4_screen/Screen4Presenter.hpp \
  ../../Middlewares/ST/touchgfx/framework/include/touchgfx/hal/GPIO.hpp \
  ../../Middlewares/ST/touchgfx/framework/include/touchgfx/widgets/canvas/CWRVectorRenderer.hpp \
  ../../Middlewares/ST/touchgfx/framework/include/touchgfx/widgets/canvas/AbstractPainterColor.hpp \
@@ -192,10 +198,10 @@ Application/User/TouchGFX/target/generated/TouchGFXGeneratedHAL.o: \
 ../../Middlewares/ST/touchgfx/framework/include/mvp/Presenter.hpp:
 ../../Middlewares/ST/touchgfx/framework/include/touchgfx/Screen.hpp:
 ../../TouchGFX/gui/include/gui/model/Model.hpp:
-../../TouchGFX/gui/include/gui/screen1_screen/Screen1View.hpp:
-../../TouchGFX/generated/gui_generated/include/gui_generated/screen1_screen/Screen1ViewBase.hpp:
+../../TouchGFX/gui/include/gui/main_screen/MainView.hpp:
+../../TouchGFX/generated/gui_generated/include/gui_generated/main_screen/MainViewBase.hpp:
 ../../Middlewares/ST/touchgfx/framework/include/mvp/View.hpp:
-../../TouchGFX/gui/include/gui/screen1_screen/Screen1Presenter.hpp:
+../../TouchGFX/gui/include/gui/main_screen/MainPresenter.hpp:
 ../../TouchGFX/gui/include/gui/model/ModelListener.hpp:
 ../../Middlewares/ST/touchgfx/framework/include/touchgfx/widgets/Box.hpp:
 ../../Middlewares/ST/touchgfx/framework/include/touchgfx/widgets/Image.hpp:
@@ -205,12 +211,18 @@ Application/User/TouchGFX/target/generated/TouchGFXGeneratedHAL.o: \
 ../../Middlewares/ST/touchgfx/framework/include/touchgfx/widgets/TextArea.hpp:
 ../../Middlewares/ST/touchgfx/framework/include/touchgfx/TypedText.hpp:
 ../../Middlewares/ST/touchgfx/framework/include/touchgfx/Texts.hpp:
-../../TouchGFX/gui/include/gui/screen2_screen/Screen2View.hpp:
-../../TouchGFX/generated/gui_generated/include/gui_generated/screen2_screen/Screen2ViewBase.hpp:
-../../TouchGFX/gui/include/gui/screen2_screen/Screen2Presenter.hpp:
-../../TouchGFX/gui/include/gui/screen3_screen/Screen3View.hpp:
-../../TouchGFX/generated/gui_generated/include/gui_generated/screen3_screen/Screen3ViewBase.hpp:
-../../TouchGFX/gui/include/gui/screen3_screen/Screen3Presenter.hpp:
+../../TouchGFX/gui/include/gui/data_live_screen/Data_LiveView.hpp:
+../../TouchGFX/generated/gui_generated/include/gui_generated/data_live_screen/Data_LiveViewBase.hpp:
+../../TouchGFX/gui/include/gui/data_live_screen/Data_LivePresenter.hpp:
+../../Middlewares/ST/touchgfx/framework/include/touchgfx/containers/clock/DigitalClock.hpp:
+../../Middlewares/ST/touchgfx/framework/include/touchgfx/containers/clock/AbstractClock.hpp:
+../../Middlewares/ST/touchgfx/framework/include/touchgfx/widgets/TextAreaWithWildcard.hpp:
+../../TouchGFX/gui/include/gui/session_start_screen/Session_StartView.hpp:
+../../TouchGFX/generated/gui_generated/include/gui_generated/session_start_screen/Session_StartViewBase.hpp:
+../../TouchGFX/gui/include/gui/session_start_screen/Session_StartPresenter.hpp:
+../../TouchGFX/gui/include/gui/screen4_screen/Screen4View.hpp:
+../../TouchGFX/generated/gui_generated/include/gui_generated/screen4_screen/Screen4ViewBase.hpp:
+../../TouchGFX/gui/include/gui/screen4_screen/Screen4Presenter.hpp:
 ../../Middlewares/ST/touchgfx/framework/include/touchgfx/hal/GPIO.hpp:
 ../../Middlewares/ST/touchgfx/framework/include/touchgfx/widgets/canvas/CWRVectorRenderer.hpp:
 ../../Middlewares/ST/touchgfx/framework/include/touchgfx/widgets/canvas/AbstractPainterColor.hpp:

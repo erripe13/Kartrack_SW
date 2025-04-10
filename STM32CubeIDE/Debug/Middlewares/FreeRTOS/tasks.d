@@ -1,5 +1,5 @@
 Middlewares/FreeRTOS/tasks.o: \
- D:/ecole/PROJET_3D/Kartrack_SW/Middlewares/Third_Party/FreeRTOS/Source/tasks.c \
+ D:/SEHTEL/Documents/3D/Project_KARTRAK/Kartrack_SW/Kartrack_SW/Middlewares/Third_Party/FreeRTOS/Source/tasks.c \
  ../../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h \
  ../../Core/Inc/FreeRTOSConfig.h \
  ../../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h \
