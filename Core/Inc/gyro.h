@@ -29,7 +29,7 @@
 #define I2C_TIMEOUT 100
 
 // Registres ICM45605
-#define ICM45605_WHO_AM_I         0x75
+#define ICM45605_WHO_AM_I         0x72
 #define ICM45605_DEVICE_ID        0x68  // Valeur attendue dans WHO_AM_I
 
 #define ICM45605_REG_SMPLRT_DIV   0x19
@@ -85,6 +85,19 @@
 #define ICM45605_DLPF_BW_10HZ     0x05
 #define ICM45605_DLPF_BW_5HZ      0x06
 
+// Fast configuration registers (indirect access)
+#define ICM45605_INDIRECT_PWR_CONFIG      0x0010
+#define ICM45605_INDIRECT_ACCEL_CONFIG    0x001B
+#define ICM45605_INDIRECT_GYRO_CONFIG     0x001C
+#define ICM45605_INDIRECT_GYRO_LPF        0x00AC
+#define ICM45605_INDIRECT_ACCEL_LPF       0x0831
+
+// Fast configuration values
+#define ICM45605_PWR_MODE_LN_BOTH         0x0F    // Low Noise mode for both Accel and Gyro
+#define ICM45605_GYRO_2000DPS_6400HZ      0x13    // ±2000dps at 6400Hz
+#define ICM45605_ACCEL_16G_6400HZ         0x13    // ±16g at 6400Hz
+#define ICM45605_LPF_BYPASS               0x00    // Bypass Low-Pass Filter
+
 // Structure pour les données de l'accéléromètre
 typedef struct {
     int16_t x;
@@ -109,6 +122,8 @@ HAL_StatusTypeDef ICM45605_ReadGyro(ICM45605_Gyro_t *gyro);
 HAL_StatusTypeDef ICM45605_ReadTemp(float *temp);
 HAL_StatusTypeDef ICM45605_SetAccelRange(uint8_t range);
 HAL_StatusTypeDef ICM45605_SetGyroRange(uint8_t range);
+HAL_StatusTypeDef ICM45605_WriteIndirect(uint16_t reg, uint8_t data);
+HAL_StatusTypeDef ICM45605_ConfigureFastMode(void);
 void ICM45605_Test(void);
 
 #endif // GYRO_H
