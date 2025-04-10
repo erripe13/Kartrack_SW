@@ -1,4 +1,3 @@
-
 /* USER CODE BEGIN Header */
 /**
  ******************************************************************************
@@ -201,50 +200,75 @@ void StartTask02(void *argument)
   HAL_StatusTypeDef status;
   ICM45605_Accel_t accel;
   ICM45605_Gyro_t gyro;
-  float temperature;
+  ICM45605_Gyro_t gyro_offset; // For storing calibration values
+  uint32_t counter = 0;
   
-  // Attendre que le système soit stable avant d'initialiser le capteur
+  // Wait for system stabilization before initializing the sensor
   osDelay(500);
   
-  printf("Initialisation du capteur ICM45605...\r\n");
+  printf("Initializing ICM45605 sensor...\r\n");
   
-  // Initialiser le capteur ICM45605
+  // Initialize the ICM45605 sensor
   status = ICM45605_Init();
   if (status != HAL_OK) {
-    printf("Erreur d'initialisation du capteur ICM45605 (code: %d)\r\n", status);
-    // En cas d'échec, terminer la tâche
+    printf("Error initializing ICM45605 sensor (code: %d)\r\n", status);
     osThreadExit();
   }
   
-  printf("Capteur ICM45605 initialisé avec succès!\r\n");
+  printf("ICM45605 sensor initialized successfully!\r\n");
   
-  // Configurer les plages de mesure
-  ICM45605_SetAccelRange(ICM45605_ACCEL_RANGE_8G);
-  ICM45605_SetGyroRange(ICM45605_GYRO_RANGE_500DPS);
+  // Configure high-performance mode for kart tracking
+  printf("Configuring kart tracking mode (high speed)...\r\n");
+  status = ICM45605_ConfigureKartTrackingMode();
+  if (status != HAL_OK) {
+    printf("Error configuring fast mode (code: %d)\r\n", status);
+    osThreadExit();
+  }
+  
+  // Calibrate the gyroscope (remove bias)
+  printf("Calibrating gyroscope, please keep the device still...\r\n");
+  status = ICM45605_CalibrateGyro(&gyro_offset, 100); // 100 samples for calibration
+  if (status != HAL_OK) {
+    printf("Error during gyroscope calibration (code: %d)\r\n", status);
+    // Continue anyway, just with no calibration
+  } else {
+    printf("Gyro calibration complete. Offset X: %d, Y: %d, Z: %d\r\n", 
+           gyro_offset.x, gyro_offset.y, gyro_offset.z);
+  }
+  
+  printf("High-speed mode active (6400Hz sampling)\r\n");
+  printf("----------------------------------\r\n");
   
   /* Infinite loop */
   for(;;)
   {
-    // Lire les données de l'accéléromètre
-    if (ICM45605_ReadAccel(&accel) == HAL_OK) {
-      printf("Accel X: %6d, Y: %6d, Z: %6d\r\n", accel.x, accel.y, accel.z);
+    // Read both accelerometer and gyroscope data in a single burst (faster)
+    if (ICM45605_ReadMotionData(&accel, &gyro) == HAL_OK) {
+      // Apply calibration values to the gyro readings
+      gyro.x -= gyro_offset.x;
+      gyro.y -= gyro_offset.y;
+      gyro.z -= gyro_offset.z;
+      
+      // Only print every 50 readings to avoid flooding the console
+      // but still process data at high speed
+      if (counter % 50 == 0) {
+        printf("Accel X: %6d, Y: %6d, Z: %6d\r\n", accel.x, accel.y, accel.z);
+        printf("Gyro  X: %6d, Y: %6d, Z: %6d\r\n", gyro.x, gyro.y, gyro.z);
+        printf("----------------------------------\r\n");
+      }
+      
+      // Process the high-speed data here
+      // Example: Detect rapid changes, calculate orientation, etc.
+      
+      counter++;
     } else {
-      printf("Erreur de lecture de l'accéléromètre\r\n");
+      printf("Error reading motion data\r\n");
     }
     
-    // Lire les données du gyroscope
-    if (ICM45605_ReadGyro(&gyro) == HAL_OK) {
-      printf("Gyro  X: %6d, Y: %6d, Z: %6d\r\n", gyro.x, gyro.y, gyro.z);
-    } else {
-      printf("Erreur de lecture du gyroscope\r\n");
-    }
-    
-    
-    
-    printf("----------------------------------\r\n");
-    
-    // Délai entre les lectures (200ms)
-    osDelay(200);
+    // Very short delay to maximize sampling rate while still allowing other tasks to run
+    // 5ms gives approximately 200Hz output rate, which is fast enough for most applications
+    // while allowing FreeRTOS to schedule other tasks
+    osDelay(5);
   }
   /* USER CODE END StartTask02 */
 }

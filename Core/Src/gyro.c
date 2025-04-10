@@ -137,6 +137,118 @@ HAL_StatusTypeDef ICM45605_ConfigureFastMode(void) {
     return HAL_OK;
 }
 
+// Function to configure the IMU for high-performance kart tracking
+HAL_StatusTypeDef ICM45605_ConfigureKartTrackingMode(void) {
+    HAL_StatusTypeDef status;
+    
+    // Reset the sensor first to ensure clean configuration
+    status = ICM45605_WriteRegister(ICM45605_REG_PWR_MGMT_1, ICM45605_RESET);
+    if (status != HAL_OK) return status;
+    
+    // Wait for reset to complete
+    HAL_Delay(100);
+    
+    // Exit sleep mode and select the best clock source
+    status = ICM45605_WriteRegister(ICM45605_REG_PWR_MGMT_1, 0x01); // Auto-select best clock
+    if (status != HAL_OK) return status;
+    
+    HAL_Delay(10);
+    
+    // 1. Enable both Gyro and Accel in Low Noise (LN) mode for maximum precision
+    status = ICM45605_WriteIndirect(ICM45605_INDIRECT_PWR_CONFIG, ICM45605_PWR_MODE_LN_BOTH);
+    if (status != HAL_OK) return status;
+    
+    // 2. Configure Gyroscope → ±2000dps @ 6400Hz (maximum rate for fast movements)
+    status = ICM45605_WriteIndirect(ICM45605_INDIRECT_GYRO_CONFIG, ICM45605_GYRO_2000DPS_6400HZ);
+    if (status != HAL_OK) return status;
+    
+    // 3. Configure Accelerometer → ±16g @ 6400Hz (for high acceleration in karts)
+    status = ICM45605_WriteIndirect(ICM45605_INDIRECT_ACCEL_CONFIG, ICM45605_ACCEL_16G_6400HZ);
+    if (status != HAL_OK) return status;
+    
+    // 4. Bypass Gyro Low-Pass Filter for maximum response speed (may increase noise)
+    status = ICM45605_WriteIndirect(ICM45605_INDIRECT_GYRO_LPF, ICM45605_LPF_BYPASS);
+    if (status != HAL_OK) return status;
+    
+    // 5. Bypass Accelerometer Low-Pass Filter for fastest response
+    status = ICM45605_WriteIndirect(ICM45605_INDIRECT_ACCEL_LPF, ICM45605_LPF_BYPASS);
+    if (status != HAL_OK) return status;
+    
+    // 6. Disable FIFO to minimize latency (direct register reading)
+    status = ICM45605_WriteRegister(ICM45605_REG_FIFO_EN, 0x00);
+    if (status != HAL_OK) return status;
+    
+    return HAL_OK;
+}
+
+// Function to perform gyroscope calibration (removes bias)
+HAL_StatusTypeDef ICM45605_CalibrateGyro(ICM45605_Gyro_t *gyro_offset, uint16_t samples) {
+    HAL_StatusTypeDef status;
+    ICM45605_Gyro_t gyro;
+    int32_t x_sum = 0, y_sum = 0, z_sum = 0;
+    uint16_t i;
+    
+    // Make sure the sensor is stationary during calibration
+    
+    // Take multiple samples to average out noise
+    for (i = 0; i < samples; i++) {
+        status = ICM45605_ReadGyro(&gyro);
+        if (status != HAL_OK) return status;
+        
+        x_sum += gyro.x;
+        y_sum += gyro.y;
+        z_sum += gyro.z;
+        
+        HAL_Delay(5); // Small delay between samples
+    }
+    
+    // Calculate average offset values
+    gyro_offset->x = (int16_t)(x_sum / samples);
+    gyro_offset->y = (int16_t)(y_sum / samples);
+    gyro_offset->z = (int16_t)(z_sum / samples);
+    
+    return HAL_OK;
+}
+
+// Function to read gyroscope with offset compensation
+HAL_StatusTypeDef ICM45605_ReadGyroCompensated(ICM45605_Gyro_t *gyro, const ICM45605_Gyro_t *gyro_offset) {
+    HAL_StatusTypeDef status;
+    
+    status = ICM45605_ReadGyro(gyro);
+    if (status != HAL_OK) return status;
+    
+    // Apply offset compensation
+    if (gyro_offset != NULL) {
+        gyro->x -= gyro_offset->x;
+        gyro->y -= gyro_offset->y;
+        gyro->z -= gyro_offset->z;
+    }
+    
+    return HAL_OK;
+}
+
+// Function to read both accel and gyro in single burst (reduces I2C overhead)
+HAL_StatusTypeDef ICM45605_ReadMotionData(ICM45605_Accel_t *accel, ICM45605_Gyro_t *gyro) {
+    uint8_t buffer[14]; // Accel (6) + Temp (2) + Gyro (6)
+    HAL_StatusTypeDef status;
+    
+    // Read all motion data in a single burst starting from ACCEL_XOUT_H
+    status = ICM45605_ReadRegisters(ICM45605_REG_ACCEL_XOUT_H, buffer, 14);
+    if (status != HAL_OK) return status;
+    
+    // Parse accelerometer data
+    accel->x = (int16_t)(buffer[0] << 8 | buffer[1]);
+    accel->y = (int16_t)(buffer[2] << 8 | buffer[3]);
+    accel->z = (int16_t)(buffer[4] << 8 | buffer[5]);
+    
+    // Parse gyroscope data (skipping temperature bytes)
+    gyro->x = (int16_t)(buffer[8] << 8 | buffer[9]);
+    gyro->y = (int16_t)(buffer[10] << 8 | buffer[11]);
+    gyro->z = (int16_t)(buffer[12] << 8 | buffer[13]);
+    
+    return HAL_OK;
+}
+
 // Function to read accelerometer data
 HAL_StatusTypeDef ICM45605_ReadAccel(ICM45605_Accel_t *accel) {
     uint8_t buffer[6];
