@@ -27,9 +27,11 @@
 /* USER CODE BEGIN Includes */
 #include "LoRa.h"
 #include "spi.h"
+#include "gyro.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
+typedef StaticTask_t osStaticThreadDef_t;
 /* USER CODE BEGIN PTD */
 
 /* USER CODE END PTD */
@@ -49,22 +51,36 @@
 LoRa myLoRa;
 
 /* USER CODE END Variables */
-osThreadId defaultTaskHandle;
-osThreadId LoRa_initHandle;
+/* Definitions for defaultTask */
+osThreadId_t defaultTaskHandle;
+const osThreadAttr_t defaultTask_attributes = {
+  .name = "defaultTask",
+  .stack_size = 4096 * 4,
+  .priority = (osPriority_t) osPriorityNormal,
+};
+/* Definitions for ICM45605_TASK */
+osThreadId_t ICM45605_TASKHandle;
+uint32_t ICM45605_TASKBuffer[ 256 ];
+osStaticThreadDef_t ICM45605_TASKControlBlock;
+const osThreadAttr_t ICM45605_TASK_attributes = {
+  .name = "ICM45605_TASK",
+  .cb_mem = &ICM45605_TASKControlBlock,
+  .cb_size = sizeof(ICM45605_TASKControlBlock),
+  .stack_mem = &ICM45605_TASKBuffer[0],
+  .stack_size = sizeof(ICM45605_TASKBuffer),
+  .priority = (osPriority_t) osPriorityNormal,
+};
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
 
 /* USER CODE END FunctionPrototypes */
 
-void StartDefaultTask(void const * argument);
-void LoRa_init_Task(void const * argument);
+void StartDefaultTask(void *argument);
+void StartTask02(void *argument);
 
 extern void MX_USB_HOST_Init(void);
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
-
-/* GetIdleTaskMemory prototype (linked to static allocation support) */
-void vApplicationGetIdleTaskMemory( StaticTask_t **ppxIdleTaskTCBBuffer, StackType_t **ppxIdleTaskStackBuffer, uint32_t *pulIdleTaskStackSize );
 
 /* Hook prototypes */
 void vApplicationIdleHook(void);
@@ -109,19 +125,6 @@ __weak void vApplicationMallocFailedHook(void) {
 }
 /* USER CODE END 5 */
 
-/* USER CODE BEGIN GET_IDLE_TASK_MEMORY */
-static StaticTask_t xIdleTaskTCBBuffer;
-static StackType_t xIdleStack[configMINIMAL_STACK_SIZE];
-
-void vApplicationGetIdleTaskMemory(StaticTask_t **ppxIdleTaskTCBBuffer,
-		StackType_t **ppxIdleTaskStackBuffer, uint32_t *pulIdleTaskStackSize) {
-	*ppxIdleTaskTCBBuffer = &xIdleTaskTCBBuffer;
-	*ppxIdleTaskStackBuffer = &xIdleStack[0];
-	*pulIdleTaskStackSize = configMINIMAL_STACK_SIZE;
-	/* place for user code */
-}
-/* USER CODE END GET_IDLE_TASK_MEMORY */
-
 /**
   * @brief  FreeRTOS initialization
   * @param  None
@@ -149,17 +152,19 @@ void MX_FREERTOS_Init(void) {
   /* USER CODE END RTOS_QUEUES */
 
   /* Create the thread(s) */
-  /* definition and creation of defaultTask */
-  osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 4096);
-  defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
+  /* creation of defaultTask */
+  defaultTaskHandle = osThreadNew(StartDefaultTask, NULL, &defaultTask_attributes);
 
-  /* definition and creation of LoRa_init */
-  osThreadDef(LoRa_init, LoRa_init_Task, osPriorityNormal, 0, 128);
-  LoRa_initHandle = osThreadCreate(osThread(LoRa_init), NULL);
+  /* creation of ICM45605_TASK */
+  ICM45605_TASKHandle = osThreadNew(StartTask02, NULL, &ICM45605_TASK_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
 	/* add threads, ... */
   /* USER CODE END RTOS_THREADS */
+
+  /* USER CODE BEGIN RTOS_EVENTS */
+  /* add events, ... */
+  /* USER CODE END RTOS_EVENTS */
 
 }
 
@@ -170,7 +175,7 @@ void MX_FREERTOS_Init(void) {
  * @retval None
  */
 /* USER CODE END Header_StartDefaultTask */
-void StartDefaultTask(void const * argument)
+void StartDefaultTask(void *argument)
 {
   /* init code for USB_HOST */
   MX_USB_HOST_Init();
@@ -182,46 +187,65 @@ void StartDefaultTask(void const * argument)
   /* USER CODE END StartDefaultTask */
 }
 
-/* USER CODE BEGIN Header_LoRa_init_Task */
+/* USER CODE BEGIN Header_StartTask02 */
 /**
- * @brief Function implementing the LoRa_init thread.
- * @param argument: Not used
- * @retval None
- */
-/* USER CODE END Header_LoRa_init_Task */
-void LoRa_init_Task(void const * argument)
+* @brief Function implementing the ICM45605_TASK thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_StartTask02 */
+void StartTask02(void *argument)
 {
-  /* USER CODE BEGIN LoRa_init_Task */
-	myLoRa = newLoRa(); //cree un objet LoRa
-	myLoRa.CS_port = GPIOI;
-	myLoRa.CS_pin = GPIO_PIN_0;
-	myLoRa.reset_port = GPIOF;
-	myLoRa.reset_pin = GPIO_PIN_8;
-	myLoRa.DIO0_port = GPIOI;
-	myLoRa.DIO0_pin = GPIO_PIN_3;
-	myLoRa.hSPIx = &hspi2;
-
-	myLoRa.frequency = 434;
-	myLoRa.spredingFactor = SF_9;
-	myLoRa.bandWidth = BW_250KHz;
-	myLoRa.crcRate = CR_4_8;
-	myLoRa.power = POWER_17db;
-	myLoRa.overCurrentProtection = 130;
-	myLoRa.preamble = 10;
-
-	uint16_t status = LoRa_init(&myLoRa);
-
-	if (status != LORA_OK) {
-		//debug uart error message
-		printf("LoRa crashed with output : %d\n", status);
-	}
-	char *send_data = "Hello Kart !";
-	/* Infinite loop */
-	for (;;) {
-		LoRa_transmit(&myLoRa, (uint8_t*)send_data, sizeof(send_data), 100);
-		osDelay(1000);
-	}
-  /* USER CODE END LoRa_init_Task */
+  /* USER CODE BEGIN StartTask02 */
+  HAL_StatusTypeDef status;
+  ICM45605_Accel_t accel;
+  ICM45605_Gyro_t gyro;
+  float temperature;
+  
+  // Attendre que le système soit stable avant d'initialiser le capteur
+  osDelay(500);
+  
+  printf("Initialisation du capteur ICM45605...\r\n");
+  
+  // Initialiser le capteur ICM45605
+  status = ICM45605_Init();
+  if (status != HAL_OK) {
+    printf("Erreur d'initialisation du capteur ICM45605 (code: %d)\r\n", status);
+    // En cas d'échec, terminer la tâche
+    osThreadExit();
+  }
+  
+  printf("Capteur ICM45605 initialisé avec succès!\r\n");
+  
+  // Configurer les plages de mesure
+  ICM45605_SetAccelRange(ICM45605_ACCEL_RANGE_8G);
+  ICM45605_SetGyroRange(ICM45605_GYRO_RANGE_500DPS);
+  
+  /* Infinite loop */
+  for(;;)
+  {
+    // Lire les données de l'accéléromètre
+    if (ICM45605_ReadAccel(&accel) == HAL_OK) {
+      printf("Accel X: %6d, Y: %6d, Z: %6d\r\n", accel.x, accel.y, accel.z);
+    } else {
+      printf("Erreur de lecture de l'accéléromètre\r\n");
+    }
+    
+    // Lire les données du gyroscope
+    if (ICM45605_ReadGyro(&gyro) == HAL_OK) {
+      printf("Gyro  X: %6d, Y: %6d, Z: %6d\r\n", gyro.x, gyro.y, gyro.z);
+    } else {
+      printf("Erreur de lecture du gyroscope\r\n");
+    }
+    
+    
+    
+    printf("----------------------------------\r\n");
+    
+    // Délai entre les lectures (200ms)
+    osDelay(200);
+  }
+  /* USER CODE END StartTask02 */
 }
 
 /* Private application code --------------------------------------------------*/
