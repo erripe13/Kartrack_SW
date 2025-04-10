@@ -15,7 +15,8 @@
  *
  *	Driver I2C ICM45605
  */
-//#include "stm32f4xx_hal.h"
+#include "stm32f7xx_hal.h"
+
 #include "gyro.h"
 
 // Variables globales
@@ -23,33 +24,20 @@ extern I2C_HandleTypeDef hi2c1;    // Déclarer l'instance I2C (définie dans le
 
 // Fonction pour écrire dans un registre du capteur
 HAL_StatusTypeDef ICM45605_WriteRegister(uint8_t reg, uint8_t data) {
-    uint8_t buffer[2];
-    buffer[0] = reg;   // Adresse du registre
-    buffer[1] = data;  // Donnée à écrire
-
-    return HAL_I2C_Master_Transmit(&hi2c1, ICM45605_I2C_ADDRESS << 1, buffer, 2, I2C_TIMEOUT);
+    // Utilisation de HAL_I2C_Mem_Write pour écrire dans un registre
+    return HAL_I2C_Mem_Write(&hi2c1, ICM45605_I2C_ADDRESS << 1, reg, I2C_MEMADD_SIZE_8BIT, &data, 1, I2C_TIMEOUT);
 }
 
 // Fonction pour lire un registre du capteur
 HAL_StatusTypeDef ICM45605_ReadRegister(uint8_t reg, uint8_t *data) {
-    // Envoyer l'adresse du registre à lire
-    if (HAL_I2C_Master_Transmit(&hi2c1, ICM45605_I2C_ADDRESS << 1, &reg, 1, I2C_TIMEOUT) != HAL_OK) {
-        return HAL_ERROR;
-    }
-
-    // Lire la donnée du registre
-    return HAL_I2C_Master_Receive(&hi2c1, ICM45605_I2C_ADDRESS << 1, data, 1, I2C_TIMEOUT);
+    // Utilisation de HAL_I2C_Mem_Read pour lire un registre
+    return HAL_I2C_Mem_Read(&hi2c1, ICM45605_I2C_ADDRESS << 1, reg, I2C_MEMADD_SIZE_8BIT, data, 1, I2C_TIMEOUT);
 }
 
 // Fonction pour lire plusieurs registres consécutifs
 HAL_StatusTypeDef ICM45605_ReadRegisters(uint8_t regStart, uint8_t *buffer, uint8_t length) {
-    // Envoyer l'adresse du premier registre à lire
-    if (HAL_I2C_Master_Transmit(&hi2c1, ICM45605_I2C_ADDRESS << 1, &regStart, 1, I2C_TIMEOUT) != HAL_OK) {
-        return HAL_ERROR;
-    }
-
-    // Lire les données des registres consécutifs
-    return HAL_I2C_Master_Receive(&hi2c1, ICM45605_I2C_ADDRESS << 1, buffer, length, I2C_TIMEOUT);
+    // Utilisation de HAL_I2C_Mem_Read pour lire plusieurs registres consécutifs
+    return HAL_I2C_Mem_Read(&hi2c1, ICM45605_I2C_ADDRESS << 1, regStart, I2C_MEMADD_SIZE_8BIT, buffer, length, I2C_TIMEOUT);
 }
 
 // Fonction pour initialiser le capteur ICM45605

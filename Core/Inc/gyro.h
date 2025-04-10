@@ -19,7 +19,8 @@
 #ifndef GYRO_H
 #define GYRO_H
 
-#include "stm32f4xx_hal.h"
+
+#include "stm32f7xx_hal.h"
 
 // Adresse I2C par défaut du capteur ICM45605
 #define ICM45605_I2C_ADDRESS 0x68
