@@ -1,5 +1,6 @@
-../Core/Src/freertos.c:73:6:vApplicationIdleHook	1
-../Core/Src/freertos.c:87:6:vApplicationStackOverflowHook	1
-../Core/Src/freertos.c:95:6:vApplicationMallocFailedHook	1
-../Core/Src/freertos.c:114:6:MX_FREERTOS_Init	1
-../Core/Src/freertos.c:157:6:StartDefaultTask	5
+../Core/Src/freertos.c:83:6:vApplicationIdleHook	1
+../Core/Src/freertos.c:97:6:vApplicationStackOverflowHook	1
+../Core/Src/freertos.c:105:6:vApplicationMallocFailedHook	1
+../Core/Src/freertos.c:123:6:vApplicationGetIdleTaskMemory	1
+../Core/Src/freertos.c:137:6:MX_FREERTOS_Init	1
+../Core/Src/freertos.c:177:6:StartDefaultTask	11

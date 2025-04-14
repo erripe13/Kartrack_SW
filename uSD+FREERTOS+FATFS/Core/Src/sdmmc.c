@@ -75,17 +75,23 @@ void HAL_SD_MspInit(SD_HandleTypeDef* sdHandle)
     PC9     ------> SDMMC1_D1
     PC8     ------> SDMMC1_D0
     */
-    GPIO_InitStruct.Pin = SDMMC_CK_Pin|SDMMC_D3_Pin|SDMMC_D2_Pin|GPIO_PIN_9
-                          |GPIO_PIN_8;
+    GPIO_InitStruct.Pin = SDMMC_CK_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+    GPIO_InitStruct.Alternate = GPIO_AF12_SDMMC1;
+    HAL_GPIO_Init(SDMMC_CK_GPIO_Port, &GPIO_InitStruct);
+
+    GPIO_InitStruct.Pin = SDMMC_D3_Pin|SDMMC_D2_Pin|GPIO_PIN_9|GPIO_PIN_8;
+    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+    GPIO_InitStruct.Pull = GPIO_PULLUP;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
     GPIO_InitStruct.Alternate = GPIO_AF12_SDMMC1;
     HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
     GPIO_InitStruct.Pin = SDMMC_CMD_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    GPIO_InitStruct.Pull = GPIO_PULLUP;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
     GPIO_InitStruct.Alternate = GPIO_AF12_SDMMC1;
     HAL_GPIO_Init(SDMMC_CMD_GPIO_Port, &GPIO_InitStruct);
@@ -100,7 +106,7 @@ void HAL_SD_MspInit(SD_HandleTypeDef* sdHandle)
     hdma_sdmmc1_rx.Init.PeriphDataAlignment = DMA_PDATAALIGN_WORD;
     hdma_sdmmc1_rx.Init.MemDataAlignment = DMA_MDATAALIGN_WORD;
     hdma_sdmmc1_rx.Init.Mode = DMA_PFCTRL;
-    hdma_sdmmc1_rx.Init.Priority = DMA_PRIORITY_LOW;
+    hdma_sdmmc1_rx.Init.Priority = DMA_PRIORITY_HIGH;
     hdma_sdmmc1_rx.Init.FIFOMode = DMA_FIFOMODE_ENABLE;
     hdma_sdmmc1_rx.Init.FIFOThreshold = DMA_FIFO_THRESHOLD_FULL;
     hdma_sdmmc1_rx.Init.MemBurst = DMA_MBURST_INC4;
@@ -121,7 +127,7 @@ void HAL_SD_MspInit(SD_HandleTypeDef* sdHandle)
     hdma_sdmmc1_tx.Init.PeriphDataAlignment = DMA_PDATAALIGN_WORD;
     hdma_sdmmc1_tx.Init.MemDataAlignment = DMA_MDATAALIGN_WORD;
     hdma_sdmmc1_tx.Init.Mode = DMA_PFCTRL;
-    hdma_sdmmc1_tx.Init.Priority = DMA_PRIORITY_LOW;
+    hdma_sdmmc1_tx.Init.Priority = DMA_PRIORITY_HIGH;
     hdma_sdmmc1_tx.Init.FIFOMode = DMA_FIFOMODE_ENABLE;
     hdma_sdmmc1_tx.Init.FIFOThreshold = DMA_FIFO_THRESHOLD_FULL;
     hdma_sdmmc1_tx.Init.MemBurst = DMA_MBURST_INC4;

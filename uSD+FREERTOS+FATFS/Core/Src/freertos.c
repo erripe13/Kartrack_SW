@@ -25,7 +25,12 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "fatfs.h"         // pour FATFS, FIL, SDPath, FA_*
+#include "ff.h"            // pour les constantes FatFs comme FA_CREATE_ALWAYS, f_mount, f_open...
+#include "string.h"        // pour strlen
+#include "diskio.h"  		// pour SD_Driver
+#include "bsp_driver_sd.h"
+#include <stdio.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -35,9 +40,11 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-FATFS SDFatFs;
-char SDPath[4];
-uint8_t workBuffer[2*_MAX_SS];
+//extern char SDPath[];
+extern SD_HandleTypeDef hsd1;
+extern FATFS SDFatFs;
+extern FIL MyFile;
+extern char SDPath[4];
 
 /* USER CODE END PD */
 
@@ -50,19 +57,22 @@ uint8_t workBuffer[2*_MAX_SS];
 /* USER CODE BEGIN Variables */
 
 /* USER CODE END Variables */
-/* Definitions for defaultTask */
-osThreadId_t defaultTaskHandle;
-const osThreadAttr_t defaultTask_attributes = { .name = "defaultTask",
-		.stack_size = 4096 * 4, .priority = (osPriority_t) osPriorityNormal, };
+osThreadId defaultTaskHandle;
+uint32_t defaultTaskBuffer[4096];
+osStaticThreadDef_t defaultTaskControlBlock;
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
 
 /* USER CODE END FunctionPrototypes */
 
-void StartDefaultTask(void *argument);
+void StartDefaultTask(void const *argument);
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
+
+/* GetIdleTaskMemory prototype (linked to static allocation support) */
+void vApplicationGetIdleTaskMemory(StaticTask_t **ppxIdleTaskTCBBuffer,
+		StackType_t **ppxIdleTaskStackBuffer, uint32_t *pulIdleTaskStackSize);
 
 /* Hook prototypes */
 void vApplicationIdleHook(void);
@@ -106,6 +116,19 @@ void vApplicationMallocFailedHook(void) {
 }
 /* USER CODE END 5 */
 
+/* USER CODE BEGIN GET_IDLE_TASK_MEMORY */
+static StaticTask_t xIdleTaskTCBBuffer;
+static StackType_t xIdleStack[configMINIMAL_STACK_SIZE];
+
+void vApplicationGetIdleTaskMemory(StaticTask_t **ppxIdleTaskTCBBuffer,
+		StackType_t **ppxIdleTaskStackBuffer, uint32_t *pulIdleTaskStackSize) {
+	*ppxIdleTaskTCBBuffer = &xIdleTaskTCBBuffer;
+	*ppxIdleTaskStackBuffer = &xIdleStack[0];
+	*pulIdleTaskStackSize = configMINIMAL_STACK_SIZE;
+	/* place for user code */
+}
+/* USER CODE END GET_IDLE_TASK_MEMORY */
+
 /**
  * @brief  FreeRTOS initialization
  * @param  None
@@ -133,17 +156,14 @@ void MX_FREERTOS_Init(void) {
 	/* USER CODE END RTOS_QUEUES */
 
 	/* Create the thread(s) */
-	/* creation of defaultTask */
-	defaultTaskHandle = osThreadNew(StartDefaultTask, NULL,
-			&defaultTask_attributes);
+	/* definition and creation of defaultTask */
+	osThreadStaticDef(defaultTask, StartDefaultTask, osPriorityHigh, 0, 4096,
+			defaultTaskBuffer, &defaultTaskControlBlock);
+	defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
 
 	/* USER CODE BEGIN RTOS_THREADS */
 	/* add threads, ... */
 	/* USER CODE END RTOS_THREADS */
-
-	/* USER CODE BEGIN RTOS_EVENTS */
-	/* add events, ... */
-	/* USER CODE END RTOS_EVENTS */
 
 }
 
@@ -154,30 +174,78 @@ void MX_FREERTOS_Init(void) {
  * @retval None
  */
 /* USER CODE END Header_StartDefaultTask */
-void StartDefaultTask(void *argument) {
+void StartDefaultTask(void const *argument) {
 	/* USER CODE BEGIN StartDefaultTask */
+	FRESULT res;
+	uint32_t byteswritten, bytesread;
+	uint8_t wtext[] = "This is STM32 working with FatFs\r\n";
+	uint8_t rtext[100];
+	BYTE workBuffer[512];
+
+	printf("[INFO] StartDefaultTask running (FreeRTOS OK)\r\n");
+
+	// Step 1 - Mount the filesystem
+	printf("[INFO] Mounting filesystem...\r\n");
+	res = f_mount(&SDFatFs, (TCHAR const*) SDPath, 1);
+	printf("[DEBUG] f_mount returned: %d\r\n", res);
+
+	// Step 2 - Format if needed
+	if (res == FR_NO_FILESYSTEM) {
+		printf("[WARN] No filesystem found. Formatting...\r\n");
+		res = f_mkfs(SDPath, FM_ANY, 0, workBuffer, sizeof(workBuffer));
+		printf("[DEBUG] f_mkfs returned: %d\r\n", res);
+		if (res != FR_OK)
+			Error_Handler();
+
+		res = f_mount(&SDFatFs, (TCHAR const*) SDPath, 1);
+		if (res != FR_OK)
+			Error_Handler();
+	} else if (res != FR_OK) {
+		printf("[ERROR] f_mount failed. res = %d\r\n", res);
+		Error_Handler();
+	}
+
+	// Step 3 - Open for write
+	printf("[INFO] Opening file for writing...\r\n");
+	res = f_open(&MyFile, "STM32.TXT", FA_CREATE_ALWAYS | FA_WRITE);
+	if (res != FR_OK) {
+		printf("[ERROR] f_open failed. res = %d\r\n", res);
+		Error_Handler();
+	}
+
+	// Step 4 - Write
+	res = f_write(&MyFile, wtext, sizeof(wtext), (void*) &byteswritten);
+	if ((byteswritten == 0) || (res != FR_OK)) {
+		printf("[ERROR] f_write failed. res = %d, bytes = %lu\r\n", res,
+				byteswritten);
+		Error_Handler();
+	}
+	f_close(&MyFile);
+	printf("[INFO] Write OK (%lu bytes)\r\n", byteswritten);
+
+	// Step 5 - Read back
+	printf("[INFO] Reading back the file...\r\n");
+	res = f_open(&MyFile, "STM32.TXT", FA_READ);
+	if (res != FR_OK) {
+		printf("[ERROR] f_open for read failed. res = %d\r\n", res);
+		Error_Handler();
+	}
+
+	res = f_read(&MyFile, rtext, sizeof(rtext) - 1, (UINT*) &bytesread);
+	rtext[bytesread] = '\0';
+	if ((bytesread == 0) || (res != FR_OK)) {
+		printf("[ERROR] f_read failed. res = %d, bytesread = %lu\r\n", res,
+				bytesread);
+		Error_Handler();
+	}
+	f_close(&MyFile);
+	printf("[INFO] Read OK (%lu bytes): '%s'\r\n", bytesread, rtext);
+
+	// Step 6 - Success LED
+	HAL_GPIO_WritePin(GPIOI, GPIO_PIN_1, GPIO_PIN_RESET);
 	/* Infinite loop */
 	for (;;) {
-		if (FATFS_LinkDriver(&SD_Driver, SDPath) == 0) {
-			if (f_mount(&SDFatFs, (TCHAR const*) SDPath, 1) != FR_OK) {
-				Error_Handler();
-			} else {
-				DIR dir;
-				if (f_opendir(&dir, "TRACKS") != FR_OK) {
-					if (f_mkfs(SDPath, FM_ANY, 0, workBuffer,
-							sizeof(workBuffer)) != FR_OK)
-						Error_Handler();
-				}
-
-				f_mkdir("TRACKS");
-				f_mkdir("GUI_RESSOURCES");
-				f_mkdir("SETTINGS");
-				f_mkdir("RACES");
-
-				HAL_GPIO_WritePin(GPIOI, GPIO_PIN_1, GPIO_PIN_SET);
-			}
-		}
-
+		osDelay(1);
 	}
 	/* USER CODE END StartDefaultTask */
 }

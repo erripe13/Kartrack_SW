@@ -33,16 +33,16 @@
 #include "sai.h"
 #include "sdmmc.h"
 #include "spdifrx.h"
-#include "spi.h"
 #include "tim.h"
 #include "usart.h"
-#include "usb_otg.h"
 #include "gpio.h"
 #include "fmc.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include <stdio.h>
+#include "bsp_driver_sd.h" // pour BSP_LED_*
+#include "stm32746g_discovery_sd.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -53,9 +53,9 @@
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
 FATFS SDFatFs;
-char SDPath[4];
-uint8_t workBuffer[2 * _MAX_SS];
-
+FIL MyFile;
+UINT byteswritten;
+//char SDPath[4];  // chemin logique du disque (0:)
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -129,7 +129,6 @@ int main(void)
   MX_SAI2_Init();
   MX_SDMMC1_SD_Init();
   MX_SPDIFRX_Init();
-  MX_SPI2_Init();
   MX_TIM1_Init();
   MX_TIM2_Init();
   MX_TIM3_Init();
@@ -139,13 +138,66 @@ int main(void)
   MX_USART1_UART_Init();
   MX_USART6_UART_Init();
   MX_FATFS_Init();
-  MX_USB_OTG_FS_HCD_Init();
   /* USER CODE BEGIN 2 */
-
+//	HAL_Delay(50);
+//	if (HAL_SD_Init(&hsd1) != HAL_OK) {
+//	    printf("HAL_SD_Init failed!\r\n");
+//	    Error_Handler();
+//	}
+//
+//	FRESULT res;
+//	DSTATUS stat;
+//
+//	// Lien entre FatFs et le driver SD
+//	res = FATFS_LinkDriver(&SD_Driver, SDPath);
+//	printf("LinkDriver status: %d\r\n", res);  // 0 = OK
+//
+//	// Montage du système de fichiers
+//	res = f_mount(&SDFatFs, (TCHAR const*) SDPath, 0);
+//	printf("f_mount status: %d\r\n", res);     // 0 = FR_OK
+//
+//	// Statut logique initial (FatFs)
+//	stat = disk_status(0);
+//	printf("disk_status (before wait) = 0x%02X\r\n", stat);  // 0x00 attendu
+//
+//	// Attente de l'état TRANSFER côté HAL
+//	HAL_SD_CardStateTypeDef card_state;
+//	uint32_t timeout = 1000;
+//	printf("Waiting for HAL_SD_GetCardState() to return TRANSFER (3)...\r\n");
+//	do {
+//		card_state = HAL_SD_GetCardState(&hsd1);
+//		printf("Card state = %d\r\n", card_state);
+//		HAL_Delay(20);
+//		timeout -= 20;
+//		if (timeout == 0) {
+//			printf("Timeout waiting for HAL_SD_CARD_TRANSFER\n");
+//			Error_Handler();
+//		}
+//	} while (card_state != HAL_SD_CARD_TRANSFER);
+//
+//	printf("Card is in TRANSFER state.\r\n");
+//
+//	// Mise à jour du statut après wait
+//	stat = disk_status(0);
+//	printf("disk_status (after wait) = 0x%02X\r\n", stat);  // 0x00 attendu
+//	printf("SDPath = \"%s\"\r\n", SDPath);
+//
+//	if (res == FR_OK && stat == 0x00) {
+//		res = f_open(&SDFile, "TEST.TXT", FA_CREATE_ALWAYS | FA_WRITE);
+//		printf("f_open status: %d\r\n", res);  // 0 = FR_OK
+//
+//		if (res == FR_OK) {
+//			res = f_write(&SDFile, "HELLO", 5, &byteswritten);
+//			printf("f_write status: %d, bytes: %d\r\n", res, byteswritten);
+//			f_close(&SDFile);
+//		} else {
+//			printf("f_open failed.\r\n");
+//		}
+//	} else {
+//		printf("Mount or status failed. res = %d, stat = 0x%02X\r\n", res,
+//				stat);
+//	}
   /* USER CODE END 2 */
-
-  /* Init scheduler */
-  osKernelInitialize();
 
   /* Call init function for freertos objects (in cmsis_os2.c) */
   MX_FREERTOS_Init();
@@ -283,9 +335,12 @@ void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
 	/* User can add his own implementation to report the HAL error return state */
+	printf("[ERROR] Entered Error_Handler()\r\n");
 	__disable_irq();
-	while (1) {
-	}
+//	while (1) {
+//		HAL_GPIO_TogglePin(GPIOI, GPIO_PIN_1);  // LED clignotante
+//		HAL_Delay(100);
+//	}
   /* USER CODE END Error_Handler_Debug */
 }
 

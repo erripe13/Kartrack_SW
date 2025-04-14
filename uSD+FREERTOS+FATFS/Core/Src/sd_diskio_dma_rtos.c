@@ -23,6 +23,7 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
+#include <stdio.h>
 #define QUEUE_SIZE         (uint32_t) 10
 #define READ_CPLT_MSG      (uint32_t) 1
 #define WRITE_CPLT_MSG     (uint32_t) 2
@@ -321,6 +322,7 @@ void BSP_SD_WriteCpltCallback(void)
    * is always called before any SD_Read()/SD_Write() call
    */
    osMessagePut(SDQueueID, WRITE_CPLT_MSG, osWaitForever);
+   printf("[ISR] BSP_SD_WriteCpltCallback fired!\r\n");
 }
 
 /**
@@ -335,5 +337,6 @@ void BSP_SD_ReadCpltCallback(void)
    * is always called before any SD_Read()/SD_Write() call
    */
    osMessagePut(SDQueueID, READ_CPLT_MSG, osWaitForever);
+   printf("[ISR] BSP_SD_ReadCpltCallback fired!\r\n");
 }
 

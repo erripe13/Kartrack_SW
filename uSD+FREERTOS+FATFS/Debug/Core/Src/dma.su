@@ -1,1 +1,3 @@
-../Core/Src/dma.c:39:6:MX_DMA_Init	16	static
+../Core/Src/dma.c:34:6:SD_TxDMACallback	16	static
+../Core/Src/dma.c:40:6:SD_RxDMACallback	16	static
+../Core/Src/dma.c:57:6:MX_DMA_Init	16	static

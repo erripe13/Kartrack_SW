@@ -11,7 +11,7 @@ RM := rm -rf
 -include sources.mk
 -include Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/subdir.mk
 -include Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM7/r0p1/subdir.mk
--include Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/subdir.mk
+-include Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/subdir.mk
 -include Middlewares/Third_Party/FreeRTOS/Source/subdir.mk
 -include Middlewares/Third_Party/FatFs/src/option/subdir.mk
 -include Middlewares/Third_Party/FatFs/src/subdir.mk
@@ -42,34 +42,34 @@ $(wildcard ../makefile.init) \
 $(wildcard ../makefile.targets) \
 
 
-BUILD_ARTIFACT_NAME := uSD_full
+BUILD_ARTIFACT_NAME := uSD_dev
 BUILD_ARTIFACT_EXTENSION := elf
 BUILD_ARTIFACT_PREFIX :=
 BUILD_ARTIFACT := $(BUILD_ARTIFACT_PREFIX)$(BUILD_ARTIFACT_NAME)$(if $(BUILD_ARTIFACT_EXTENSION),.$(BUILD_ARTIFACT_EXTENSION),)
 
 # Add inputs and outputs from these tool invocations to the build variables 
 EXECUTABLES += \
-uSD_full.elf \
+uSD_dev.elf \
 
 MAP_FILES += \
-uSD_full.map \
+uSD_dev.map \
 
 SIZE_OUTPUT += \
 default.size.stdout \
 
 OBJDUMP_LIST += \
-uSD_full.list \
+uSD_dev.list \
 
 
 # All Target
 all: main-build
 
 # Main-build Target
-main-build: uSD_full.elf secondary-outputs
+main-build: uSD_dev.elf secondary-outputs
 
 # Tool invocations
-uSD_full.elf uSD_full.map: $(OBJS) $(USER_OBJS) C:\Users\pierremirouze\Documents\GitHub\Kartrack_SW\uSD+FREERTOS+FATFS\STM32F746NGHX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "uSD_full.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m7 -T"C:\Users\pierremirouze\Documents\GitHub\Kartrack_SW\uSD+FREERTOS+FATFS\STM32F746NGHX_FLASH.ld" --specs=nosys.specs -Wl,-Map="uSD_full.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+uSD_dev.elf uSD_dev.map: $(OBJS) $(USER_OBJS) C:\Users\pierremirouze\Documents\GitHub\Kartrack_SW\uSD+FREERTOS+FATFS\STM32F746NGHX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "uSD_dev.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m7 -T"C:\Users\pierremirouze\Documents\GitHub\Kartrack_SW\uSD+FREERTOS+FATFS\STM32F746NGHX_FLASH.ld" --specs=nosys.specs -Wl,-Map="uSD_dev.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -78,14 +78,14 @@ default.size.stdout: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
 	@echo 'Finished building: $@'
 	@echo ' '
 
-uSD_full.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "uSD_full.list"
+uSD_dev.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "uSD_dev.list"
 	@echo 'Finished building: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) default.size.stdout uSD_full.elf uSD_full.list uSD_full.map
+	-$(RM) default.size.stdout uSD_dev.elf uSD_dev.list uSD_dev.map
 	-@echo ' '
 
 secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST)
