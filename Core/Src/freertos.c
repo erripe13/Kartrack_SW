@@ -22,6 +22,13 @@
 #include "task.h"
 #include "main.h"
 #include "cmsis_os.h"
+#include "fatfs.h"
+#include "sdmmc.h"
+#include <stdio.h>
+#include <string.h>
+#include "ff_gen_drv.h"
+#include "sd_diskio.h"
+#include "stm32f7xx_hal.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -48,13 +55,27 @@
 /* USER CODE BEGIN Variables */
 LoRa myLoRa;
 
+/* Definitions for SD card semaphore */
+osSemaphoreId sdSemaphoreHandle;
+
+/* Private variables ---------------------------------------------------------*/
+static volatile DSTATUS Stat = STA_NOINIT;
+
 /* USER CODE END Variables */
 osThreadId defaultTaskHandle;
 osThreadId LoRa_initHandle;
+osThreadId SDCardTaskHandle;
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
-
+void SDCard_Task(void const * argument);
+DSTATUS SD_initialize(BYTE lun);
+DSTATUS SD_status(BYTE lun);
+DRESULT SD_read(BYTE lun, BYTE *buff, DWORD sector, UINT count);
+DRESULT SD_write(BYTE lun, const BYTE *buff, DWORD sector, UINT count);
+DRESULT SD_ioctl(BYTE lun, BYTE cmd, void *buff);
+void BSP_SD_ReadCpltCallback(void);
+void BSP_SD_WriteCpltCallback(void);
 /* USER CODE END FunctionPrototypes */
 
 void StartDefaultTask(void const * argument);
@@ -133,34 +154,37 @@ void MX_FREERTOS_Init(void) {
   /* USER CODE END Init */
 
   /* USER CODE BEGIN RTOS_MUTEX */
-	/* add mutexes, ... */
+  /* Add mutexes, ... */
   /* USER CODE END RTOS_MUTEX */
 
   /* USER CODE BEGIN RTOS_SEMAPHORES */
-	/* add semaphores, ... */
+  /* Add semaphores, ... */
   /* USER CODE END RTOS_SEMAPHORES */
 
   /* USER CODE BEGIN RTOS_TIMERS */
-	/* start timers, add new ones, ... */
+  /* Start timers, add new ones, ... */
   /* USER CODE END RTOS_TIMERS */
 
   /* USER CODE BEGIN RTOS_QUEUES */
-	/* add queues, ... */
+  /* Add queues, ... */
   /* USER CODE END RTOS_QUEUES */
 
   /* Create the thread(s) */
-  /* definition and creation of defaultTask */
+  /* Definition and creation of defaultTask */
   osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 4096);
   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
 
-  /* definition and creation of LoRa_init */
+  /* Definition and creation of LoRa_init */
   osThreadDef(LoRa_init, LoRa_init_Task, osPriorityNormal, 0, 128);
   LoRa_initHandle = osThreadCreate(osThread(LoRa_init), NULL);
 
-  /* USER CODE BEGIN RTOS_THREADS */
-	/* add threads, ... */
-  /* USER CODE END RTOS_THREADS */
+  /* Definition and creation of SDCardTask */
+  osThreadDef(SDCardTask, SDCard_Task, osPriorityNormal, 0, 512);
+  SDCardTaskHandle = osThreadCreate(osThread(SDCardTask), NULL);
 
+  /* USER CODE BEGIN RTOS_THREADS */
+  /* Add threads, ... */
+  /* USER CODE END RTOS_THREADS */
 }
 
 /* USER CODE BEGIN Header_StartDefaultTask */
@@ -223,6 +247,192 @@ void LoRa_init_Task(void const * argument)
 	}
   /* USER CODE END LoRa_init_Task */
 }
+
+/* USER CODE BEGIN Header_SDCard_Task */
+/**
+ * @brief Function implementing the SDCardTask thread.
+ * @param argument: Not used
+ * @retval None
+ */
+/* USER CODE END Header_SDCard_Task */
+void SDCard_Task(void const * argument)
+{
+  /* USER CODE BEGIN SDCard_Task */
+  FATFS fs;          // File system object
+  FIL file;          // File object
+  FRESULT res;       // FatFs function common result code
+  UINT bytesWritten; // Number of bytes written
+  UINT bytesRead;    // Number of bytes read
+  char buffer[100];  // Buffer for reading/writing
+  char *folderName = "KartData";
+  char *fileName = "KartData/log.txt";
+
+  // Mount the file system
+  res = f_mount(&fs, SDPath, 1);
+  if (res != FR_OK) {
+    printf("Error mounting SD card: %d\r\n", res);
+    vTaskDelete(NULL); // Exit the task if mounting fails
+  }
+  printf("SD card mounted successfully.\r\n");
+
+  // Create a folder
+  res = f_mkdir(folderName);
+  if (res == FR_OK) {
+    printf("Folder '%s' created successfully.\r\n", folderName);
+  } else if (res == FR_EXIST) {
+    printf("Folder '%s' already exists.\r\n", folderName);
+  } else {
+    printf("Error creating folder '%s': %d\r\n", folderName, res);
+  }
+
+  // Create and write to a file
+  res = f_open(&file, fileName, FA_WRITE | FA_CREATE_ALWAYS);
+  if (res == FR_OK) {
+    printf("File '%s' opened successfully.\r\n", fileName);
+
+    // Write data to the file
+    char *data = "Hello Kart! This is a test log.\r\n";
+    res = f_write(&file, data, strlen(data), &bytesWritten);
+    if (res == FR_OK) {
+      printf("Data written to file: %s\r\n", data);
+    } else {
+      printf("Error writing to file: %d\r\n", res);
+    }
+
+    // Close the file
+    f_close(&file);
+  } else {
+    printf("Error opening file '%s': %d\r\n", fileName, res);
+  }
+
+  // Read the file
+  res = f_open(&file, fileName, FA_READ);
+  if (res == FR_OK) {
+    printf("File '%s' opened for reading.\r\n", fileName);
+
+    // Read data from the file
+    res = f_read(&file, buffer, sizeof(buffer) - 1, &bytesRead);
+    if (res == FR_OK) {
+      buffer[bytesRead] = '\0'; // Null-terminate the string
+      printf("Data read from file:\r\n%s\r\n", buffer);
+    } else {
+      printf("Error reading from file: %d\r\n", res);
+    }
+
+    // Close the file
+    f_close(&file);
+  } else {
+    printf("Error opening file '%s' for reading: %d\r\n", fileName, res);
+  }
+
+  // Unmount the file system
+  f_mount(NULL, SDPath, 1);
+  printf("SD card unmounted.\r\n");
+
+  // End the task
+  vTaskDelete(NULL); // Correctly terminate the task
+  /* USER CODE END SDCard_Task */
+}
+
+/* USER CODE BEGIN SD_DRIVER */
+/* Diskio driver structure */
+const Diskio_drvTypeDef SD_Driver = {
+    SD_initialize,
+    SD_status,
+    SD_read,
+    SD_write,
+    SD_ioctl,
+};
+
+/* Semaphore for DMA completion */
+static osSemaphoreId sdDmaSemaphore;
+
+/* Initialize SD card */
+DSTATUS SD_initialize(BYTE lun) {
+    if (BSP_SD_Init() == MSD_OK) {
+        Stat &= ~STA_NOINIT;
+    } else {
+        Stat = STA_NOINIT;
+    }
+
+    /* Create semaphore for DMA completion */
+    if (sdDmaSemaphore == NULL) {
+        osSemaphoreDef(sdDmaSemaphore);
+        sdDmaSemaphore = osSemaphoreCreate(osSemaphore(sdDmaSemaphore), 1);
+        osSemaphoreWait(sdDmaSemaphore, 0); // Initialize to unavailable
+    }
+
+    return Stat;
+}
+
+/* Get SD card status */
+DSTATUS SD_status(BYTE lun) {
+    return Stat;
+}
+
+/* Read sectors using DMA */
+DRESULT SD_read(BYTE lun, BYTE *buff, DWORD sector, UINT count) {
+    if (BSP_SD_ReadBlocks_DMA((uint32_t *)buff, sector, count) == MSD_OK) {
+        /* Wait for DMA transfer to complete */
+        if (osSemaphoreWait(sdDmaSemaphore, 1000) == osOK) {
+            return RES_OK;
+        } else {
+            return RES_ERROR;
+        }
+    }
+    return RES_ERROR;
+}
+
+/* Write sectors using DMA */
+DRESULT SD_write(BYTE lun, const BYTE *buff, DWORD sector, UINT count) {
+    if (BSP_SD_WriteBlocks_DMA((uint32_t *)buff, sector, count) == MSD_OK) {
+        /* Wait for DMA transfer to complete */
+        if (osSemaphoreWait(sdDmaSemaphore, 1000) == osOK) {
+            return RES_OK;
+        } else {
+            return RES_ERROR;
+        }
+    }
+    return RES_ERROR;
+}
+
+/* IOCTL function for SD card */
+DRESULT SD_ioctl(BYTE lun, BYTE cmd, void *buff) {
+    BSP_SD_CardInfo CardInfo; // Déclarez une structure pour stocker les informations de la carte SD
+
+    switch (cmd) {
+        case CTRL_SYNC:
+            return RES_OK;
+
+        case GET_SECTOR_COUNT:
+            BSP_SD_GetCardInfo(&CardInfo); // Passez l'adresse de la structure
+            *(DWORD *)buff = CardInfo.LogBlockNbr; // Utilisez les informations de la structure
+            return RES_OK;
+
+        case GET_SECTOR_SIZE:
+            BSP_SD_GetCardInfo(&CardInfo); // Passez l'adresse de la structure
+            *(WORD *)buff = CardInfo.LogBlockSize; // Utilisez les informations de la structure
+            return RES_OK;
+
+        case GET_BLOCK_SIZE:
+            *(DWORD *)buff = 1; // Erase block size in units of sectors
+            return RES_OK;
+
+        default:
+            return RES_PARERR;
+    }
+}
+
+/* Callback for read completion */
+void BSP_SD_ReadCpltCallback(void) {
+    osSemaphoreRelease(sdDmaSemaphore);
+}
+
+/* Callback for write completion */
+void BSP_SD_WriteCpltCallback(void) {
+    osSemaphoreRelease(sdDmaSemaphore);
+}
+/* USER CODE END SD_DRIVER */
 
 /* Private application code --------------------------------------------------*/
 /* USER CODE BEGIN Application */
