@@ -140,7 +140,8 @@ int main(void)
   MX_USART6_UART_Init();
   MX_FATFS_Init();
   /* USER CODE BEGIN 2 */
-
+  printf("UART OK\r\n");
+  HAL_Delay(1000);
   /* USER CODE END 2 */
 
   /* Call init function for freertos objects (in cmsis_os2.c) */

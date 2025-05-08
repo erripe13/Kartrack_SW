@@ -73,7 +73,7 @@ void HAL_SD_MspInit(SD_HandleTypeDef* sdHandle)
     PC9     ------> SDMMC1_D1
     PC8     ------> SDMMC1_D0
     */
-    GPIO_InitStruct.Pin = SDMMC_CK_Pin|SDMMC_D3_Pin|SDMMC_D2_Pin|GPIO_PIN_9
+    GPIO_InitStruct.Pin = GPIO_PIN_12|GPIO_PIN_11|GPIO_PIN_10|GPIO_PIN_9
                           |GPIO_PIN_8;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
@@ -81,13 +81,16 @@ void HAL_SD_MspInit(SD_HandleTypeDef* sdHandle)
     GPIO_InitStruct.Alternate = GPIO_AF12_SDMMC1;
     HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
-    GPIO_InitStruct.Pin = SDMMC_CMD_Pin;
+    GPIO_InitStruct.Pin = GPIO_PIN_2;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
     GPIO_InitStruct.Alternate = GPIO_AF12_SDMMC1;
-    HAL_GPIO_Init(SDMMC_CMD_GPIO_Port, &GPIO_InitStruct);
+    HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 
+    /* SDMMC1 interrupt Init */
+    HAL_NVIC_SetPriority(SDMMC1_IRQn, 5, 0);
+    HAL_NVIC_EnableIRQ(SDMMC1_IRQn);
   /* USER CODE BEGIN SDMMC1_MspInit 1 */
 
   /* USER CODE END SDMMC1_MspInit 1 */
@@ -113,11 +116,13 @@ void HAL_SD_MspDeInit(SD_HandleTypeDef* sdHandle)
     PC9     ------> SDMMC1_D1
     PC8     ------> SDMMC1_D0
     */
-    HAL_GPIO_DeInit(GPIOC, SDMMC_CK_Pin|SDMMC_D3_Pin|SDMMC_D2_Pin|GPIO_PIN_9
+    HAL_GPIO_DeInit(GPIOC, GPIO_PIN_12|GPIO_PIN_11|GPIO_PIN_10|GPIO_PIN_9
                           |GPIO_PIN_8);
 
-    HAL_GPIO_DeInit(SDMMC_CMD_GPIO_Port, SDMMC_CMD_Pin);
+    HAL_GPIO_DeInit(GPIOD, GPIO_PIN_2);
 
+    /* SDMMC1 interrupt Deinit */
+    HAL_NVIC_DisableIRQ(SDMMC1_IRQn);
   /* USER CODE BEGIN SDMMC1_MspDeInit 1 */
 
   /* USER CODE END SDMMC1_MspDeInit 1 */
