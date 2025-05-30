@@ -139,8 +139,8 @@ void Error_Handler(void);
 #define DCMI_D5_GPIO_Port GPIOD
 #define FMC_D3_Pin GPIO_PIN_1
 #define FMC_D3_GPIO_Port GPIOD
-#define ARDUINO_D7_Pin GPIO_PIN_3
-#define ARDUINO_D7_GPIO_Port GPIOI
+#define LORA_DIO0_Pin GPIO_PIN_3
+#define LORA_DIO0_GPIO_Port GPIOI
 #define ARDUINO_D8_Pin GPIO_PIN_2
 #define ARDUINO_D8_GPIO_Port GPIOI
 #define OTG_FS_N_Pin GPIO_PIN_11

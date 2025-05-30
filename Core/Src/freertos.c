@@ -27,6 +27,7 @@
 /* USER CODE BEGIN Includes */
 #include "LoRa.h"
 #include "spi.h"
+#include <stdio.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -50,7 +51,11 @@ LoRa myLoRa;
 
 /* USER CODE END Variables */
 osThreadId defaultTaskHandle;
+uint32_t defaultTaskBuffer[ 128 ];
+osStaticThreadDef_t defaultTaskControlBlock;
 osThreadId LoRa_initHandle;
+uint32_t LoRa_initBuffer[ 1024 ];
+osStaticThreadDef_t LoRa_initControlBlock;
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
@@ -150,11 +155,11 @@ void MX_FREERTOS_Init(void) {
 
   /* Create the thread(s) */
   /* definition and creation of defaultTask */
-  osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 4096);
+  osThreadStaticDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 128, defaultTaskBuffer, &defaultTaskControlBlock);
   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
 
   /* definition and creation of LoRa_init */
-  osThreadDef(LoRa_init, LoRa_init_Task, osPriorityNormal, 0, 128);
+  osThreadStaticDef(LoRa_init, LoRa_init_Task, osPriorityHigh, 0, 1024, LoRa_initBuffer, &LoRa_initControlBlock);
   LoRa_initHandle = osThreadCreate(osThread(LoRa_init), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
@@ -201,13 +206,20 @@ void LoRa_init_Task(void const * argument)
 	myLoRa.DIO0_pin = GPIO_PIN_3;
 	myLoRa.hSPIx = &hspi2;
 
-	myLoRa.frequency = 434;
-	myLoRa.spredingFactor = SF_9;
-	myLoRa.bandWidth = BW_250KHz;
-	myLoRa.crcRate = CR_4_8;
-	myLoRa.power = POWER_17db;
-	myLoRa.overCurrentProtection = 130;
-	myLoRa.preamble = 10;
+//	myLoRa.frequency = 433;
+//	myLoRa.spredingFactor = SF_9;
+//	myLoRa.bandWidth = BW_250KHz;
+//	myLoRa.crcRate = CR_4_8;
+//	myLoRa.power = POWER_11db;
+//	myLoRa.overCurrentProtection = 130;
+//	myLoRa.preamble = 10;
+	myLoRa.frequency = 433;
+	myLoRa.spredingFactor = SF_7;
+	myLoRa.bandWidth = BW_125KHz;
+	myLoRa.crcRate = CR_4_5;
+	myLoRa.preamble = 8;
+	myLoRa.power = POWER_11db;
+
 
 	uint16_t status = LoRa_init(&myLoRa);
 
@@ -215,11 +227,19 @@ void LoRa_init_Task(void const * argument)
 		//debug uart error message
 		printf("LoRa crashed with output : %d\n", status);
 	}
+	else {
+	    printf("LoRa OK ! RegVersion = 0x12 détected\n");
+	}
 	char *send_data = "Hello Kart !";
 	/* Infinite loop */
 	for (;;) {
-		LoRa_transmit(&myLoRa, (uint8_t*)send_data, sizeof(send_data), 100);
-		osDelay(1000);
+		uint8_t ok = LoRa_transmit(&myLoRa, (uint8_t*)send_data, sizeof("Hello Kart !"), 100);
+		if (ok) {
+		    printf("LoRa sent : %s\n", send_data);
+		} else {
+		    printf("LoRa timeout !\n");
+		}
+		osDelay(2000);
 	}
   /* USER CODE END LoRa_init_Task */
 }
