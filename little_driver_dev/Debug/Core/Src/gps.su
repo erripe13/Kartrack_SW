@@ -1,0 +1,12 @@
+../Core/Src/gps.c:37:6:L76_Init	16	static
+../Core/Src/gps.c:64:6:L76_Task	16	static
+../Core/Src/gps.c:86:6:L76_GetData	24	static
+../Core/Src/gps.c:93:6:L76_SetStandby	24	static
+../Core/Src/gps.c:110:6:L76_PrintExample	464	static
+../Core/Src/gps.c:153:6:HAL_UART_RxCpltCallback	24	static,ignoring_inline_asm
+../Core/Src/gps.c:210:13:L76_ProcessNMEA	24	static
+../Core/Src/gps.c:235:13:L76_ParseGGA	40	static
+../Core/Src/gps.c:285:13:L76_ParseRMC	40	static
+../Core/Src/gps.c:339:15:L76_ConvertNMEADegrees	64	static
+../Core/Src/gps.c:359:13:L76_ParseTime	48	static
+../Core/Src/gps.c:398:13:L76_ParseDate	32	static
