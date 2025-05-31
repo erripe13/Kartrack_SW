@@ -34,6 +34,8 @@
 
 /** Configure pins
      PB5   ------> USB_OTG_HS_ULPI_D7
+     PI1   ------> SPI2_SCK
+     PI0   ------> SPI2_NSS
      PH4   ------> USB_OTG_HS_ULPI_NXT
      PB13   ------> USB_OTG_HS_ULPI_D6
      PB12   ------> USB_OTG_HS_ULPI_D5
@@ -45,6 +47,8 @@
      PB1   ------> USB_OTG_HS_ULPI_D2
      PB0   ------> USB_OTG_HS_ULPI_D1
      PB11   ------> USB_OTG_HS_ULPI_D4
+     PB14   ------> SPI2_MISO
+     PB15   ------> SPI2_MOSI
 */
 void MX_GPIO_Init(void)
 {
@@ -152,6 +156,14 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOH, &GPIO_InitStruct);
 
+  /*Configure GPIO pins : LORA_SCK_Pin LORA_NSS_Pin */
+  GPIO_InitStruct.Pin = LORA_SCK_Pin|LORA_NSS_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+  GPIO_InitStruct.Alternate = GPIO_AF5_SPI2;
+  HAL_GPIO_Init(GPIOI, &GPIO_InitStruct);
+
   /*Configure GPIO pin : DCMI_PWR_EN_Pin */
   GPIO_InitStruct.Pin = DCMI_PWR_EN_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
@@ -220,6 +232,14 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
   GPIO_InitStruct.Alternate = GPIO_AF10_OTG_HS;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : LORA_MISO_Pin LORA_MOSI_Pin */
+  GPIO_InitStruct.Pin = LORA_MISO_Pin|LORA_MOSI_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+  GPIO_InitStruct.Alternate = GPIO_AF5_SPI2;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
 }
 
