@@ -244,7 +244,7 @@ static void L76_ProcessNMEA(char *nmea) {
 	} else if (strncmp(nmea, "$GPGSV", 6) == 0
 			|| strncmp(nmea, "$GLGSV", 6) == 0) {
 		// Display raw GSV line
-		printf("[RAW GSV] %s\r\n", nmea);
+		//printf("[RAW GSV] %s\r\n", nmea);
 
 		// Basic parsing to count satellites and max SNR
 		char *token;
