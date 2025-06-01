@@ -10,6 +10,7 @@
 /* ========= Static Variables (Module Scope) ========= */
 extern UART_HandleTypeDef huart1;
 extern UART_HandleTypeDef huart6;
+
 /* UART handle for the GPS module (set during initialization) */
 static UART_HandleTypeDef *l76_huart = NULL;
 /* Binary semaphore to signal line reception to the task */

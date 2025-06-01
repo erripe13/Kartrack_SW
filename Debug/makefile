@@ -42,34 +42,34 @@ $(wildcard ../makefile.init) \
 $(wildcard ../makefile.targets) \
 
 
-BUILD_ARTIFACT_NAME := little_driver_dev
+BUILD_ARTIFACT_NAME := LoRa+GPS
 BUILD_ARTIFACT_EXTENSION := elf
 BUILD_ARTIFACT_PREFIX :=
 BUILD_ARTIFACT := $(BUILD_ARTIFACT_PREFIX)$(BUILD_ARTIFACT_NAME)$(if $(BUILD_ARTIFACT_EXTENSION),.$(BUILD_ARTIFACT_EXTENSION),)
 
 # Add inputs and outputs from these tool invocations to the build variables 
 EXECUTABLES += \
-little_driver_dev.elf \
+LoRa+GPS.elf \
 
 MAP_FILES += \
-little_driver_dev.map \
+LoRa+GPS.map \
 
 SIZE_OUTPUT += \
 default.size.stdout \
 
 OBJDUMP_LIST += \
-little_driver_dev.list \
+LoRa+GPS.list \
 
 
 # All Target
 all: main-build
 
 # Main-build Target
-main-build: little_driver_dev.elf secondary-outputs
+main-build: LoRa+GPS.elf secondary-outputs
 
 # Tool invocations
-little_driver_dev.elf little_driver_dev.map: $(OBJS) $(USER_OBJS) C:\Users\pierremirouze\Documents\GitHub\Kartrack_SW\STM32F746NGHX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "little_driver_dev.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m7 -T"C:\Users\pierremirouze\Documents\GitHub\Kartrack_SW\STM32F746NGHX_FLASH.ld" --specs=nosys.specs -Wl,-Map="little_driver_dev.map" -Wl,--gc-sections -static -u _printf_float --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+LoRa+GPS.elf LoRa+GPS.map: $(OBJS) $(USER_OBJS) C:\Users\pierremirouze\Documents\GitHub\Kartrack_SW\STM32F746NGHX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "LoRa+GPS.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m7 -T"C:\Users\pierremirouze\Documents\GitHub\Kartrack_SW\STM32F746NGHX_FLASH.ld" --specs=nosys.specs -Wl,-Map="LoRa+GPS.map" -Wl,--gc-sections -static -u _printf_float --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -78,14 +78,14 @@ default.size.stdout: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
 	@echo 'Finished building: $@'
 	@echo ' '
 
-little_driver_dev.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "little_driver_dev.list"
+LoRa+GPS.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "LoRa+GPS.list"
 	@echo 'Finished building: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) default.size.stdout little_driver_dev.elf little_driver_dev.list little_driver_dev.map
+	-$(RM) LoRa+GPS.elf LoRa+GPS.list LoRa+GPS.map default.size.stdout
 	-@echo ' '
 
 secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST)

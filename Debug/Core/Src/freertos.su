@@ -1,3 +1,7 @@
-../Core/Src/freertos.c:70:6:vApplicationGetIdleTaskMemory	24	static
-../Core/Src/freertos.c:84:6:MX_FREERTOS_Init	72	static
-../Core/Src/freertos.c:131:6:StartDefaultTask	16	static
+../Core/Src/freertos.c:84:13:vApplicationIdleHook	4	static
+../Core/Src/freertos.c:98:13:vApplicationStackOverflowHook	16	static
+../Core/Src/freertos.c:107:13:vApplicationMallocFailedHook	4	static
+../Core/Src/freertos.c:125:6:vApplicationGetIdleTaskMemory	24	static
+../Core/Src/freertos.c:139:6:MX_FREERTOS_Init	112	static
+../Core/Src/freertos.c:200:6:StartDefaultTask	16	static
+../Core/Src/freertos.c:218:6:LoRa_init_Task	88	static

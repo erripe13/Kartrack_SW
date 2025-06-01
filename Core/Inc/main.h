@@ -171,8 +171,8 @@ void Error_Handler(void);
 #define SDMMC_CMD_GPIO_Port GPIOD
 #define TP3_Pin GPIO_PIN_15
 #define TP3_GPIO_Port GPIOH
-#define ARDUINO_SCK_D13_Pin GPIO_PIN_1
-#define ARDUINO_SCK_D13_GPIO_Port GPIOI
+#define LORA_SCK_Pin GPIO_PIN_1
+#define LORA_SCK_GPIO_Port GPIOI
 #define OTG_FS_ID_Pin GPIO_PIN_10
 #define OTG_FS_ID_GPIO_Port GPIOA
 #define RCC_OSC32_IN_Pin GPIO_PIN_14
@@ -187,8 +187,8 @@ void Error_Handler(void);
 #define DCMI_PWR_EN_GPIO_Port GPIOH
 #define DCMI_D4_Pin GPIO_PIN_14
 #define DCMI_D4_GPIO_Port GPIOH
-#define ARDUINO_PWM_CS_D5_Pin GPIO_PIN_0
-#define ARDUINO_PWM_CS_D5_GPIO_Port GPIOI
+#define LORA_NSS_Pin GPIO_PIN_0
+#define LORA_NSS_GPIO_Port GPIOI
 #define VCP_TX_Pin GPIO_PIN_9
 #define VCP_TX_GPIO_Port GPIOA
 #define RCC_OSC32_OUT_Pin GPIO_PIN_15
@@ -257,12 +257,12 @@ void Error_Handler(void);
 #define ULPI_D6_GPIO_Port GPIOB
 #define FMC_D15_Pin GPIO_PIN_10
 #define FMC_D15_GPIO_Port GPIOD
-#define ARDUINO_A1_Pin GPIO_PIN_10
-#define ARDUINO_A1_GPIO_Port GPIOF
-#define ARDUINO_A2_Pin GPIO_PIN_9
-#define ARDUINO_A2_GPIO_Port GPIOF
-#define ARDUINO_A3_Pin GPIO_PIN_8
-#define ARDUINO_A3_GPIO_Port GPIOF
+#define BTN2_Pin GPIO_PIN_10
+#define BTN2_GPIO_Port GPIOF
+#define BTN3_Pin GPIO_PIN_9
+#define BTN3_GPIO_Port GPIOF
+#define LORA_RESET_Pin GPIO_PIN_8
+#define LORA_RESET_GPIO_Port GPIOF
 #define FMC_SDCKE0_Pin GPIO_PIN_3
 #define FMC_SDCKE0_GPIO_Port GPIOC
 #define FMC_D0_Pin GPIO_PIN_14
@@ -301,8 +301,8 @@ void Error_Handler(void);
 #define DCMI_D3_GPIO_Port GPIOH
 #define RMII_REF_CLK_Pin GPIO_PIN_1
 #define RMII_REF_CLK_GPIO_Port GPIOA
-#define ARDUINO_A0_Pin GPIO_PIN_0
-#define ARDUINO_A0_GPIO_Port GPIOA
+#define BTN1_Pin GPIO_PIN_0
+#define BTN1_GPIO_Port GPIOA
 #define DCMI_HSYNC_Pin GPIO_PIN_4
 #define DCMI_HSYNC_GPIO_Port GPIOA
 #define RMII_RXD0_Pin GPIO_PIN_4
@@ -377,10 +377,10 @@ void Error_Handler(void);
 #define FMC_D10_GPIO_Port GPIOE
 #define ULPI_D4_Pin GPIO_PIN_11
 #define ULPI_D4_GPIO_Port GPIOB
-#define ARDUINO_MISO_D12_Pin GPIO_PIN_14
-#define ARDUINO_MISO_D12_GPIO_Port GPIOB
-#define ARDUINO_MOSI_PWM_D11_Pin GPIO_PIN_15
-#define ARDUINO_MOSI_PWM_D11_GPIO_Port GPIOB
+#define LORA_MISO_Pin GPIO_PIN_14
+#define LORA_MISO_GPIO_Port GPIOB
+#define LORA_MOSI_Pin GPIO_PIN_15
+#define LORA_MOSI_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
 
