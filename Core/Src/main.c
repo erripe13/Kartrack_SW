@@ -41,7 +41,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "gyro.h"
+#include "inv_imu_driver.h"
 #include <stdio.h>
 /* USER CODE END Includes */
 

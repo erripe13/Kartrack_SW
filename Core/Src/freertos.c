@@ -2,54 +2,23 @@
 /**
  ******************************************************************************
  * File Name          : freertos.c
- * Description        : Code for freertos applications
- ******************************************************************************
- * @attention
- *
- * Copyright (c) 2025 STMicroelectronics.
- * All rights reserved.
- *
- * This software is licensed under terms that can be found in the LICENSE file
- * in the root directory of this software component.
- * If no LICENSE file comes with this software, it is provided AS-IS.
- *
+ * Description        : Code for freertos applications using I2C and TDK driver
  ******************************************************************************
  */
 /* USER CODE END Header */
 
-/* Includes ------------------------------------------------------------------*/
 #include "FreeRTOS.h"
 #include "task.h"
 #include "main.h"
 #include "cmsis_os.h"
 
 /* Private includes ----------------------------------------------------------*/
-/* USER CODE BEGIN Includes */
-#include "spi.h"
-#include "gyro.h"
+#include "i2c.h"
+#include "inv_imu_driver.h"
 #include <stdio.h>
-/* USER CODE END Includes */
 
-/* Private typedef -----------------------------------------------------------*/
-typedef StaticTask_t osStaticThreadDef_t;
-/* USER CODE BEGIN PTD */
 
-/* USER CODE END PTD */
 
-/* Private define ------------------------------------------------------------*/
-/* USER CODE BEGIN PD */
-
-/* USER CODE END PD */
-
-/* Private macro -------------------------------------------------------------*/
-/* USER CODE BEGIN PM */
-
-/* USER CODE END PM */
-
-/* Private variables ---------------------------------------------------------*/
-/* USER CODE BEGIN Variables */
-
-/* USER CODE END Variables */
 /* Definitions for defaultTask */
 osThreadId_t defaultTaskHandle;
 const osThreadAttr_t defaultTask_attributes = {
@@ -57,10 +26,14 @@ const osThreadAttr_t defaultTask_attributes = {
   .stack_size = 4096 * 4,
   .priority = (osPriority_t) osPriorityNormal,
 };
+
+void StartDefaultTask(void *argument);
+void StartTask02(void *argument);
+
 /* Definitions for ICM45605_TASK */
 osThreadId_t ICM45605_TASKHandle;
-uint32_t ICM45605_TASKBuffer[ 4096 ];
-osStaticThreadDef_t ICM45605_TASKControlBlock;
+uint32_t ICM45605_TASKBuffer[4096];
+StaticTask_t ICM45605_TASKControlBlock;
 const osThreadAttr_t ICM45605_TASK_attributes = {
   .name = "ICM45605_TASK",
   .cb_mem = &ICM45605_TASKControlBlock,
@@ -70,210 +43,81 @@ const osThreadAttr_t ICM45605_TASK_attributes = {
   .priority = (osPriority_t) osPriorityNormal,
 };
 
-/* Private function prototypes -----------------------------------------------*/
-/* USER CODE BEGIN FunctionPrototypes */
+/* TDK Driver Instance */
+static inv_imu_device_t imu_dev;
 
-/* USER CODE END FunctionPrototypes */
+/* I2C read/write/delay hooks */
 
-void StartDefaultTask(void *argument);
-void StartTask02(void *argument);
 
-extern void MX_USB_HOST_Init(void);
-void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
-/* Hook prototypes */
-void vApplicationIdleHook(void);
-void vApplicationStackOverflowHook(xTaskHandle xTask, signed char *pcTaskName);
-void vApplicationMallocFailedHook(void);
-
-/* USER CODE BEGIN 2 */
-__weak void vApplicationIdleHook(void) {
-	/* vApplicationIdleHook() will only be called if configUSE_IDLE_HOOK is set
-	 to 1 in FreeRTOSConfig.h. It will be called on each iteration of the idle
-	 task. It is essential that code added to this hook function never attempts
-	 to block in any way (for example, call xQueueReceive() with a block time
-	 specified, or call vTaskDelay()). If the application makes use of the
-	 vTaskDelete() API function (as this demo application does) then it is also
-	 important that vApplicationIdleHook() is permitted to return to its calling
-	 function, because it is the responsibility of the idle task to clean up
-	 memory allocated by the kernel to any task that has since been deleted. */
+static int stm32_i2c_read(uint8_t reg, uint8_t *buf, uint32_t len) {
+    return (HAL_I2C_Mem_Read(&hi2c1, (0x68 << 1), reg, I2C_MEMADD_SIZE_8BIT, buf, len, HAL_MAX_DELAY) == HAL_OK) ? 0 : -1;
 }
-/* USER CODE END 2 */
 
-/* USER CODE BEGIN 4 */
-__weak void vApplicationStackOverflowHook(xTaskHandle xTask,
-		signed char *pcTaskName) {
-	/* Run time stack overflow checking is performed if
-	 configCHECK_FOR_STACK_OVERFLOW is defined to 1 or 2. This hook function is
-	 called if a stack overflow is detected. */
+static int stm32_i2c_write(uint8_t reg, const uint8_t *buf, uint32_t len) {
+    return (HAL_I2C_Mem_Write(&hi2c1, (0x68 << 1), reg, I2C_MEMADD_SIZE_8BIT, (uint8_t *)buf, len, HAL_MAX_DELAY) == HAL_OK) ? 0 : -1;
 }
-/* USER CODE END 4 */
 
-/* USER CODE BEGIN 5 */
-__weak void vApplicationMallocFailedHook(void) {
-	/* vApplicationMallocFailedHook() will only be called if
-	 configUSE_MALLOC_FAILED_HOOK is set to 1 in FreeRTOSConfig.h. It is a hook
-	 function that will get called if a call to pvPortMalloc() fails.
-	 pvPortMalloc() is called internally by the kernel whenever a task, queue,
-	 timer or semaphore is created. It is also called by various parts of the
-	 demo application. If heap_1.c or heap_2.c are used, then the size of the
-	 heap available to pvPortMalloc() is defined by configTOTAL_HEAP_SIZE in
-	 FreeRTOSConfig.h, and the xPortGetFreeHeapSize() API function can be used
-	 to query the size of free heap space that remains (although it does not
-	 provide information on how the remaining heap might be fragmented). */
+static void stm32_delay_us(uint32_t us) {
+    uint32_t start = DWT->CYCCNT;
+    uint32_t cycles = us * (HAL_RCC_GetHCLKFreq() / 1000000);
+    while ((DWT->CYCCNT - start) < cycles);
 }
-/* USER CODE END 5 */
 
-/**
-  * @brief  FreeRTOS initialization
-  * @param  None
-  * @retval None
-  */
+/* Init FreeRTOS objects */
 void MX_FREERTOS_Init(void) {
-  /* USER CODE BEGIN Init */
-
-  /* USER CODE END Init */
-
-  /* USER CODE BEGIN RTOS_MUTEX */
-	/* add mutexes, ... */
-  /* USER CODE END RTOS_MUTEX */
-
-  /* USER CODE BEGIN RTOS_SEMAPHORES */
-	/* add semaphores, ... */
-  /* USER CODE END RTOS_SEMAPHORES */
-
-  /* USER CODE BEGIN RTOS_TIMERS */
-	/* start timers, add new ones, ... */
-  /* USER CODE END RTOS_TIMERS */
-
-  /* USER CODE BEGIN RTOS_QUEUES */
-	/* add queues, ... */
-  /* USER CODE END RTOS_QUEUES */
-
-  /* Create the thread(s) */
-  /* creation of defaultTask */
   defaultTaskHandle = osThreadNew(StartDefaultTask, NULL, &defaultTask_attributes);
-
-  /* creation of ICM45605_TASK */
   ICM45605_TASKHandle = osThreadNew(StartTask02, NULL, &ICM45605_TASK_attributes);
-
-  /* USER CODE BEGIN RTOS_THREADS */
-	/* add threads, ... */
-  /* USER CODE END RTOS_THREADS */
-
-  /* USER CODE BEGIN RTOS_EVENTS */
-  /* add events, ... */
-  /* USER CODE END RTOS_EVENTS */
-
 }
 
-/* USER CODE BEGIN Header_StartDefaultTask */
-/**
- * @brief  Function implementing the defaultTask thread.
- * @param  argument: Not used
- * @retval None
- */
-/* USER CODE END Header_StartDefaultTask */
-void StartDefaultTask(void *argument)
-{
-  /* init code for USB_HOST */
-  MX_USB_HOST_Init();
-  /* USER CODE BEGIN StartDefaultTask */
-	/* Infinite loop */
-	for (;;) {
-		osDelay(1);
-	}
-  /* USER CODE END StartDefaultTask */
+void StartDefaultTask(void *argument) {
+  for (;;) {
+    osDelay(1);
+  }
 }
 
-/* USER CODE BEGIN Header_StartTask02 */
-/**
-* @brief Function implementing the ICM45605_TASK thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_StartTask02 */
-void StartTask02(void *argument)
-{
-  /* USER CODE BEGIN StartTask02 */
-  HAL_StatusTypeDef status;
-  ICM45605_Accel_t accel;
-  ICM45605_Gyro_t gyro;
-  ICM45605_Gyro_t gyro_offset; // For storing calibration values
+void StartTask02(void *argument) {
+  inv_imu_sensor_data_t data;
+  uint8_t whoami;
   uint32_t counter = 0;
-  
-  // Wait for system stabilization before initializing the sensor
+
   osDelay(500);
-  
-  printf("Initializing ICM45605 sensor...\r\n");
-  
-  // Initialize the ICM45605 sensor
-  status = ICM45605_Init();
-  if (status != HAL_OK) {
-    printf("Error initializing ICM45605 sensor (code: %d)\r\n", status);
+
+  printf("Initializing ICM45605 via TDK I2C driver...\r\n");
+
+  imu_dev.transport.read_reg  = stm32_i2c_read;
+  imu_dev.transport.write_reg = stm32_i2c_write;
+  imu_dev.transport.sleep_us  = stm32_delay_us;
+  imu_dev.transport.serif_type = UI_I2C;
+
+  if (inv_imu_get_who_am_i(&imu_dev, &whoami) != 0 || whoami != 0xE5) {
+    printf("WHO_AM_I failed or incorrect: 0x%02X\r\n", whoami);
     osThreadExit();
   }
-  
-  printf("ICM45605 sensor initialized successfully!\r\n");
-  
-  // Configure high-performance mode for kart tracking
-  printf("Configuring kart tracking mode (high speed)...\r\n");
-  status = ICM45605_ConfigureKartTrackingMode();
-  if (status != HAL_OK) {
-    printf("Error configuring fast mode (code: %d)\r\n", status);
-    osThreadExit();
-  }
-  
-  // Calibrate the gyroscope (remove bias)
-  printf("Calibrating gyroscope, please keep the device still...\r\n");
-  status = ICM45605_CalibrateGyro(&gyro_offset, 100); // 100 samples for calibration
-  if (status != HAL_OK) {
-    printf("Error during gyroscope calibration (code: %d)\r\n", status);
-    // Continue anyway, just with no calibration
-  } else {
-    printf("Gyro calibration complete. Offset X: %d, Y: %d, Z: %d\r\n", 
-           gyro_offset.x, gyro_offset.y, gyro_offset.z);
-  }
-  
-  printf("High-speed mode active (6400Hz sampling)\r\n");
-  printf("----------------------------------\r\n");
-  
-  /* Infinite loop */
-  for(;;)
-  {
-    // Read both accelerometer and gyroscope data in a single burst (faster)
-    if (ICM45605_ReadMotionData(&accel, &gyro) == HAL_OK) {
-      // Apply calibration values to the gyro readings
-      gyro.x -= gyro_offset.x;
-      gyro.y -= gyro_offset.y;
-      gyro.z -= gyro_offset.z;
-      
-      // Only print every 50 readings to avoid flooding the console
-      // but still process data at high speed
+
+  printf("WHO_AM_I: 0x%02X OK\r\n", whoami);
+  inv_imu_soft_reset(&imu_dev);
+
+  inv_imu_set_accel_mode(&imu_dev, PWR_MGMT0_ACCEL_MODE_LN);
+  inv_imu_set_gyro_mode(&imu_dev, PWR_MGMT0_GYRO_MODE_LN);
+  inv_imu_set_accel_frequency(&imu_dev, ACCEL_CONFIG0_ACCEL_ODR_200_HZ);
+  inv_imu_set_gyro_frequency(&imu_dev, GYRO_CONFIG0_GYRO_ODR_200_HZ);
+
+  inv_imu_set_accel_fsr(&imu_dev, ACCEL_CONFIG0_ACCEL_UI_FS_SEL_16_G);
+  inv_imu_set_gyro_fsr(&imu_dev, GYRO_CONFIG0_GYRO_UI_FS_SEL_2000_DPS);
+  printf("ICM45605 ready, streaming data...\r\n");
+
+  for (;;) {
+    if (inv_imu_get_register_data(&imu_dev, &data) == 0) {
       if (counter % 50 == 0) {
-        printf("Accel X: %6d, Y: %6d, Z: %6d\r\n", accel.x, accel.y, accel.z);
-        printf("Gyro  X: %6d, Y: %6d, Z: %6d\r\n", gyro.x, gyro.y, gyro.z);
+        printf("Accel X: %6d, Y: %6d, Z: %6d\r\n", data.accel_data[0], data.accel_data[1], data.accel_data[2]);
+        printf("Gyro  X: %6d, Y: %6d, Z: %6d\r\n", data.gyro_data[0], data.gyro_data[1], data.gyro_data[2]);
         printf("----------------------------------\r\n");
       }
-      
-      // Process the high-speed data here
-      // Example: Detect rapid changes, calculate orientation, etc.
-      
       counter++;
     } else {
-      printf("Error reading motion data\r\n");
+      printf("Failed to read sensor data\r\n");
     }
-    
-    // Very short delay to maximize sampling rate while still allowing other tasks to run
-    // 5ms gives approximately 200Hz output rate, which is fast enough for most applications
-    // while allowing FreeRTOS to schedule other tasks
-    osDelay(500);
+    osDelay(5);
   }
-  /* USER CODE END StartTask02 */
 }
-
-/* Private application code --------------------------------------------------*/
-/* USER CODE BEGIN Application */
-
-/* USER CODE END Application */
-
