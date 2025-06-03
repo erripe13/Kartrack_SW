@@ -4274,9 +4274,9 @@ void LoRa_init_Task(void const * argument)
  8002192:	4b1c      	ldr	r3, [pc, #112]	@ (8002204 <LoRa_init_Task+0xe4>)
  8002194:	2208      	movs	r2, #8
  8002196:	851a      	strh	r2, [r3, #40]	@ 0x28
-	myLoRa.power = POWER_11db;
+	myLoRa.power = POWER_20db;
  8002198:	4b1a      	ldr	r3, [pc, #104]	@ (8002204 <LoRa_init_Task+0xe4>)
- 800219a:	22f6      	movs	r2, #246	@ 0xf6
+ 800219a:	22ff      	movs	r2, #255	@ 0xff
  800219c:	f883 202a 	strb.w	r2, [r3, #42]	@ 0x2a
 
 	uint16_t status = LoRa_init(&myLoRa);

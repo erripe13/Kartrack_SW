@@ -239,7 +239,7 @@ void LoRa_init_Task(void const * argument)
 	myLoRa.bandWidth = BW_125KHz;
 	myLoRa.crcRate = CR_4_5;
 	myLoRa.preamble = 8;
-	myLoRa.power = POWER_11db;
+	myLoRa.power = POWER_20db;
 
 	uint16_t status = LoRa_init(&myLoRa);
 

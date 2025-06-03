@@ -1,0 +1,16 @@
+../Core/Src/gyro.c:27:19:ICM45605_WriteRegister	1
+../Core/Src/gyro.c:33:19:ICM45605_ReadRegister	1
+../Core/Src/gyro.c:39:19:ICM45605_ReadRegisters	1
+../Core/Src/gyro.c:45:19:ICM45605_WriteIndirect	3
+../Core/Src/gyro.c:62:19:ICM45605_Init	9
+../Core/Src/gyro.c:116:19:ICM45605_ConfigureFastMode	6
+../Core/Src/gyro.c:143:19:ICM45605_ConfigureKartTrackingMode	9
+../Core/Src/gyro.c:187:19:ICM45605_CalibrateGyro	3
+../Core/Src/gyro.c:216:19:ICM45605_ReadGyroCompensated	3
+../Core/Src/gyro.c:233:19:ICM45605_ReadMotionData	2
+../Core/Src/gyro.c:255:19:ICM45605_ReadAccel	2
+../Core/Src/gyro.c:271:19:ICM45605_ReadGyro	2
+../Core/Src/gyro.c:287:19:ICM45605_ReadTemp	2
+../Core/Src/gyro.c:303:19:ICM45605_SetAccelRange	2
+../Core/Src/gyro.c:310:19:ICM45605_SetGyroRange	2
+../Core/Src/gyro.c:317:6:ICM45605_Test	4
