@@ -25,9 +25,9 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "LoRa.h"
 #include "spi.h"
 #include "gyro.h"
+#include <stdio.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -48,7 +48,6 @@ typedef StaticTask_t osStaticThreadDef_t;
 
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN Variables */
-LoRa myLoRa;
 
 /* USER CODE END Variables */
 /* Definitions for defaultTask */
@@ -60,7 +59,7 @@ const osThreadAttr_t defaultTask_attributes = {
 };
 /* Definitions for ICM45605_TASK */
 osThreadId_t ICM45605_TASKHandle;
-uint32_t ICM45605_TASKBuffer[ 256 ];
+uint32_t ICM45605_TASKBuffer[ 4096 ];
 osStaticThreadDef_t ICM45605_TASKControlBlock;
 const osThreadAttr_t ICM45605_TASK_attributes = {
   .name = "ICM45605_TASK",
@@ -268,7 +267,7 @@ void StartTask02(void *argument)
     // Very short delay to maximize sampling rate while still allowing other tasks to run
     // 5ms gives approximately 200Hz output rate, which is fast enough for most applications
     // while allowing FreeRTOS to schedule other tasks
-    osDelay(5);
+    osDelay(500);
   }
   /* USER CODE END StartTask02 */
 }

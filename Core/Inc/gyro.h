@@ -30,7 +30,7 @@
 
 // Registres ICM45605
 #define ICM45605_WHO_AM_I         0x72
-#define ICM45605_DEVICE_ID        0x68  // Valeur attendue dans WHO_AM_I
+#define ICM45605_DEVICE_ID        0xE5  // Valeur attendue dans WHO_AM_I
 
 #define ICM45605_REG_SMPLRT_DIV   0x19
 #define ICM45605_REG_CONFIG       0x1A
@@ -124,6 +124,10 @@ HAL_StatusTypeDef ICM45605_SetAccelRange(uint8_t range);
 HAL_StatusTypeDef ICM45605_SetGyroRange(uint8_t range);
 HAL_StatusTypeDef ICM45605_WriteIndirect(uint16_t reg, uint8_t data);
 HAL_StatusTypeDef ICM45605_ConfigureFastMode(void);
+HAL_StatusTypeDef ICM45605_ConfigureKartTrackingMode(void);
+HAL_StatusTypeDef ICM45605_CalibrateGyro(ICM45605_Gyro_t *gyro_offset, uint16_t samples);
+HAL_StatusTypeDef ICM45605_ReadMotionData(ICM45605_Accel_t *accel, ICM45605_Gyro_t *gyro);
+
 void ICM45605_Test(void);
 
 #endif // GYRO_H
