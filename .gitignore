@@ -1,2 +1,5 @@
 /little_driver_dev/.settings
 /.settings
+/Debug
+/Debug
+*.cyclo

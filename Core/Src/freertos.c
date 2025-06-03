@@ -54,10 +54,10 @@ LoRa myLoRa;
 osThreadId gpsTaskHandle;
 /* USER CODE END Variables */
 osThreadId defaultTaskHandle;
-uint32_t defaultTaskBuffer[ 1024 ];
+uint32_t defaultTaskBuffer[1024];
 osStaticThreadDef_t defaultTaskControlBlock;
 osThreadId LoRa_initHandle;
-uint32_t LoRa_initBuffer[ 1024 ];
+uint32_t LoRa_initBuffer[1024];
 osStaticThreadDef_t LoRa_initControlBlock;
 osMutexId printf_mutexHandle;
 osStaticMutexDef_t printf_mutexControlBlock;
@@ -67,13 +67,14 @@ osStaticMutexDef_t printf_mutexControlBlock;
 
 /* USER CODE END FunctionPrototypes */
 
-void StartDefaultTask(void const * argument);
-void LoRa_init_Task(void const * argument);
+void StartDefaultTask(void const *argument);
+void LoRa_init_Task(void const *argument);
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
 /* GetIdleTaskMemory prototype (linked to static allocation support) */
-void vApplicationGetIdleTaskMemory( StaticTask_t **ppxIdleTaskTCBBuffer, StackType_t **ppxIdleTaskStackBuffer, uint32_t *pulIdleTaskStackSize );
+void vApplicationGetIdleTaskMemory(StaticTask_t **ppxIdleTaskTCBBuffer,
+		StackType_t **ppxIdleTaskStackBuffer, uint32_t *pulIdleTaskStackSize);
 
 /* Hook prototypes */
 void vApplicationIdleHook(void);
@@ -132,45 +133,47 @@ void vApplicationGetIdleTaskMemory(StaticTask_t **ppxIdleTaskTCBBuffer,
 /* USER CODE END GET_IDLE_TASK_MEMORY */
 
 /**
-  * @brief  FreeRTOS initialization
-  * @param  None
-  * @retval None
-  */
+ * @brief  FreeRTOS initialization
+ * @param  None
+ * @retval None
+ */
 void MX_FREERTOS_Init(void) {
-  /* USER CODE BEGIN Init */
+	/* USER CODE BEGIN Init */
 
-  /* USER CODE END Init */
-  /* Create the mutex(es) */
-  /* definition and creation of printf_mutex */
-  osMutexStaticDef(printf_mutex, &printf_mutexControlBlock);
-  printf_mutexHandle = osMutexCreate(osMutex(printf_mutex));
+	/* USER CODE END Init */
+	/* Create the mutex(es) */
+	/* definition and creation of printf_mutex */
+	osMutexStaticDef(printf_mutex, &printf_mutexControlBlock);
+	printf_mutexHandle = osMutexCreate(osMutex(printf_mutex));
 
-  /* USER CODE BEGIN RTOS_MUTEX */
+	/* USER CODE BEGIN RTOS_MUTEX */
 	/* add mutexes, ... */
-  /* USER CODE END RTOS_MUTEX */
+	/* USER CODE END RTOS_MUTEX */
 
-  /* USER CODE BEGIN RTOS_SEMAPHORES */
+	/* USER CODE BEGIN RTOS_SEMAPHORES */
 	/* add semaphores, ... */
-  /* USER CODE END RTOS_SEMAPHORES */
+	/* USER CODE END RTOS_SEMAPHORES */
 
-  /* USER CODE BEGIN RTOS_TIMERS */
+	/* USER CODE BEGIN RTOS_TIMERS */
 	/* start timers, add new ones, ... */
-  /* USER CODE END RTOS_TIMERS */
+	/* USER CODE END RTOS_TIMERS */
 
-  /* USER CODE BEGIN RTOS_QUEUES */
+	/* USER CODE BEGIN RTOS_QUEUES */
 	/* add queues, ... */
-  /* USER CODE END RTOS_QUEUES */
+	/* USER CODE END RTOS_QUEUES */
 
-  /* Create the thread(s) */
-  /* definition and creation of defaultTask */
-  osThreadStaticDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 1024, defaultTaskBuffer, &defaultTaskControlBlock);
-  defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
+	/* Create the thread(s) */
+	/* definition and creation of defaultTask */
+	osThreadStaticDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 1024,
+			defaultTaskBuffer, &defaultTaskControlBlock);
+	defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
 
-  /* definition and creation of LoRa_init */
-  osThreadStaticDef(LoRa_init, LoRa_init_Task, osPriorityHigh, 0, 1024, LoRa_initBuffer, &LoRa_initControlBlock);
-  LoRa_initHandle = osThreadCreate(osThread(LoRa_init), NULL);
+	/* definition and creation of LoRa_init */
+	osThreadStaticDef(LoRa_init, LoRa_init_Task, osPriorityHigh, 0, 1024,
+			LoRa_initBuffer, &LoRa_initControlBlock);
+	LoRa_initHandle = osThreadCreate(osThread(LoRa_init), NULL);
 
-  /* USER CODE BEGIN RTOS_THREADS */
+	/* USER CODE BEGIN RTOS_THREADS */
 	/* add threads, ... */
 	if (LoRa_initHandle == NULL) {
 		printf("LoRa creation FAILED\r\n");
@@ -186,7 +189,7 @@ void MX_FREERTOS_Init(void) {
 		printf("gpsTask created OK\r\n");
 	}
 
-  /* USER CODE END RTOS_THREADS */
+	/* USER CODE END RTOS_THREADS */
 
 }
 
@@ -197,15 +200,14 @@ void MX_FREERTOS_Init(void) {
  * @retval None
  */
 /* USER CODE END Header_StartDefaultTask */
-void StartDefaultTask(void const * argument)
-{
-  /* USER CODE BEGIN StartDefaultTask */
+void StartDefaultTask(void const *argument) {
+	/* USER CODE BEGIN StartDefaultTask */
 	/* Infinite loop */
 	for (;;) {
 
 		osDelay(2000);
 	}
-  /* USER CODE END StartDefaultTask */
+	/* USER CODE END StartDefaultTask */
 }
 
 /* USER CODE BEGIN Header_LoRa_init_Task */
@@ -215,9 +217,8 @@ void StartDefaultTask(void const * argument)
  * @retval None
  */
 /* USER CODE END Header_LoRa_init_Task */
-void LoRa_init_Task(void const * argument)
-{
-  /* USER CODE BEGIN LoRa_init_Task */
+void LoRa_init_Task(void const *argument) {
+	/* USER CODE BEGIN LoRa_init_Task */
 	myLoRa = newLoRa(); //cree un objet LoRa
 	myLoRa.CS_port = GPIOI;
 	myLoRa.CS_pin = GPIO_PIN_0;
@@ -241,6 +242,9 @@ void LoRa_init_Task(void const * argument)
 	myLoRa.preamble = 8;
 	myLoRa.power = POWER_20db;
 
+	L76_GPS_Data_t gps;
+	char lora_buf[128];
+
 	uint16_t status = LoRa_init(&myLoRa);
 
 	if (status != LORA_OK) {
@@ -250,19 +254,39 @@ void LoRa_init_Task(void const * argument)
 		printf("LoRa OK ! Chip ID 0x12 detected.\n");
 	}
 	char *send_data = "Hello Kart !";
+	uint8_t ok = LoRa_transmit(&myLoRa, (uint8_t*) send_data,
+			sizeof("Hello Kart !"), 100);
+	if (ok) {
+		printf("LoRa sent : %s\n", send_data);
+	} else {
+		printf("LoRa timeout !\n");
+	}
+	ok = LoRa_transmit(&myLoRa, (uint8_t*) send_data,
+			sizeof("Hello Kart !"), 100);
+	if (ok) {
+		printf("LoRa sent : %s\n", send_data);
+	} else {
+		printf("LoRa timeout !\n");
+	}
 	/* Infinite loop */
 	for (;;) {
-		uint8_t ok = LoRa_transmit(&myLoRa, (uint8_t*) send_data,
-				sizeof("Hello Kart !"), 100);
+		L76_PrintExample();
+		L76_GetData(&gps);
+		// Formate un message CSV
+		int len = snprintf(lora_buf, sizeof(lora_buf),
+				"%.5f,%.5f,%.1f,%d,%d,%.2f",  // lat, lon, alt, sats, fix, speed
+				gps.latitude, gps.longitude, gps.altitude,
+				gps.satellites, gps.fix_quality, gps.speed);
+
+			ok = LoRa_transmit(&myLoRa, (uint8_t*) lora_buf, len, 100);
 		if (ok) {
-			printf("LoRa sent : %s\n", send_data);
+			printf("LoRa sent : %s\n", lora_buf);
 		} else {
 			printf("LoRa timeout !\n");
 		}
-		L76_PrintExample();
 		osDelay(2000);
 	}
-  /* USER CODE END LoRa_init_Task */
+	/* USER CODE END LoRa_init_Task */
 }
 
 /* Private application code --------------------------------------------------*/
