@@ -302,8 +302,8 @@
             "Name": "digitalClock1_1_1",
             "X": 210,
             "Y": 196,
-            "Width": 140,
-            "Height": 36,
+            "Width": 79,
+            "Height": 18,
             "TextColor": {
               "Red": 255,
               "Green": 255,
@@ -401,8 +401,8 @@
             "Name": "digitalClock1_1",
             "X": 88,
             "Y": 196,
-            "Width": 140,
-            "Height": 36,
+            "Width": 77,
+            "Height": 18,
             "TextColor": {
               "Red": 255,
               "Green": 255,
@@ -419,8 +419,8 @@
             "Name": "digitalClock1_1_2",
             "X": 326,
             "Y": 196,
-            "Width": 140,
-            "Height": 36,
+            "Width": 80,
+            "Height": 18,
             "TextColor": {
               "Red": 255,
               "Green": 255,
@@ -434,19 +434,24 @@
           },
           {
             "Type": "TextArea",
-            "Name": "textArea3",
-            "X": 175,
-            "Y": 106,
-            "Width": 156,
-            "Height": 36,
-            "TextId": "__SingleUse_1LNK",
+            "Name": "vitesse",
+            "X": 240,
+            "Y": 107,
+            "Width": 105,
+            "Height": 28,
+            "TextId": "__SingleUse_T8JR",
             "TextRotation": "0",
             "Color": {
               "Red": 255,
               "Green": 255,
               "Blue": 255
             },
-            "AutoSize": true
+            "AutoSize": true,
+            "Wildcard1": {
+              "TextId": "speed",
+              "UseBuffer": true,
+              "BufferSize": 50
+            }
           }
         ],
         "Interactions": [

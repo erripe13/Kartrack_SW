@@ -12,6 +12,7 @@
 #include <touchgfx/widgets/Image.hpp>
 #include <touchgfx/containers/clock/DigitalClock.hpp>
 #include <touchgfx/widgets/TextArea.hpp>
+#include <touchgfx/widgets/TextAreaWithWildcard.hpp>
 
 class Data_LiveViewBase : public touchgfx::View<Data_LivePresenter>
 {
@@ -43,7 +44,13 @@ protected:
     touchgfx::DigitalClock digitalClock1;
     touchgfx::DigitalClock digitalClock1_1;
     touchgfx::DigitalClock digitalClock1_1_2;
-    touchgfx::TextArea textArea3;
+    touchgfx::TextAreaWithOneWildcard vitesse;
+
+    /*
+     * Wildcard Buffers
+     */
+    static const uint16_t VITESSE_SIZE = 50;
+    touchgfx::Unicode::UnicodeChar vitesseBuffer[VITESSE_SIZE];
 
 private:
 

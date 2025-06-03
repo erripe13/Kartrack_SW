@@ -42,7 +42,7 @@ Data_LiveViewBase::Data_LiveViewBase() :
     image2.setBitmap(touchgfx::Bitmap(BITMAP_DATALIVE_ASSET_ID));
     add(image2);
 
-    digitalClock1_1_1.setPosition(210, 196, 140, 36);
+    digitalClock1_1_1.setPosition(210, 196, 79, 18);
     digitalClock1_1_1.setColor(touchgfx::Color::getColorFromRGB(255, 255, 255));
     digitalClock1_1_1.setTypedText(touchgfx::TypedText(T___SINGLEUSE_7XVL));
     digitalClock1_1_1.displayLeadingZeroForHourIndicator(true);
@@ -82,7 +82,7 @@ Data_LiveViewBase::Data_LiveViewBase() :
     digitalClock1.setTime24Hour(10, 10, 0);
     add(digitalClock1);
 
-    digitalClock1_1.setPosition(88, 196, 140, 36);
+    digitalClock1_1.setPosition(88, 196, 77, 18);
     digitalClock1_1.setColor(touchgfx::Color::getColorFromRGB(255, 255, 255));
     digitalClock1_1.setTypedText(touchgfx::TypedText(T___SINGLEUSE_BJDM));
     digitalClock1_1.displayLeadingZeroForHourIndicator(true);
@@ -90,7 +90,7 @@ Data_LiveViewBase::Data_LiveViewBase() :
     digitalClock1_1.setTime24Hour(10, 10, 0);
     add(digitalClock1_1);
 
-    digitalClock1_1_2.setPosition(326, 196, 140, 36);
+    digitalClock1_1_2.setPosition(326, 196, 80, 18);
     digitalClock1_1_2.setColor(touchgfx::Color::getColorFromRGB(255, 255, 255));
     digitalClock1_1_2.setTypedText(touchgfx::TypedText(T___SINGLEUSE_JG30));
     digitalClock1_1_2.displayLeadingZeroForHourIndicator(true);
@@ -98,11 +98,14 @@ Data_LiveViewBase::Data_LiveViewBase() :
     digitalClock1_1_2.setTime24Hour(10, 10, 0);
     add(digitalClock1_1_2);
 
-    textArea3.setXY(175, 106);
-    textArea3.setColor(touchgfx::Color::getColorFromRGB(255, 255, 255));
-    textArea3.setLinespacing(0);
-    textArea3.setTypedText(touchgfx::TypedText(T___SINGLEUSE_1LNK));
-    add(textArea3);
+    vitesse.setXY(240, 107);
+    vitesse.setColor(touchgfx::Color::getColorFromRGB(255, 255, 255));
+    vitesse.setLinespacing(0);
+    Unicode::snprintf(vitesseBuffer, VITESSE_SIZE, "%s", touchgfx::TypedText(T_SPEED).getText());
+    vitesse.setWildcard(vitesseBuffer);
+    vitesse.resizeToCurrentText();
+    vitesse.setTypedText(touchgfx::TypedText(T___SINGLEUSE_T8JR));
+    add(vitesse);
 }
 
 Data_LiveViewBase::~Data_LiveViewBase()

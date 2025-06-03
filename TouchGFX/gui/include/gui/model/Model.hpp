@@ -6,6 +6,7 @@ class ModelListener;
 class Model
 {
 public:
+	float getVitesse();
     Model();
 
     void bind(ModelListener* listener)

@@ -6,6 +6,15 @@
   <Texts>
     <TextGroup Id="Group1" />
     <TextGroup Id="Unsorted">
+      <Text Id="speed" Alignment="Left" TypographyId="Sector">
+        <Translation Language="GB">0</Translation>
+      </Text>
+      <Text Id="__SingleUse_T8JR" Alignment="Right" TypographyId="Sector">
+        <Translation Language="GB">&lt;value&gt; Km/h</Translation>
+      </Text>
+      <Text Id="vitesse" Alignment="Right" TypographyId="Typography_00">
+        <Translation Language="GB">&lt;value&gt; Km/h</Translation>
+      </Text>
       <Text Id="__SingleUse_87F5" Alignment="Left" TypographyId="Sector">
         <Translation Language="GB">Session Start&#10;</Translation>
       </Text>
@@ -18,8 +27,8 @@
       <Text Id="__SingleUse_BJDM" Alignment="Left" TypographyId="Large">
         <Translation Language="GB">&lt;&gt;</Translation>
       </Text>
-      <Text Id="__SingleUse_1LNK" Alignment="Left" TypographyId="Typography_00">
-        <Translation Language="GB">800 Km/h</Translation>
+      <Text Id="TYPED_TEXT_VITESSE" Alignment="Right" TypographyId="Typography_00">
+        <Translation Language="GB">&lt;value&gt; Km/h</Translation>
       </Text>
       <Text Id="__SingleUse_YWPS" Alignment="Left" TypographyId="Sector">
         <Translation Language="GB">&lt;&gt;</Translation>
@@ -46,6 +55,6 @@
     <Typography Id="Large" Font="verdana.ttf" Size="16" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" WidgetWildcardCharacters="0123456789 :APM" />
     <Typography Id="Small" Font="verdana.ttf" Size="10" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" />
     <Typography Id="Typo" Font="verdana.ttf" Size="20" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" />
-    <Typography Id="Typography_00" Font="verdana.ttf" Size="31" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" />
+    <Typography Id="Typography_00" Font="verdana.ttf" Size="31" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" WildcardCharacters="." WildcardCharacterRanges="0-9" />
   </Typographies>
 </TextDatabase>

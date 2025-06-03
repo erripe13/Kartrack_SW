@@ -59,7 +59,7 @@ void MainView::VALIDEClicked()
             break;
 
         case 1:
-        	application().gotoData_LiveScreenNoTransition();  // ✅ une fois que tu auras activé la navigation vers Data_Live
+        	application().gotoData_LiveScreenNoTransition();
             break;
     }
 }

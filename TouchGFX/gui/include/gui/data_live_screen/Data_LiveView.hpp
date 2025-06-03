@@ -11,7 +11,14 @@ public:
     virtual ~Data_LiveView() {}
     virtual void setupScreen();
     virtual void tearDownScreen();
-protected:
+    void updateValues(float speed);
+    // virtual void handleTickEvent() override; // décommente si tu veux l’utiliser
+
+private:
+    Unicode::UnicodeChar speedBuffer[50];
+    // Unicode::UnicodeChar s1Buffer[50];
+    //Unicode::UnicodeChar s2Buffer[50];
+    //Unicode::UnicodeChar s3Buffer[50];
 };
 
 #endif // DATA_LIVEVIEW_HPP

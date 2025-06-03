@@ -100,6 +100,15 @@ const osThreadAttr_t videoTask_attributes = {
 };
 /* USER CODE BEGIN PV */
 static FMC_SDRAM_CommandTypeDef Command;
+float vitesse = 42.0f; // Existing variable
+typedef struct {
+    float vitesse; // Add this to represent live data
+} Data_Live_t;
+
+Data_Live_t Data_Live;
+
+extern void updateDataLiveScreen(float speed);
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -119,7 +128,7 @@ extern void videoTaskFunc(void *argument);
 /* USER CODE BEGIN PFP */
 void GetManufacturerId (uint8_t *manufacturer_id);
 void EnableMemoryMappedMode(uint8_t manufacturer_id);  
-
+void UpdateDataLive(); // Function prototype for updating Data_Live
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -178,6 +187,7 @@ int main(void)
   /* Call PreOsInit function */
   MX_TouchGFX_PreOSInit();
   /* USER CODE BEGIN 2 */
+
 
   /* USER CODE END 2 */
 
@@ -743,6 +753,11 @@ void EnableMemoryMappedMode(uint8_t manufacturer_id)
   }
 }
 
+// Update Data_Live structure with current vitesse value
+void UpdateDataLive() {
+    Data_Live.vitesse = vitesse; // Update Data_Live with the current vitesse value
+}
+
 /* USER CODE END 4 */
 
 /* USER CODE BEGIN Header_StartDefaultTask */
@@ -758,7 +773,13 @@ void StartDefaultTask(void *argument)
   /* Infinite loop */
   for(;;)
   {
-    osDelay(100);
+    float speed = 25.0f; // Example speed value
+    /*float s1 = 10.0f; // Example sector 1 value
+    float s2 = 25.0f; // Example sector 2 value
+    float s3 = 30.0f; // Example sector 3 value
+*/
+    updateDataLiveScreen(speed);
+    osDelay(100); // Adjust delay as needed
   }
   /* USER CODE END 5 */
 }
