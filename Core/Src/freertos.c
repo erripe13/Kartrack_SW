@@ -28,6 +28,8 @@
 #include "gps.h"
 #include "LoRa.h"
 #include "spi.h"
+#include "i2c.h"
+#include "inv_imu_driver.h"
 #include <stdio.h>
 /* USER CODE END Includes */
 
@@ -38,7 +40,32 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+/* TDK Driver Instance */
+static inv_imu_device_t imu_dev;
 
+/* I2C read/write/delay hooks */
+
+static int stm32_i2c_read(uint8_t reg, uint8_t *buf, uint32_t len) {
+	return (HAL_I2C_Mem_Read(&hi2c1, (0x68 << 1), reg, I2C_MEMADD_SIZE_8BIT,
+			buf, len, HAL_MAX_DELAY) == HAL_OK) ? 0 : -1;
+}
+
+static int stm32_i2c_write(uint8_t reg, const uint8_t *buf, uint32_t len) {
+	return (HAL_I2C_Mem_Write(&hi2c1, (0x68 << 1), reg, I2C_MEMADD_SIZE_8BIT,
+			(uint8_t*) buf, len, HAL_MAX_DELAY) == HAL_OK) ? 0 : -1;
+}
+
+static void stm32_delay_us(uint32_t us) {
+	if (!(DWT->CTRL & DWT_CTRL_CYCCNTENA_Msk)) {
+		// DWT not enabled
+		return;
+	}
+
+	uint32_t start = DWT->CYCCNT;
+	uint32_t cycles = us * (HAL_RCC_GetHCLKFreq() / 1000000U);
+	while ((DWT->CYCCNT - start) < cycles)
+		;
+}
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -57,8 +84,9 @@ osThreadId defaultTaskHandle;
 uint32_t defaultTaskBuffer[1024];
 osStaticThreadDef_t defaultTaskControlBlock;
 osThreadId LoRa_initHandle;
-uint32_t LoRa_initBuffer[1024];
+uint32_t LoRa_initBuffer[4096];
 osStaticThreadDef_t LoRa_initControlBlock;
+osThreadId Gyro_InitHandle;
 osMutexId printf_mutexHandle;
 osStaticMutexDef_t printf_mutexControlBlock;
 
@@ -69,6 +97,7 @@ osStaticMutexDef_t printf_mutexControlBlock;
 
 void StartDefaultTask(void const *argument);
 void LoRa_init_Task(void const *argument);
+void StartTask03(void const *argument);
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
@@ -169,9 +198,13 @@ void MX_FREERTOS_Init(void) {
 	defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
 
 	/* definition and creation of LoRa_init */
-	osThreadStaticDef(LoRa_init, LoRa_init_Task, osPriorityHigh, 0, 1024,
+	osThreadStaticDef(LoRa_init, LoRa_init_Task, osPriorityHigh, 0, 4096,
 			LoRa_initBuffer, &LoRa_initControlBlock);
 	LoRa_initHandle = osThreadCreate(osThread(LoRa_init), NULL);
+
+	/* definition and creation of Gyro_Init */
+	osThreadDef(Gyro_Init, StartTask03, osPriorityIdle, 0, 4096);
+	Gyro_InitHandle = osThreadCreate(osThread(Gyro_Init), NULL);
 
 	/* USER CODE BEGIN RTOS_THREADS */
 	/* add threads, ... */
@@ -219,7 +252,36 @@ void StartDefaultTask(void const *argument) {
 /* USER CODE END Header_LoRa_init_Task */
 void LoRa_init_Task(void const *argument) {
 	/* USER CODE BEGIN LoRa_init_Task */
-	myLoRa = newLoRa(); //cree un objet LoRa
+	inv_imu_sensor_data_t data;
+	L76_GPS_Data_t gps;
+	uint8_t whoami = 0;
+	uint32_t counter = 0;
+	char lora_buf[128];
+
+	osDelay(500);
+	printf("Init ICM45605...\r\n");
+
+	imu_dev.transport.read_reg = stm32_i2c_read;
+	imu_dev.transport.write_reg = stm32_i2c_write;
+	imu_dev.transport.sleep_us = stm32_delay_us;
+	imu_dev.transport.serif_type = UI_I2C;
+
+	if (inv_imu_get_who_am_i(&imu_dev, &whoami) != 0 || whoami != 0xE5) {
+		printf("WHO_AM_I FAIL: 0x%02X\r\n", whoami);
+		//osThreadExit();
+	}
+	printf("WHO_AM_I: 0x%02X OK\r\n", whoami);
+
+	inv_imu_soft_reset(&imu_dev);
+	inv_imu_set_accel_mode(&imu_dev, PWR_MGMT0_ACCEL_MODE_LN);
+	inv_imu_set_gyro_mode(&imu_dev, PWR_MGMT0_GYRO_MODE_LN);
+	inv_imu_set_accel_frequency(&imu_dev, ACCEL_CONFIG0_ACCEL_ODR_200_HZ);
+	inv_imu_set_gyro_frequency(&imu_dev, GYRO_CONFIG0_GYRO_ODR_200_HZ);
+	inv_imu_set_accel_fsr(&imu_dev, ACCEL_CONFIG0_ACCEL_UI_FS_SEL_16_G);
+	inv_imu_set_gyro_fsr(&imu_dev, GYRO_CONFIG0_GYRO_UI_FS_SEL_2000_DPS);
+	printf("ICM45605 OK\r\n");
+
+	myLoRa = newLoRa();
 	myLoRa.CS_port = GPIOI;
 	myLoRa.CS_pin = GPIO_PIN_0;
 	myLoRa.reset_port = GPIOF;
@@ -227,14 +289,6 @@ void LoRa_init_Task(void const *argument) {
 	myLoRa.DIO0_port = GPIOI;
 	myLoRa.DIO0_pin = GPIO_PIN_3;
 	myLoRa.hSPIx = &hspi2;
-
-	//	myLoRa.frequency = 433;
-	//	myLoRa.spredingFactor = SF_9;
-	//	myLoRa.bandWidth = BW_250KHz;
-	//	myLoRa.crcRate = CR_4_8;
-	//	myLoRa.power = POWER_11db;
-	//	myLoRa.overCurrentProtection = 130;
-	//	myLoRa.preamble = 10;
 	myLoRa.frequency = 433;
 	myLoRa.spredingFactor = SF_7;
 	myLoRa.bandWidth = BW_125KHz;
@@ -242,51 +296,56 @@ void LoRa_init_Task(void const *argument) {
 	myLoRa.preamble = 8;
 	myLoRa.power = POWER_20db;
 
-	L76_GPS_Data_t gps;
-	char lora_buf[128];
-
-	uint16_t status = LoRa_init(&myLoRa);
-
-	if (status != LORA_OK) {
-		//debug uart error message
-		printf("LoRa crashed with output : %d\n", status);
-	} else {
-		printf("LoRa OK ! Chip ID 0x12 detected.\n");
+	if (LoRa_init(&myLoRa) != LORA_OK) {
+		printf("LoRa INIT FAILED\n");
+		//osThreadExit();
 	}
-	char *send_data = "Hello Kart !";
-	uint8_t ok = LoRa_transmit(&myLoRa, (uint8_t*) send_data,
-			sizeof("Hello Kart !"), 100);
-	if (ok) {
-		printf("LoRa sent : %s\n", send_data);
-	} else {
-		printf("LoRa timeout !\n");
-	}
-	ok = LoRa_transmit(&myLoRa, (uint8_t*) send_data,
-			sizeof("Hello Kart !"), 100);
-	if (ok) {
-		printf("LoRa sent : %s\n", send_data);
-	} else {
-		printf("LoRa timeout !\n");
-	}
+	printf("LoRa OK\n");
 	/* Infinite loop */
 	for (;;) {
 		L76_PrintExample();
 		L76_GetData(&gps);
-		// Formate un message CSV
-		int len = snprintf(lora_buf, sizeof(lora_buf),
-				"%.5f,%.5f,%.1f,%d,%d,%.2f",  // lat, lon, alt, sats, fix, speed
-				gps.latitude, gps.longitude, gps.altitude,
-				gps.satellites, gps.fix_quality, gps.speed);
-
-			ok = LoRa_transmit(&myLoRa, (uint8_t*) lora_buf, len, 100);
-		if (ok) {
-			printf("LoRa sent : %s\n", lora_buf);
-		} else {
-			printf("LoRa timeout !\n");
+		if (inv_imu_get_register_data(&imu_dev, &data) != 0) {
+			printf("IMU read FAIL\r\n");
+			osDelay(100);
+			continue;
 		}
-		osDelay(2000);
+
+		// Message LoRa : Gyro + Accel + GPS
+		int len = snprintf(lora_buf, sizeof(lora_buf),
+				"%d,%d,%d,%d,%d,%d,%.5f,%.5f,%.1f,%d,%d,%.2f",
+				data.gyro_data[0], data.gyro_data[1], data.gyro_data[2],
+				data.accel_data[0], data.accel_data[1], data.accel_data[2],
+				gps.latitude, gps.longitude, gps.altitude, gps.satellites,
+				gps.fix_quality, gps.speed);
+
+		if (LoRa_transmit(&myLoRa, (uint8_t*) lora_buf, len, 100)) {
+			printf("LoRa: %s\r\n", lora_buf);
+		} else {
+			printf("LoRa TIMEOUT\r\n");
+		}
+
+		counter++;
+		osDelay(500);
 	}
 	/* USER CODE END LoRa_init_Task */
+}
+
+/* USER CODE BEGIN Header_StartTask03 */
+/**
+ * @brief Function implementing the Gyro_Init thread.
+ * @param argument: Not used
+ * @retval None
+ */
+/* USER CODE END Header_StartTask03 */
+void StartTask03(void const *argument) {
+	/* USER CODE BEGIN StartTask03 */
+
+	/* Infinite loop */
+	for (;;) {
+		osDelay(1);
+	}
+	/* USER CODE END StartTask03 */
 }
 
 /* Private application code --------------------------------------------------*/

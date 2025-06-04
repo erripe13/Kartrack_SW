@@ -67,7 +67,9 @@ Core/Src/freertos.o: ../Core/Src/freertos.c \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h \
  ../Core/Inc/gps.h ../Core/Inc/LoRa.h ../Core/Inc/main.h \
- ../Core/Inc/spi.h
+ ../Core/Inc/spi.h ../Core/Inc/i2c.h ../Core/Inc/inv_imu_driver.h \
+ ../Core/Inc/inv_imu_defs.h ../Core/Inc/inv_imu.h \
+ ../Core/Inc/inv_imu_regmap_le.h ../Core/Inc/inv_imu_transport.h
 ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h:
 ../Core/Inc/FreeRTOSConfig.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h:
@@ -140,3 +142,9 @@ Core/Src/freertos.o: ../Core/Src/freertos.c \
 ../Core/Inc/LoRa.h:
 ../Core/Inc/main.h:
 ../Core/Inc/spi.h:
+../Core/Inc/i2c.h:
+../Core/Inc/inv_imu_driver.h:
+../Core/Inc/inv_imu_defs.h:
+../Core/Inc/inv_imu.h:
+../Core/Inc/inv_imu_regmap_le.h:
+../Core/Inc/inv_imu_transport.h:

@@ -52,7 +52,12 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-
+void DWT_Init(void)
+{
+    CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk; // Enable trace and debug blocks
+    DWT->CYCCNT = 0;                                // Clear cycle counter
+    DWT->CTRL |= DWT_CTRL_CYCCNTENA_Msk;            // Enable cycle counter
+}
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -145,6 +150,7 @@ int main(void)
 //  const char *msg = "STM32 OK\r\n";
 //  HAL_UART_Transmit(&huart1, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);
   printf("stm32 started.\r\n");
+  DWT_Init();
   /* USER CODE END 2 */
 
   /* Call init function for freertos objects (in cmsis_os2.c) */
