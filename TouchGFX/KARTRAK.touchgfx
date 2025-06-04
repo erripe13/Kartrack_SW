@@ -43,7 +43,7 @@
             "X": 188,
             "Y": 247,
             "Width": 105,
-            "Height": 16,
+            "Height": 19,
             "TextId": "__SingleUse_8UZD",
             "TextRotation": "0",
             "Color": {
@@ -232,6 +232,7 @@
             "Y": 232,
             "Width": 240,
             "Height": 50,
+            "Visible": false,
             "Pressed": "__generated\\alternate_theme_images_widgets_button_regular_height_50_medium_rounded_pressed.png",
             "Released": "__generated\\alternate_theme_images_widgets_button_regular_height_50_medium_rounded_normal.png",
             "IconPressed": "__generated\\icon_theme_images_action_done_50_50_E8F6FB.svg.png",
@@ -302,8 +303,8 @@
             "Name": "digitalClock1_1_1",
             "X": 210,
             "Y": 196,
-            "Width": 79,
-            "Height": 18,
+            "Width": 140,
+            "Height": 36,
             "TextColor": {
               "Red": 255,
               "Green": 255,
@@ -336,7 +337,7 @@
             "Name": "textArea1",
             "X": 165,
             "Width": 150,
-            "Height": 56,
+            "Height": 68,
             "TextId": "__SingleUse_FDEE",
             "TextRotation": "0",
             "Color": {
@@ -401,8 +402,8 @@
             "Name": "digitalClock1_1",
             "X": 88,
             "Y": 196,
-            "Width": 77,
-            "Height": 18,
+            "Width": 140,
+            "Height": 36,
             "TextColor": {
               "Red": 255,
               "Green": 255,
@@ -419,8 +420,8 @@
             "Name": "digitalClock1_1_2",
             "X": 326,
             "Y": 196,
-            "Width": 80,
-            "Height": 18,
+            "Width": 140,
+            "Height": 36,
             "TextColor": {
               "Red": 255,
               "Green": 255,
@@ -434,24 +435,19 @@
           },
           {
             "Type": "TextArea",
-            "Name": "vitesse",
-            "X": 240,
-            "Y": 107,
-            "Width": 105,
-            "Height": 28,
-            "TextId": "__SingleUse_T8JR",
+            "Name": "textArea3",
+            "X": 175,
+            "Y": 106,
+            "Width": 156,
+            "Height": 36,
+            "TextId": "__SingleUse_1LNK",
             "TextRotation": "0",
             "Color": {
               "Red": 255,
               "Green": 255,
               "Blue": 255
             },
-            "AutoSize": true,
-            "Wildcard1": {
-              "TextId": "speed",
-              "UseBuffer": true,
-              "BufferSize": 50
-            }
+            "AutoSize": true
           }
         ],
         "Interactions": [
@@ -489,12 +485,12 @@
           },
           {
             "Type": "TextArea",
-            "Name": "textArea1",
-            "X": 146,
-            "Y": 8,
-            "Width": 189,
-            "Height": 56,
-            "TextId": "__SingleUse_87F5",
+            "Name": "Gyro",
+            "X": 325,
+            "Y": 120,
+            "Width": 51,
+            "Height": 19,
+            "TextId": "__SingleUse_WDLB",
             "TextRotation": "0",
             "Color": {
               "Red": 255,
@@ -502,6 +498,247 @@
               "Blue": 255
             },
             "AutoSize": true
+          },
+          {
+            "Type": "TextArea",
+            "Name": "Accel",
+            "X": 326,
+            "Y": 55,
+            "Width": 54,
+            "Height": 19,
+            "TextId": "__SingleUse_BX8X",
+            "TextRotation": "0",
+            "Color": {
+              "Red": 255,
+              "Green": 255,
+              "Blue": 255
+            },
+            "AutoSize": true
+          },
+          {
+            "Type": "TextArea",
+            "Name": "Latitude",
+            "X": 14,
+            "Y": 101,
+            "Width": 94,
+            "Height": 19,
+            "TextId": "__SingleUse_NS1U",
+            "TextRotation": "0",
+            "Color": {
+              "Red": 255,
+              "Green": 255,
+              "Blue": 255
+            },
+            "AutoSize": true,
+            "Wildcard1": {
+              "TextId": "__SingleUse_KZNM",
+              "UseBuffer": true,
+              "BufferSize": 10
+            }
+          },
+          {
+            "Type": "TextArea",
+            "Name": "Satellites",
+            "X": 14,
+            "Y": 74,
+            "Width": 102,
+            "Height": 19,
+            "TextId": "__SingleUse_YFX9",
+            "TextRotation": "0",
+            "Color": {
+              "Red": 255,
+              "Green": 255,
+              "Blue": 255
+            },
+            "AutoSize": true,
+            "Wildcard1": {
+              "TextId": "__SingleUse_8DI2",
+              "UseBuffer": true,
+              "BufferSize": 10
+            }
+          },
+          {
+            "Type": "TextArea",
+            "Name": "Longitude",
+            "X": 14,
+            "Y": 129,
+            "Width": 108,
+            "Height": 19,
+            "TextId": "__SingleUse_2KAE",
+            "TextRotation": "0",
+            "Color": {
+              "Red": 255,
+              "Green": 255,
+              "Blue": 255
+            },
+            "AutoSize": true,
+            "Wildcard1": {
+              "TextId": "__SingleUse_9V0V",
+              "UseBuffer": true,
+              "BufferSize": 10
+            }
+          },
+          {
+            "Type": "TextArea",
+            "Name": "Vitesse",
+            "X": 14,
+            "Y": 155,
+            "Width": 86,
+            "Height": 19,
+            "TextId": "__SingleUse_N1XS",
+            "TextRotation": "0",
+            "Color": {
+              "Red": 255,
+              "Green": 255,
+              "Blue": 255
+            },
+            "AutoSize": true,
+            "Wildcard1": {
+              "TextId": "__SingleUse_1KGL",
+              "UseBuffer": true,
+              "BufferSize": 10
+            }
+          },
+          {
+            "Type": "TextArea",
+            "Name": "Data_Log",
+            "X": 163,
+            "Width": 127,
+            "Height": 34,
+            "TextId": "__SingleUse_8Z8E",
+            "TextRotation": "0",
+            "Color": {
+              "Red": 255,
+              "Green": 255,
+              "Blue": 255
+            },
+            "AutoSize": true
+          },
+          {
+            "Type": "TextArea",
+            "Name": "Accel_X",
+            "X": 249,
+            "Y": 82,
+            "Width": 64,
+            "Height": 19,
+            "TextId": "__SingleUse_3Z5T",
+            "TextRotation": "0",
+            "Color": {
+              "Red": 255,
+              "Green": 255,
+              "Blue": 255
+            },
+            "AutoSize": true,
+            "Wildcard1": {
+              "TextId": "__SingleUse_8NPJ",
+              "UseBuffer": true,
+              "BufferSize": 10
+            }
+          },
+          {
+            "Type": "TextArea",
+            "Name": "Accel_Y",
+            "X": 325,
+            "Y": 82,
+            "Width": 62,
+            "Height": 19,
+            "TextId": "__SingleUse_8T40",
+            "TextRotation": "0",
+            "Color": {
+              "Red": 255,
+              "Green": 255,
+              "Blue": 255
+            },
+            "AutoSize": true,
+            "Wildcard1": {
+              "TextId": "__SingleUse_Y6NX",
+              "UseBuffer": true,
+              "BufferSize": 10
+            }
+          },
+          {
+            "Type": "TextArea",
+            "Name": "Accel_Z",
+            "X": 393,
+            "Y": 82,
+            "Width": 58,
+            "Height": 19,
+            "TextId": "__SingleUse_48UZ",
+            "TextRotation": "0",
+            "Color": {
+              "Red": 255,
+              "Green": 255,
+              "Blue": 255
+            },
+            "AutoSize": true,
+            "Wildcard1": {
+              "TextId": "__SingleUse_PU23",
+              "UseBuffer": true,
+              "BufferSize": 10
+            }
+          },
+          {
+            "Type": "TextArea",
+            "Name": "Gyro_X",
+            "X": 249,
+            "Y": 155,
+            "Width": 64,
+            "Height": 19,
+            "TextId": "__SingleUse_SNL0",
+            "TextRotation": "0",
+            "Color": {
+              "Red": 255,
+              "Green": 255,
+              "Blue": 255
+            },
+            "AutoSize": true,
+            "Wildcard1": {
+              "TextId": "__SingleUse_TB5K",
+              "UseBuffer": true,
+              "BufferSize": 10
+            }
+          },
+          {
+            "Type": "TextArea",
+            "Name": "Gyro_Y",
+            "X": 325,
+            "Y": 155,
+            "Width": 62,
+            "Height": 19,
+            "TextId": "__SingleUse_1V58",
+            "TextRotation": "0",
+            "Color": {
+              "Red": 255,
+              "Green": 255,
+              "Blue": 255
+            },
+            "AutoSize": true,
+            "Wildcard1": {
+              "TextId": "__SingleUse_OE15",
+              "UseBuffer": true,
+              "BufferSize": 10
+            }
+          },
+          {
+            "Type": "TextArea",
+            "Name": "Gyro_Z",
+            "X": 393,
+            "Y": 155,
+            "Width": 58,
+            "Height": 19,
+            "TextId": "__SingleUse_D22M",
+            "TextRotation": "0",
+            "Color": {
+              "Red": 255,
+              "Green": 255,
+              "Blue": 255
+            },
+            "AutoSize": true,
+            "Wildcard1": {
+              "TextId": "__SingleUse_AXSN",
+              "UseBuffer": true,
+              "BufferSize": 10
+            }
           }
         ],
         "Interactions": []

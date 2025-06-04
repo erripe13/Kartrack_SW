@@ -11,7 +11,6 @@ class Data_LiveView;
 class Data_LivePresenter : public touchgfx::Presenter, public ModelListener
 {
 public:
-	float getVitesse();
     Data_LivePresenter(Data_LiveView& v);
 
     /**

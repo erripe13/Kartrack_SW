@@ -97,8 +97,8 @@ all: main-build
 main-build: KARTRAK.elf secondary-outputs
 
 # Tool invocations
-KARTRAK.elf KARTRAK.map: $(OBJS) $(USER_OBJS) D:\SEHTEL\Documents\3D\Project_KARTRAK\Kartrack_SW\Kartrack_SW\STM32CubeIDE\STM32F746NGHX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-g++ -o "KARTRAK.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m7 -T"D:\SEHTEL\Documents\3D\Project_KARTRAK\Kartrack_SW\Kartrack_SW\STM32CubeIDE\STM32F746NGHX_FLASH.ld" --specs=nosys.specs -Wl,-Map="KARTRAK.map" -Wl,--gc-sections -static -L../../Middlewares/ST/touchgfx/lib/core/cortex_m7/gcc --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+KARTRAK.elf KARTRAK.map: $(OBJS) $(USER_OBJS) D:\ecole\PROJET_3D\Kartrack_SW\STM32CubeIDE\STM32F746NGHX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-g++ -o "KARTRAK.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m7 -T"D:\ecole\PROJET_3D\Kartrack_SW\STM32CubeIDE\STM32F746NGHX_FLASH.ld" --specs=nosys.specs -Wl,-Map="KARTRAK.map" -Wl,--gc-sections -static -L../../Middlewares/ST/touchgfx/lib/core/cortex_m7/gcc --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

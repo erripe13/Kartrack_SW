@@ -1,5 +1,5 @@
 Application/User/gui/Data_LiveView.o: \
- D:/SEHTEL/Documents/3D/Project_KARTRAK/Kartrack_SW/Kartrack_SW/TouchGFX/gui/src/data_live_screen/Data_LiveView.cpp \
+ D:/ecole/PROJET_3D/Kartrack_SW/TouchGFX/gui/src/data_live_screen/Data_LiveView.cpp \
  ../../TouchGFX/gui/include/gui/data_live_screen/Data_LiveView.hpp \
  ../../TouchGFX/generated/gui_generated/include/gui_generated/data_live_screen/Data_LiveViewBase.hpp \
  ../../TouchGFX/gui/include/gui/common/FrontendApplication.hpp \
@@ -56,8 +56,7 @@ Application/User/gui/Data_LiveView.o: \
  ../../Middlewares/ST/touchgfx/framework/include/touchgfx/Texts.hpp \
  ../../Middlewares/ST/touchgfx/framework/include/touchgfx/containers/clock/AbstractClock.hpp \
  ../../Middlewares/ST/touchgfx/framework/include/touchgfx/widgets/TextAreaWithWildcard.hpp \
- ../../Middlewares/ST/touchgfx/framework/include/touchgfx/widgets/TextArea.hpp \
- ../../TouchGFX/generated/texts/include/texts/TextKeysAndLanguages.hpp
+ ../../Middlewares/ST/touchgfx/framework/include/touchgfx/widgets/TextArea.hpp
 ../../TouchGFX/gui/include/gui/data_live_screen/Data_LiveView.hpp:
 ../../TouchGFX/generated/gui_generated/include/gui_generated/data_live_screen/Data_LiveViewBase.hpp:
 ../../TouchGFX/gui/include/gui/common/FrontendApplication.hpp:
@@ -115,4 +114,3 @@ Application/User/gui/Data_LiveView.o: \
 ../../Middlewares/ST/touchgfx/framework/include/touchgfx/containers/clock/AbstractClock.hpp:
 ../../Middlewares/ST/touchgfx/framework/include/touchgfx/widgets/TextAreaWithWildcard.hpp:
 ../../Middlewares/ST/touchgfx/framework/include/touchgfx/widgets/TextArea.hpp:
-../../TouchGFX/generated/texts/include/texts/TextKeysAndLanguages.hpp:

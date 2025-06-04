@@ -16,8 +16,3 @@ void Data_LivePresenter::deactivate()
 {
 
 }
-
-float Data_LivePresenter::getVitesse()
-{
-    return model->getVitesse();
-}

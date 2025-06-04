@@ -9,6 +9,7 @@
 #include <gui/session_start_screen/Session_StartPresenter.hpp>
 #include <touchgfx/widgets/Box.hpp>
 #include <touchgfx/widgets/TextArea.hpp>
+#include <touchgfx/widgets/TextAreaWithWildcard.hpp>
 
 class Session_StartViewBase : public touchgfx::View<Session_StartPresenter>
 {
@@ -27,7 +28,43 @@ protected:
      */
     touchgfx::Box __background;
     touchgfx::Box box1;
-    touchgfx::TextArea textArea1;
+    touchgfx::TextArea Gyro;
+    touchgfx::TextArea Accel;
+    touchgfx::TextAreaWithOneWildcard Latitude;
+    touchgfx::TextAreaWithOneWildcard Satellites;
+    touchgfx::TextAreaWithOneWildcard Longitude;
+    touchgfx::TextAreaWithOneWildcard Vitesse;
+    touchgfx::TextArea Data_Log;
+    touchgfx::TextAreaWithOneWildcard Accel_X;
+    touchgfx::TextAreaWithOneWildcard Accel_Y;
+    touchgfx::TextAreaWithOneWildcard Accel_Z;
+    touchgfx::TextAreaWithOneWildcard Gyro_X;
+    touchgfx::TextAreaWithOneWildcard Gyro_Y;
+    touchgfx::TextAreaWithOneWildcard Gyro_Z;
+
+    /*
+     * Wildcard Buffers
+     */
+    static const uint16_t LATITUDE_SIZE = 10;
+    touchgfx::Unicode::UnicodeChar LatitudeBuffer[LATITUDE_SIZE];
+    static const uint16_t SATELLITES_SIZE = 10;
+    touchgfx::Unicode::UnicodeChar SatellitesBuffer[SATELLITES_SIZE];
+    static const uint16_t LONGITUDE_SIZE = 10;
+    touchgfx::Unicode::UnicodeChar LongitudeBuffer[LONGITUDE_SIZE];
+    static const uint16_t VITESSE_SIZE = 10;
+    touchgfx::Unicode::UnicodeChar VitesseBuffer[VITESSE_SIZE];
+    static const uint16_t ACCEL_X_SIZE = 10;
+    touchgfx::Unicode::UnicodeChar Accel_XBuffer[ACCEL_X_SIZE];
+    static const uint16_t ACCEL_Y_SIZE = 10;
+    touchgfx::Unicode::UnicodeChar Accel_YBuffer[ACCEL_Y_SIZE];
+    static const uint16_t ACCEL_Z_SIZE = 10;
+    touchgfx::Unicode::UnicodeChar Accel_ZBuffer[ACCEL_Z_SIZE];
+    static const uint16_t GYRO_X_SIZE = 10;
+    touchgfx::Unicode::UnicodeChar Gyro_XBuffer[GYRO_X_SIZE];
+    static const uint16_t GYRO_Y_SIZE = 10;
+    touchgfx::Unicode::UnicodeChar Gyro_YBuffer[GYRO_Y_SIZE];
+    static const uint16_t GYRO_Z_SIZE = 10;
+    touchgfx::Unicode::UnicodeChar Gyro_ZBuffer[GYRO_Z_SIZE];
 
 private:
 

@@ -6,31 +6,88 @@
   <Texts>
     <TextGroup Id="Group1" />
     <TextGroup Id="Unsorted">
-      <Text Id="speed" Alignment="Left" TypographyId="Sector">
+      <Text Id="__SingleUse_TB5K" Alignment="Left" TypographyId="Large">
+        <Translation Language="GB">1440</Translation>
+      </Text>
+      <Text Id="__SingleUse_SNL0" Alignment="Left" TypographyId="Large">
+        <Translation Language="GB">X: &lt;value&gt;</Translation>
+      </Text>
+      <Text Id="__SingleUse_OE15" Alignment="Left" TypographyId="Large">
+        <Translation Language="GB">2440</Translation>
+      </Text>
+      <Text Id="__SingleUse_1V58" Alignment="Left" TypographyId="Large">
+        <Translation Language="GB">Y: &lt;value&gt;</Translation>
+      </Text>
+      <Text Id="__SingleUse_AXSN" Alignment="Left" TypographyId="Large">
+        <Translation Language="GB">3440</Translation>
+      </Text>
+      <Text Id="__SingleUse_D22M" Alignment="Left" TypographyId="Large">
+        <Translation Language="GB">Z:&lt;value&gt;</Translation>
+      </Text>
+      <Text Id="__SingleUse_WDLB" Alignment="Left" TypographyId="Large">
+        <Translation Language="GB">Gyro :</Translation>
+      </Text>
+      <Text Id="__SingleUse_PU23" Alignment="Left" TypographyId="Large">
+        <Translation Language="GB">3330</Translation>
+      </Text>
+      <Text Id="__SingleUse_48UZ" Alignment="Left" TypographyId="Large">
+        <Translation Language="GB">Z:&lt;value&gt;</Translation>
+      </Text>
+      <Text Id="__SingleUse_Y6NX" Alignment="Left" TypographyId="Large">
+        <Translation Language="GB">2330</Translation>
+      </Text>
+      <Text Id="__SingleUse_8NPJ" Alignment="Left" TypographyId="Large">
+        <Translation Language="GB">1330</Translation>
+      </Text>
+      <Text Id="__SingleUse_8T40" Alignment="Left" TypographyId="Large">
+        <Translation Language="GB">Y: &lt;value&gt;</Translation>
+      </Text>
+      <Text Id="__SingleUse_3Z5T" Alignment="Left" TypographyId="Large">
+        <Translation Language="GB">X: &lt;value&gt;</Translation>
+      </Text>
+      <Text Id="__SingleUse_BX8X" Alignment="Left" TypographyId="Large">
+        <Translation Language="GB">Accel: </Translation>
+      </Text>
+      <Text Id="__SingleUse_8DI2" Alignment="Left" TypographyId="Large">
         <Translation Language="GB">0</Translation>
       </Text>
-      <Text Id="__SingleUse_T8JR" Alignment="Right" TypographyId="Sector">
-        <Translation Language="GB">&lt;value&gt; Km/h</Translation>
+      <Text Id="__SingleUse_YFX9" Alignment="Left" TypographyId="Large">
+        <Translation Language="GB">Satellites : &lt;value&gt;</Translation>
       </Text>
-      <Text Id="vitesse" Alignment="Right" TypographyId="Typography_00">
-        <Translation Language="GB">&lt;value&gt; Km/h</Translation>
+      <Text Id="__SingleUse_1KGL" Alignment="Left" TypographyId="Large">
+        <Translation Language="GB">0</Translation>
       </Text>
-      <Text Id="__SingleUse_87F5" Alignment="Left" TypographyId="Sector">
-        <Translation Language="GB">Session Start&#10;</Translation>
+      <Text Id="__SingleUse_N1XS" Alignment="Left" TypographyId="Large">
+        <Translation Language="GB">Vitesse : &lt;value&gt;</Translation>
       </Text>
-      <Text Id="__SingleUse_JG30" Alignment="Left" TypographyId="Large">
-        <Translation Language="GB">&lt;&gt;</Translation>
+      <Text Id="__SingleUse_9V0V" Alignment="Left" TypographyId="Large">
+        <Translation Language="GB">0</Translation>
+      </Text>
+      <Text Id="__SingleUse_2KAE" Alignment="Left" TypographyId="Large">
+        <Translation Language="GB">Longitude : &lt;value&gt;</Translation>
+      </Text>
+      <Text Id="__SingleUse_KZNM" Alignment="Left" TypographyId="Large">
+        <Translation Language="GB">0</Translation>
+      </Text>
+      <Text Id="__SingleUse_NS1U" Alignment="Left" TypographyId="Large">
+        <Translation Language="GB">Latitude : &lt;value&gt;</Translation>
+      </Text>
+      <Text Id="__SingleUse_8Z8E" Alignment="Left" TypographyId="Sector">
+        <Translation Language="GB">Data Log</Translation>
       </Text>
       <Text Id="__SingleUse_7XVL" Alignment="Left" TypographyId="Large">
         <Translation Language="GB">&lt;&gt;</Translation>
       </Text>
-      <Text Id="__SingleUse_BJDM" Alignment="Left" TypographyId="Large">
+      <Text Id="__SingleUse_JG30" Alignment="Left" TypographyId="Large">
         <Translation Language="GB">&lt;&gt;</Translation>
       </Text>
-      <Text Id="TYPED_TEXT_VITESSE" Alignment="Right" TypographyId="Typography_00">
-        <Translation Language="GB">&lt;value&gt; Km/h</Translation>
-      </Text>
       <Text Id="__SingleUse_YWPS" Alignment="Left" TypographyId="Sector">
+        <Translation Language="GB">&lt;&gt;</Translation>
+      </Text>
+      <Text Id="__SingleUse_ZTPC" Alignment="Left" TypographyId="Typo">
+        <Translation Language="GB">S3</Translation>
+      </Text>
+      <Text Id="__SingleUse_BJDM" Alignment="Left" TypographyId="Large">
         <Translation Language="GB">&lt;&gt;</Translation>
       </Text>
       <Text Id="__SingleUse_CKFG" Alignment="Left" TypographyId="Typo">
@@ -39,8 +96,8 @@
       <Text Id="__SingleUse_WIRT" Alignment="Left" TypographyId="Typo">
         <Translation Language="GB">S2</Translation>
       </Text>
-      <Text Id="__SingleUse_ZTPC" Alignment="Left" TypographyId="Typo">
-        <Translation Language="GB">S3</Translation>
+      <Text Id="__SingleUse_1LNK" Alignment="Left" TypographyId="Typography_00">
+        <Translation Language="GB">800 Km/h</Translation>
       </Text>
       <Text Id="__SingleUse_FDEE" Alignment="Left" TypographyId="Sector">
         <Translation Language="GB">DATA-LIVE&#10;</Translation>
@@ -55,6 +112,6 @@
     <Typography Id="Large" Font="verdana.ttf" Size="16" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" WidgetWildcardCharacters="0123456789 :APM" />
     <Typography Id="Small" Font="verdana.ttf" Size="10" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" />
     <Typography Id="Typo" Font="verdana.ttf" Size="20" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" />
-    <Typography Id="Typography_00" Font="verdana.ttf" Size="31" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" WildcardCharacters="." WildcardCharacterRanges="0-9" />
+    <Typography Id="Typography_00" Font="verdana.ttf" Size="31" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" />
   </Typographies>
 </TextDatabase>

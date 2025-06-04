@@ -1,5 +1,5 @@
 Application/User/gui/Session_StartView.o: \
- D:/SEHTEL/Documents/3D/Project_KARTRAK/Kartrack_SW/Kartrack_SW/TouchGFX/gui/src/session_start_screen/Session_StartView.cpp \
+ D:/ecole/PROJET_3D/Kartrack_SW/TouchGFX/gui/src/session_start_screen/Session_StartView.cpp \
  ../../TouchGFX/gui/include/gui/session_start_screen/Session_StartView.hpp \
  ../../TouchGFX/generated/gui_generated/include/gui_generated/session_start_screen/Session_StartViewBase.hpp \
  ../../TouchGFX/gui/include/gui/common/FrontendApplication.hpp \
@@ -49,7 +49,8 @@ Application/User/gui/Session_StartView.o: \
  ../../Middlewares/ST/touchgfx/framework/include/touchgfx/widgets/Box.hpp \
  ../../Middlewares/ST/touchgfx/framework/include/touchgfx/widgets/TextArea.hpp \
  ../../Middlewares/ST/touchgfx/framework/include/touchgfx/TypedText.hpp \
- ../../Middlewares/ST/touchgfx/framework/include/touchgfx/Texts.hpp
+ ../../Middlewares/ST/touchgfx/framework/include/touchgfx/Texts.hpp \
+ ../../Middlewares/ST/touchgfx/framework/include/touchgfx/widgets/TextAreaWithWildcard.hpp
 ../../TouchGFX/gui/include/gui/session_start_screen/Session_StartView.hpp:
 ../../TouchGFX/generated/gui_generated/include/gui_generated/session_start_screen/Session_StartViewBase.hpp:
 ../../TouchGFX/gui/include/gui/common/FrontendApplication.hpp:
@@ -100,3 +101,4 @@ Application/User/gui/Session_StartView.o: \
 ../../Middlewares/ST/touchgfx/framework/include/touchgfx/widgets/TextArea.hpp:
 ../../Middlewares/ST/touchgfx/framework/include/touchgfx/TypedText.hpp:
 ../../Middlewares/ST/touchgfx/framework/include/touchgfx/Texts.hpp:
+../../Middlewares/ST/touchgfx/framework/include/touchgfx/widgets/TextAreaWithWildcard.hpp:

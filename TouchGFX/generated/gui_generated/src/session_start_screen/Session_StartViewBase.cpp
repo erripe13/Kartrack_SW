@@ -15,11 +15,113 @@ Session_StartViewBase::Session_StartViewBase()
     box1.setColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
     add(box1);
 
-    textArea1.setXY(146, 8);
-    textArea1.setColor(touchgfx::Color::getColorFromRGB(255, 255, 255));
-    textArea1.setLinespacing(0);
-    textArea1.setTypedText(touchgfx::TypedText(T___SINGLEUSE_87F5));
-    add(textArea1);
+    Gyro.setXY(325, 120);
+    Gyro.setColor(touchgfx::Color::getColorFromRGB(255, 255, 255));
+    Gyro.setLinespacing(0);
+    Gyro.setTypedText(touchgfx::TypedText(T___SINGLEUSE_WDLB));
+    add(Gyro);
+
+    Accel.setXY(326, 55);
+    Accel.setColor(touchgfx::Color::getColorFromRGB(255, 255, 255));
+    Accel.setLinespacing(0);
+    Accel.setTypedText(touchgfx::TypedText(T___SINGLEUSE_BX8X));
+    add(Accel);
+
+    Latitude.setXY(14, 101);
+    Latitude.setColor(touchgfx::Color::getColorFromRGB(255, 255, 255));
+    Latitude.setLinespacing(0);
+    Unicode::snprintf(LatitudeBuffer, LATITUDE_SIZE, "%s", touchgfx::TypedText(T___SINGLEUSE_KZNM).getText());
+    Latitude.setWildcard(LatitudeBuffer);
+    Latitude.resizeToCurrentText();
+    Latitude.setTypedText(touchgfx::TypedText(T___SINGLEUSE_NS1U));
+    add(Latitude);
+
+    Satellites.setXY(14, 74);
+    Satellites.setColor(touchgfx::Color::getColorFromRGB(255, 255, 255));
+    Satellites.setLinespacing(0);
+    Unicode::snprintf(SatellitesBuffer, SATELLITES_SIZE, "%s", touchgfx::TypedText(T___SINGLEUSE_8DI2).getText());
+    Satellites.setWildcard(SatellitesBuffer);
+    Satellites.resizeToCurrentText();
+    Satellites.setTypedText(touchgfx::TypedText(T___SINGLEUSE_YFX9));
+    add(Satellites);
+
+    Longitude.setXY(14, 129);
+    Longitude.setColor(touchgfx::Color::getColorFromRGB(255, 255, 255));
+    Longitude.setLinespacing(0);
+    Unicode::snprintf(LongitudeBuffer, LONGITUDE_SIZE, "%s", touchgfx::TypedText(T___SINGLEUSE_9V0V).getText());
+    Longitude.setWildcard(LongitudeBuffer);
+    Longitude.resizeToCurrentText();
+    Longitude.setTypedText(touchgfx::TypedText(T___SINGLEUSE_2KAE));
+    add(Longitude);
+
+    Vitesse.setXY(14, 155);
+    Vitesse.setColor(touchgfx::Color::getColorFromRGB(255, 255, 255));
+    Vitesse.setLinespacing(0);
+    Unicode::snprintf(VitesseBuffer, VITESSE_SIZE, "%s", touchgfx::TypedText(T___SINGLEUSE_1KGL).getText());
+    Vitesse.setWildcard(VitesseBuffer);
+    Vitesse.resizeToCurrentText();
+    Vitesse.setTypedText(touchgfx::TypedText(T___SINGLEUSE_N1XS));
+    add(Vitesse);
+
+    Data_Log.setXY(163, 0);
+    Data_Log.setColor(touchgfx::Color::getColorFromRGB(255, 255, 255));
+    Data_Log.setLinespacing(0);
+    Data_Log.setTypedText(touchgfx::TypedText(T___SINGLEUSE_8Z8E));
+    add(Data_Log);
+
+    Accel_X.setXY(249, 82);
+    Accel_X.setColor(touchgfx::Color::getColorFromRGB(255, 255, 255));
+    Accel_X.setLinespacing(0);
+    Unicode::snprintf(Accel_XBuffer, ACCEL_X_SIZE, "%s", touchgfx::TypedText(T___SINGLEUSE_8NPJ).getText());
+    Accel_X.setWildcard(Accel_XBuffer);
+    Accel_X.resizeToCurrentText();
+    Accel_X.setTypedText(touchgfx::TypedText(T___SINGLEUSE_3Z5T));
+    add(Accel_X);
+
+    Accel_Y.setXY(325, 82);
+    Accel_Y.setColor(touchgfx::Color::getColorFromRGB(255, 255, 255));
+    Accel_Y.setLinespacing(0);
+    Unicode::snprintf(Accel_YBuffer, ACCEL_Y_SIZE, "%s", touchgfx::TypedText(T___SINGLEUSE_Y6NX).getText());
+    Accel_Y.setWildcard(Accel_YBuffer);
+    Accel_Y.resizeToCurrentText();
+    Accel_Y.setTypedText(touchgfx::TypedText(T___SINGLEUSE_8T40));
+    add(Accel_Y);
+
+    Accel_Z.setXY(393, 82);
+    Accel_Z.setColor(touchgfx::Color::getColorFromRGB(255, 255, 255));
+    Accel_Z.setLinespacing(0);
+    Unicode::snprintf(Accel_ZBuffer, ACCEL_Z_SIZE, "%s", touchgfx::TypedText(T___SINGLEUSE_PU23).getText());
+    Accel_Z.setWildcard(Accel_ZBuffer);
+    Accel_Z.resizeToCurrentText();
+    Accel_Z.setTypedText(touchgfx::TypedText(T___SINGLEUSE_48UZ));
+    add(Accel_Z);
+
+    Gyro_X.setXY(249, 155);
+    Gyro_X.setColor(touchgfx::Color::getColorFromRGB(255, 255, 255));
+    Gyro_X.setLinespacing(0);
+    Unicode::snprintf(Gyro_XBuffer, GYRO_X_SIZE, "%s", touchgfx::TypedText(T___SINGLEUSE_TB5K).getText());
+    Gyro_X.setWildcard(Gyro_XBuffer);
+    Gyro_X.resizeToCurrentText();
+    Gyro_X.setTypedText(touchgfx::TypedText(T___SINGLEUSE_SNL0));
+    add(Gyro_X);
+
+    Gyro_Y.setXY(325, 155);
+    Gyro_Y.setColor(touchgfx::Color::getColorFromRGB(255, 255, 255));
+    Gyro_Y.setLinespacing(0);
+    Unicode::snprintf(Gyro_YBuffer, GYRO_Y_SIZE, "%s", touchgfx::TypedText(T___SINGLEUSE_OE15).getText());
+    Gyro_Y.setWildcard(Gyro_YBuffer);
+    Gyro_Y.resizeToCurrentText();
+    Gyro_Y.setTypedText(touchgfx::TypedText(T___SINGLEUSE_1V58));
+    add(Gyro_Y);
+
+    Gyro_Z.setXY(393, 155);
+    Gyro_Z.setColor(touchgfx::Color::getColorFromRGB(255, 255, 255));
+    Gyro_Z.setLinespacing(0);
+    Unicode::snprintf(Gyro_ZBuffer, GYRO_Z_SIZE, "%s", touchgfx::TypedText(T___SINGLEUSE_AXSN).getText());
+    Gyro_Z.setWildcard(Gyro_ZBuffer);
+    Gyro_Z.resizeToCurrentText();
+    Gyro_Z.setTypedText(touchgfx::TypedText(T___SINGLEUSE_D22M));
+    add(Gyro_Z);
 }
 
 Session_StartViewBase::~Session_StartViewBase()
