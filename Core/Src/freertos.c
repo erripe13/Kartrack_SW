@@ -58,9 +58,15 @@ static int stm32_i2c_write(uint8_t reg, const uint8_t *buf, uint32_t len) {
     return (HAL_I2C_Mem_Write(&hi2c1, (0x68 << 1), reg, I2C_MEMADD_SIZE_8BIT, (uint8_t *)buf, len, HAL_MAX_DELAY) == HAL_OK) ? 0 : -1;
 }
 
-static void stm32_delay_us(uint32_t us) {
+static void stm32_delay_us(uint32_t us)
+{
+    if (!(DWT->CTRL & DWT_CTRL_CYCCNTENA_Msk)) {
+        // DWT not enabled
+        return;
+    }
+
     uint32_t start = DWT->CYCCNT;
-    uint32_t cycles = us * (HAL_RCC_GetHCLKFreq() / 1000000);
+    uint32_t cycles = us * (HAL_RCC_GetHCLKFreq() / 1000000U);
     while ((DWT->CYCCNT - start) < cycles);
 }
 
